@@ -6,7 +6,8 @@ use Illuminate\Http\Request;
 class AdminController extends Controller
 {
     public function index()
-    {
-        return view('admin.dashboard');
-    }
+{
+    $users = User::all();
+    return view('admin.users.index', compact('users'));
+}
 }

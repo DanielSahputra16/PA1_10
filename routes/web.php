@@ -11,6 +11,7 @@ use App\Http\Controllers\ContactController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ReservasiController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\GalleryController; // Import controller
 
 /*
 |--------------------------------------------------------------------------
@@ -88,3 +89,6 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('/admin/users', [AdminController::class, 'manageUsers'])->name('admin.manageUsers');
     Route::get('/admin/Bookings', [AdminController::class, 'manageBookings'])->name('admin.manageBookings');
 });
+
+
+Route::resource('galleries', GalleryController::class); // Membuat semua rute CRUD untuk GalleryController

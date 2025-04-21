@@ -1,111 +1,161 @@
-<!DOCTYPE html>
-<html lang="en">
+@extends('layouts.app')
 
-<head>
-    <meta charset="utf-8">
-    <title>Reservasi - Ramos Badminton Center</title>
-    <meta content="width=device-width, initial-scale=1.0" name="viewport">
-    <meta content="" name="keywords">
-    <meta content="" name="description">
+@section('content')
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Sidebar -->
+            <nav id="sidebar" class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse">
+                <div class="position-sticky pt-3">
+                    <ul class="nav flex-column">
+                        <li class="nav-item">
+                            <a class="nav-link active" aria-current="page" href="{{ route('admin.dashboard') }}">
+                                <i class="fas fa-home"></i> Dashboard
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('admin.welcome') }}">
+                                <i class="fas fa-users"></i> Kelola Pengguna
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('admin.reservasi.index') }}">
+                                <i class="fas fa-calendar-alt"></i> Kelola Pemesanan
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('admin.galleries.index') }}">
+                                <i class="fas fa-images"></i> Kelola Galeri
+                            </a>
+                        </li>
+                        </ul>
 
-    <!-- Favicon -->
-    <link href="{{ URL::asset('img/favicon.ico') }}" rel="icon">
+                    <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
+                        <span>Laporan</span>
+                        <a class="link-secondary" href="#" aria-label="Add a new report">
+                            <span data-feather="plus-circle"></span>
+                        </a>
+                    </h6>
+                    <ul class="nav flex-column mb-2">
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">
+                                <i class="fas fa-file-alt"></i> Laporan Penjualan
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">
+                                <i class="fas fa-chart-line"></i> Analisis Pengguna
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
 
-    <!-- Google Web Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600&family=Nunito:wght@600;700;800&family=Pacifico&display=swap" rel="stylesheet">
-
-    <!-- Icon Font Stylesheet -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
-
-    <!-- Libraries Stylesheet -->
-    <link href="{{ URL::asset('lib/animate/animate.min.css') }}" rel="stylesheet">
-    <link href="{{ URL::asset('lib/owlcarousel/assets/owl.carousel.min.css') }}" rel="stylesheet">
-    <link href="{{ URL::asset('lib/tempusdominus/css/tempusdominus-bootstrap-4.min.css') }}" rel="stylesheet" />
-
-    <!-- Customized Bootstrap Stylesheet -->
-    <link href="{{ URL::asset('css/bootstrap.min.css') }}" rel="stylesheet">
-
-    <!-- Template Stylesheet -->
-    <link href="{{ URL::asset('css/style.css') }}" rel="stylesheet">
-</head>
-
-<body>
-    <div class="container-xxl bg-white p-0">
-        <!-- Spinner Start -->
-        <div id="spinner" class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
-            <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
-                <span class="sr-only">Loading...</span>
-            </div>
-        </div>
-        <!-- Spinner End -->
-
-        <!-- Navbar Start -->
-        @include('layouts.navbar')
-        <!-- Navbar End -->
-
-        <!-- Content Start -->
-        <div class="container py-5">
-            <div class="row justify-content-center">
-                <div class="col-md-8">
-                    <div class="card shadow-lg border-0">
-                        <div class="card-header bg-primary text-white text-center">
-                            <h4>Admin Dashboard</h4>
+            <!-- Main Content -->
+            <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+                <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                    <h1 class="h2">Dashboard</h1>
+                    <div class="btn-toolbar mb-2 mb-md-0">
+                        <div class="btn-group me-2">
+                            <button type="button" class="btn btn-sm btn-outline-secondary">Share</button>
+                            <button type="button" class="btn btn-sm btn-outline-secondary">Export</button>
                         </div>
+                        <button type="button" class="btn btn-sm btn-outline-secondary dropdown-toggle">
+                            <span data-feather="calendar"></span>
+                            This week
+                        </button>
+                    </div>
+                </div>
 
-                        <div class="card-body">
-                            @if (session('status'))
-                                <div class="alert alert-success" role="alert">
-                                    {{ session('status') }}
-                                </div>
-                            @endif
-
-                            <p class="text-center">Selamat datang di Dashboard Admin, <strong>{{ Auth::user()->name }}</strong>!</p>
-
-                            <!-- Tambahkan konten dashboard admin di sini -->
-                            <div class="text-center">
-                                <a href="{{ route('admin.manageUsers') }}" class="btn btn-primary me-2">Kelola Pengguna</a>
-                                <a href="{{ route('admin.manageBookings') }}" class="btn btn-success">Kelola Pemesanan</a>
+                <!-- Ringkasan Metrik -->
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="card text-white bg-primary mb-3">
+                            <div class="card-header">Total Pengguna</div>
+                            <div class="card-body">
+                                <h5 class="card-title">{{ $totalUsers }}</h5>
+                                <p class="card-text">Jumlah total pengguna terdaftar.</p>
                             </div>
-
-                            <div class="d-grid gap-2 mt-4">
-                                <form action="{{ route('logout') }}" method="POST">
-                                    @csrf
-                                    <button type="submit" class="btn btn-danger">Logout</button>
-                                </form>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card text-white bg-success mb-3">
+                            <div class="card-header">Total Pemesanan</div>
+                            <div class="card-body">
+                                <h5 class="card-title">{{ $totalBookings }}</h5>
+                                <p class="card-text">Jumlah total pemesanan lapangan.</p>
                             </div>
-
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card text-white bg-warning mb-3">
+                            <div class="card-header">Pendapatan Bulan Ini</div>
+                            <div class="card-body">
+                                <h5 class="card-title">Rp {{ number_format($monthlyRevenue, 0, ',', '.') }}</h5>
+                                <p class="card-text">Total pendapatan dari pemesanan bulan ini.</p>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
+
+                <!-- Tabel Pengguna Terbaru -->
+                <h2>Pengguna Terbaru</h2>
+                <div class="table-responsive">
+                    <table class="table table-striped table-sm">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Nama</th>
+                                <th>Email</th>
+                                <th>Tanggal Bergabung</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach ($latestUsers as $user)
+                                <tr>
+                                    <td>{{ $user->id }}</td>
+                                    <td>{{ $user->name }}</td>
+                                    <td>{{ $user->email }}</td>
+                                    <td>{{ $user->created_at->format('d M Y') }}</td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Grafik Pemesanan per Bulan (Contoh) -->
+                <h2>Pemesanan per Bulan</h2>
+                <canvas class="my-4 w-100" id="bookingChart" width="900" height="380"></canvas>
+            </main>
         </div>
-        <!-- Content End -->
-
-        <!-- Footer Start -->
-        @include('layouts.footer')
-        <!-- Footer End -->
-
-        <!-- Back to Top -->
-        <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
     </div>
+@endsection
 
-    <!-- JavaScript Libraries -->
-    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="{{ URL::asset('lib/wow/wow.min.js') }}"></script>
-    <script src="{{ URL::asset('lib/easing/easing.min.js') }}"></script>
-    <script src="{{ URL::asset('lib/waypoints/waypoints.min.js') }}"></script>
-    <script src="{{ URL::asset('lib/counterup/counterup.min.js') }}"></script>
-    <script src="{{ URL::asset('lib/owlcarousel/owl.carousel.min.js') }}"></script>
-    <script src="{{ URL::asset('lib/tempusdominus/js/moment.min.js') }}"></script>
-    <script src="{{ URL::asset('lib/tempusdominus/js/moment-timezone.min.js') }}"></script>
-    <script src="{{ URL::asset('lib/tempusdominus/js/tempusdominus-bootstrap-4.min.js') }}"></script>
+@section('scripts')
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        // Contoh Data Grafik (Ganti dengan data dari database)
+        const bookingData = {
+            labels: ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Agu', 'Sep', 'Okt', 'Nov', 'Des'],
+            datasets: [{
+                label: 'Jumlah Pemesanan',
+                data: [65, 59, 80, 81, 56, 55, 40, 70, 60, 90, 80, 70], // Ganti dengan data yang benar
+                backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                borderColor: 'rgba(54, 162, 235, 1)',
+                borderWidth: 1
+            }]
+        };
 
-    <!-- Template Javascript -->
-    <script src="{{ URL::asset('js/main.js') }}"></script>
-</body>
-
-</html>
+        const ctx = document.getElementById('bookingChart').getContext('2d');
+        const myChart = new Chart(ctx, {
+            type: 'line',
+            data: bookingData,
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    </script>
+@endsection
