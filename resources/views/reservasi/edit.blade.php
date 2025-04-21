@@ -64,53 +64,57 @@
             <div class="row">
                 <div class="col-md-8 offset-md-2">
                     <h1>Edit Detail Reservasi</h1>
-                            @if ($errors->any())
-                                <div class="alert alert-danger">
-                                    <ul>
-                                        @foreach ($errors->all() as $error)
-                                            <li>{{ $error }}</li>
-                                        @endforeach
-                                    </ul>
-                                </div>
-                            @endif
-
-                            <form action="{{ route('reservasi.store') }}" method="POST">
-                                @csrf
-
-                                <div class="mb-3">
-                                    <label for="lapangan_id" class="form-label">Lapangan:</label>
-                                    <select class="form-control" id="lapangan_id" name="lapangan_id" required>
-                                        @foreach ($lapangans as $lapangan)
-                                            <option value="{{ $lapangan->id }}">{{ $lapangan->nama }}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-
-                                <div class="mb-3">
-                                    <label class="form-label" for="tanggal_mulai">Tanggal Mulai:</label>
-                                    <input class="form-control" id="tanggal_mulai" name="tanggal_mulai" type="datetime-local" required>
-                                </div>
-
-                                <div class="mb-3">
-                                    <label class="form-label" for="tanggal_selesai">Tanggal Selesai:</label>
-                                    <input class="form-control" id="tanggal_selesai" name="tanggal_selesai" type="datetime-local" required>
-                                </div>
-
-                                <button class="btn btn-primary" type="submit">Edit Reservasi</button>
-                            </form>
+                    @if ($errors->any())
+                        <div class="alert alert-danger">
+                            <ul>
+                                @foreach ($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
                         </div>
-                    </div>
+                    @endif
+
+                    <form action="{{ route('reservasi.update', $reservasi->id) }}" method="POST">
+                        @csrf
+                        @method('PUT')
+                        <div class="mb-3">
+                            <label for="lapangan_id" class="form-label">Lapangan:</label>
+                            <select class="form-control" id="lapangan_id" name="lapangan_id" required>
+                                @foreach ($lapangans as $lapangan)
+                                    <option value="{{ $lapangan->id }}"
+                                        {{ (old('lapangan_id') == $lapangan->id) || ($reservasi->lapangan_id == $lapangan->id) ? 'selected' : '' }}>
+                                        {{ $lapangan->nama }}
+                                    </option>
+                                @endforeach
+                            </select>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label" for="tanggal_mulai">Tanggal Mulai:</label>
+                            <input class="form-control" id="tanggal_mulai" name="tanggal_mulai" type="datetime-local"
+                                value="{{ old('tanggal_mulai', \Carbon\Carbon::parse($reservasi->tanggal_mulai)->format('Y-m-d\TH:i')) }}" required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label" for="tanggal_selesai">Tanggal Selesai:</label>
+                            <input class="form-control" id="tanggal_selesai" name="tanggal_selesai" type="datetime-local"
+                                value="{{ old('tanggal_selesai', \Carbon\Carbon::parse($reservasi->tanggal_selesai)->format('Y-m-d\TH:i')) }}" required>
+                        </div>
+
+                        <button class="btn btn-primary" type="submit">Edit Reservasi</button>
+                    </form>
                 </div>
             </div>
         </div>
-        <!-- Reservation End -->
+    </div>
+    <!-- Reservation End -->
 
-        <!-- Footer Start -->
-        @include('layouts.footer')
-        <!-- Footer End -->
+    <!-- Footer Start -->
+    @include('layouts.footer')
+    <!-- Footer End -->
 
-        <!-- Back to Top -->
-        <a class="btn btn-lg btn-primary btn-lg-square back-to-top" href="#"><i class="bi bi-arrow-up"></i></a>
+    <!-- Back to Top -->
+    <a class="btn btn-lg btn-primary btn-lg-square back-to-top" href="#"><i class="bi bi-arrow-up"></i></a>
     </div>
 
     <!-- JavaScript Libraries -->
@@ -147,8 +151,8 @@
         const startDateInput = document.getElementById('tanggal_mulai');
         const endDateInput = document.getElementById('tanggal_selesai');
 
-        if(startDateInput) startDateInput.min = minDateTime;
-        if(endDateInput) endDateInput.min = minDateTime;
+        if (startDateInput) startDateInput.min = minDateTime;
+        if (endDateInput) endDateInput.min = minDateTime;
 
         // Optional: Validasi Tanggal Selesai >= Tanggal Mulai
         if (startDateInput && endDateInput) {

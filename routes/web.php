@@ -44,10 +44,10 @@ Route::get('/contact', [ContactController::class, 'Contact'])->name('Contact');
 Route::get('/reservasi', [ReservasiController::class, 'index'])->name('reservasi.index');
 Route::get('/reservasi/create', [ReservasiController::class, 'create'])->name('reservasi.create');
 Route::post('/reservasi', [ReservasiController::class,'store'])->name('reservasi.store');
-Route::get('/reservasi/{id}/edit', [ReservasiController::class,'edit'])->name('reservasi.edit');
+Route::get('/reservasi/{reservasi}/edit', [ReservasiController::class,'edit'])->name('reservasi.edit');
 Route::get('/reservasi/{id}', [ReservasiController::class,'show'])->name('reservasi.show');
-Route::delete('/reservasi/{id}', [ReservasiController::class,'destroy'])->name('reservasi.destroy');
-Route::put('/reservasi/{id}', [ReservasiController::class,'update'])->name('reservasi.update');
+Route::delete('/reservasi/{reservasi}', [ReservasiController::class,'destroy'])->name('reservasi.destroy');
+Route::put('/reservasi/{reservasi}', [ReservasiController::class,'update'])->name('reservasi.update');
 Route::get('/profile', [ProfileController::class, 'index'])->middleware('auth');
 Route::get('/admin/dashboard', [AdminController::class, 'index'])->middleware('auth'); // Gunakan middleware auth
 

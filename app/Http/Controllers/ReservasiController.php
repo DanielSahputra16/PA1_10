@@ -79,11 +79,11 @@ class ReservasiController extends Controller
         return view('reservasi.show', compact('reservasi'));
     }
 
-    public function edit($id)
+    public function edit($reservasi)
     {
         try {
             // Mencari reservasi berdasarkan ID.  Jika tidak ditemukan, exception akan dilempar
-            $reservasi = Reservasi::with('user')->findOrFail($id);  // Eager load user di sini
+            $reservasi = Reservasi::with('user')->findOrFail($reservasi);  // Eager load user di sini
 
             // Ambil data lapangan yang diperlukan untuk form edit (misalnya, daftar pilihan lapangan)
             $lapangans = Lapangan::all(); // Ambil semua lapangan
@@ -97,58 +97,53 @@ class ReservasiController extends Controller
         }
     }
 
-    public function update(Request $request, $id)
+    public function update(Request $request, Reservasi $reservasi)
     {
-      try {
-        //Temukan reservasi berdasarkan id
-        $reservasi = Reservasi::findOrFail($id);
-          // Mengupdate reservasi
-          $request->validate([
-              'lapangan_id' => 'required|exists:lapangans,id',
-              'tanggal_mulai' => 'required|date',
-              'tanggal_selesai' => 'required|date|after:tanggal_mulai',
-          ]);
+    try {
+        // Mengupdate reservasi
+        $request->validate([
+            'lapangan_id' => 'required|exists:lapangans,id',
+            'tanggal_mulai' => 'required|date',
+            'tanggal_selesai' => 'required|date|after:tanggal_mulai',
+        ]);
 
-          // Cek ketersediaan
-          $lapangan_id = $request->lapangan_id;
-          $tanggal_mulai = Carbon::parse($request->tanggal_mulai);
-          $tanggal_selesai = Carbon::parse($request->tanggal_selesai);
+        // Cek ketersediaan
+        $lapangan_id = $request->lapangan_id;
+        $tanggal_mulai = Carbon::parse($request->tanggal_mulai);
+        $tanggal_selesai = Carbon::parse($request->tanggal_selesai);
 
-          $overlappingReservations = Reservasi::where('lapangan_id', $lapangan_id)
-              ->where('id', '!=', $reservasi->id) // Penting: exclude reservasi yang sedang di-update
-              ->where(function ($query) use ($tanggal_mulai, $tanggal_selesai) {
-                  $query->whereBetween('tanggal_mulai', [$tanggal_mulai, $tanggal_selesai])
-                        ->orWhereBetween('tanggal_selesai', [$tanggal_mulai, $tanggal_selesai])
-                        ->orWhere(function($q) use ($tanggal_mulai, $tanggal_selesai) {
-                            $q->where('tanggal_mulai', '<=', $tanggal_mulai)
-                              ->where('tanggal_selesai', '>=', $tanggal_selesai);
-                        });
-              })
-              ->count();
+        $overlappingReservations = Reservasi::where('lapangan_id', $lapangan_id)
+            ->where('id', '!=', $reservasi->id) // Penting: exclude reservasi yang sedang di-update
+            ->where(function ($query) use ($tanggal_mulai, $tanggal_selesai) {
+                $query->whereBetween('tanggal_mulai', [$tanggal_mulai, $tanggal_selesai])
+                    ->orWhereBetween('tanggal_selesai', [$tanggal_mulai, $tanggal_selesai])
+                    ->orWhere(function($q) use ($tanggal_mulai, $tanggal_selesai) {
+                        $q->where('tanggal_mulai', '<=', $tanggal_mulai)
+                            ->where('tanggal_selesai', '>=', $tanggal_selesai);
+                    });
+            })
+            ->count();
 
-          if ($overlappingReservations > 0) {
-              return back()->withErrors(['message' => 'Jadwal tidak tersedia.']);
-          }
+        if ($overlappingReservations > 0) {
+            return back()->withErrors(['message' => 'Jadwal tidak tersedia.']);
+        }
 
-          $reservasi->lapangan_id = $request->lapangan_id;
-          $reservasi->tanggal_mulai = $request->tanggal_mulai;
-          $reservasi->tanggal_selesai = $request->tanggal_selesai;
-          $reservasi->$_COOKIE
+        $reservasi->lapangan_id = $request->lapangan_id;
+        $reservasi->tanggal_mulai = $request->tanggal_mulai;
+        $reservasi->tanggal_selesai = $request->tanggal_selesai;
 
-          //$reservasi = new Reservasi($request->all()); //SALAH!  Ini membuat INSTANCE baru, bukan UPDATE.
-          //Atau dapat menggunakan cara di atas
-          $reservasi->save();
+        $reservasi->save();
             // Eager Load User setelah di-update agar relasi tersedia untuk pengiriman email
-           $reservasi = Reservasi::with('user')->find($reservasi->id);
-          // Kirim email konfirmasi update
-          $this->sendUpdateConfirmationEmail($reservasi);
+        $reservasi = Reservasi::with('user')->find($reservasi->id);
+        // Kirim email konfirmasi update
+        $this->sendUpdateConfirmationEmail($reservasi);
 
-          return redirect()->route('reservasi.index')->with('success', 'Reservasi berhasil diupdate!');
+        return redirect()->route('reservasi.index')->with('success', 'Reservasi berhasil diupdate!');
 
-      }  catch (ModelNotFoundException $e) {
+    }  catch (ModelNotFoundException $e) {
         // Reservasi tidak ditemukan, redirect ke daftar reservasi dengan pesan error
         return redirect()->route('reservasi.index')->with('error', 'Reservasi tidak ditemukan.');
-      }
+    }
     }
 
     public function destroy(Reservasi $reservasi)
@@ -160,8 +155,8 @@ class ReservasiController extends Controller
         $this->sendCancellationEmail($reservasi);
           if (auth()->check()){ //cek apakah user terautentikasi
                 //Menghapus data reservasi
-               // $reservasi->forceDelete() //untuk delete permanen
-                 $reservasi->delete(); //Softdelete
+                $reservasi->forceDelete();   //untuk delete permanen
+               // $reservasi->delete(); //Softdelete
 
                  return redirect()->route('reservasi.index')->with('success', 'Reservasi berhasil dibatalkan!'); //kembalikan tampilan
             }

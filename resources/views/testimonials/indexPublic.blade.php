@@ -154,7 +154,7 @@
                                     <i class="fa fa-quote-left fa-2x text-primary mb-3"></i>
                                     <p>{{ $testimonial->message }}</p>
                                     <div class="d-flex align-items-center">
-                                        <img class="img-fluid flex-shrink-0 rounded-circle" src="{{ asset('img/testimonial-1.jpg') }}" style="width: 50px; height: 50px;">
+                                        <img class="img-fluid flex-shrink-0 rounded-circle" src="{{ asset('img/biodata.PNG') }}" style="width: 50px; height: 50px;">
                                         <div class="ps-3">
                                             <h5 class="mb-1">{{ $testimonial->name }}</h5>
                                             <small>{{ $testimonial->subject }}</small>
