@@ -66,6 +66,8 @@
         </div>
         <!-- Navbar & Hero End -->
 
+        @yield('content')
+
 
         <!-- Footer Start -->
        @include('layouts.footer')

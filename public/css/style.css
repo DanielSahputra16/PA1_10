@@ -491,3 +491,21 @@
     justify-content: center;
     align-items: center;
 }
+
+#sidebar {
+    background-color: #343a40; /* Warna latar belakang sidebar */
+    color: white;
+    min-height: 100vh; /* Set tinggi minimum agar selalu memenuhi layar */
+}
+
+#sidebar .nav-link {
+    color: white;
+}
+
+#sidebar .nav-link:hover {
+    background-color: #495057;
+}
+
+.content {
+    padding: 20px;
+}

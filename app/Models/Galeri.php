@@ -5,13 +5,15 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Gallery extends Model
+class Galeri extends Model
 {
     use HasFactory;
+
+    protected $table = 'galeri'; // Pastikan nama tabel ini benar!
 
     protected $fillable = [
         'title',
         'description',
-        'image',
+        'image_path',
     ];
 }

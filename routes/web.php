@@ -11,7 +11,6 @@ use App\Http\Controllers\ContactController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ReservasiController;
 use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\GalleryController; // Import controller
 
 /*
 |--------------------------------------------------------------------------
@@ -38,7 +37,7 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 // Public Routes (Accessible to all)
 Route::get('/about', [AboutController::class, 'About'])->name('About');
 Route::get('/booking', [BookingController::class, 'Booking'])->name('Booking');
-Route::get('/galeri', [GaleriController::class, 'Galeri'])->name('Galeri');
+Route::get('/galeri', [GaleriController::class, 'index'])->name('galeri.index');
 Route::get('/menu', [MenuController::class, 'Menu'])->name('Menu');
 Route::get('/testimonials', [TestimonialController::class, 'indexPublic'])->name('testimonials.indexPublic');
 Route::get('/contact', [ContactController::class, 'Contact'])->name('Contact');
@@ -90,5 +89,12 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('/admin/Bookings', [AdminController::class, 'manageBookings'])->name('admin.manageBookings');
 });
 
-
-Route::resource('galleries', GalleryController::class); // Membuat semua rute CRUD untuk GalleryController
+Route::resource('admin/galeri', GaleriController::class)->names([
+    'index' => 'admin.galeri.index',
+    'create' => 'admin.galeri.create',
+    'store' => 'admin.galeri.store',
+    'show' => 'admin.galeri.show',
+    'edit' => 'admin.galeri.edit',
+    'update' => 'admin.galeri.update',
+    'destroy' => 'admin.galeri.destroy',
+]);

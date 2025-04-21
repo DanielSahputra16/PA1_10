@@ -11,11 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('galleries', function (Blueprint $table) {
+        Schema::create('galeri', function (Blueprint $table) {
             $table->id();
-            $table->string('title');          // Judul galeri
-            $table->text('description')->nullable(); // Deskripsi galeri (opsional)
-            $table->string('image');         // Nama file gambar (path ke gambar)
+            $table->string('title');
+            $table->text('description')->nullable();
+            $table->string('image_path');
             $table->timestamps();
         });
     }
@@ -25,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('galleries');
+        Schema::dropIfExists('galeri');
     }
 };
