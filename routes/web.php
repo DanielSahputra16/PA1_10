@@ -11,6 +11,7 @@ use App\Http\Controllers\ContactController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ReservasiController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\ScheduleController;
 
 /*
 |--------------------------------------------------------------------------
@@ -50,6 +51,11 @@ Route::delete('/reservasi/{reservasi}', [ReservasiController::class,'destroy'])-
 Route::put('/reservasi/{reservasi}', [ReservasiController::class,'update'])->name('reservasi.update');
 Route::get('/profile', [ProfileController::class, 'index'])->middleware('auth');
 Route::get('/admin/dashboard', [AdminController::class, 'index'])->middleware('auth'); // Gunakan middleware auth
+Route::get('/jadwal', [ScheduleController::class, 'index'])->name('jadwal.index');
+
+Route::get('/contact', [ContactController::class, 'index'])->name('Contact.index');  // Frontend
+Route::get('/admin/contact-info', [Admin\ContactInfoController::class, 'index'])->name('admin.contact_info.index');
+Route::put('/admin/contact-info', [Admin\ContactInfoController::class, 'update'])->name('admin.contact_info.update');
 
 // Testimonial routes untuk pengguna
 Route::get('/testimonials/create', [TestimonialController::class, 'create'])->name('testimonials.create');

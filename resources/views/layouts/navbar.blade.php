@@ -16,12 +16,13 @@
                     <div class="dropdown-menu">
                         <a href="{{ route('About') }}" class="dropdown-item">Informasi Lapangan</a>
                         <a href="{{ route('Menu') }}" class="dropdown-item">Daftar Peralatan</a>
+                        <a href="{{ route('jadwal.index')}}" class="dropdown-item">Ketersediaan Lapangan</a>
                     </div>
                 </div>
                 <a href="{{ route('galeri.index') }}" class="nav-item nav-link">Galeri</a>
                 <a href="{{ route('reservasi.index') }}" class="nav-item nav-link">Pemesanan Lapangan</a>
                 <a href="{{ route('testimonials.indexPublic') }}" class="nav-item nav-link">Testimonial</a>
-                <a href="{{ route('Contact') }}" class="nav-item nav-link">Contact</a>
+                <a href="{{ route('Contact.index') }}" class="nav-item nav-link">Contact</a>
             </div>
         </div>
 

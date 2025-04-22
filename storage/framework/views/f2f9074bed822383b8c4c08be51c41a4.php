@@ -66,8 +66,6 @@
         </div>
         <!-- Navbar & Hero End -->
 
-        <?php echo $__env->yieldContent('content'); ?>
-
 
         <!-- Footer Start -->
        <?php echo $__env->make('layouts.footer', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
@@ -94,4 +92,4 @@
 </body>
 
 </html>
-<?php /**PATH C:\xampp\htdocs\PA_10\resources\views/layouts/app.blade.php ENDPATH**/ ?>
+<?php /**PATH C:\xampp\htdocs\PA_10\resources\views/admin/dashboard.blade.php ENDPATH**/ ?>

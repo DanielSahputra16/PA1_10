@@ -27,4 +27,10 @@ class Reservasi extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    public function scopeIsBookedBetween($query, $start, $end)
+    {
+        return $query->where('tanggal_mulai', '<', $end)
+                    ->where('tanggal_selesai', '>', $start);
+    }
 }

@@ -16,12 +16,13 @@
                     <div class="dropdown-menu">
                         <a href="<?php echo e(route('About')); ?>" class="dropdown-item">Informasi Lapangan</a>
                         <a href="<?php echo e(route('Menu')); ?>" class="dropdown-item">Daftar Peralatan</a>
+                        <a href="<?php echo e(route('jadwal.index')); ?>" class="dropdown-item">Ketersediaan Lapangan</a>
                     </div>
                 </div>
                 <a href="<?php echo e(route('galeri.index')); ?>" class="nav-item nav-link">Galeri</a>
                 <a href="<?php echo e(route('reservasi.index')); ?>" class="nav-item nav-link">Pemesanan Lapangan</a>
                 <a href="<?php echo e(route('testimonials.indexPublic')); ?>" class="nav-item nav-link">Testimonial</a>
-                <a href="<?php echo e(route('Contact')); ?>" class="nav-item nav-link">Contact</a>
+                <a href="<?php echo e(route('Contact.index')); ?>" class="nav-item nav-link">Contact</a>
             </div>
         </div>
 
