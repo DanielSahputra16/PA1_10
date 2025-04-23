@@ -40,7 +40,7 @@ Route::get('/about', [AboutController::class, 'About'])->name('About');
 Route::get('/booking', [BookingController::class, 'Booking'])->name('Booking');
 Route::get('/galeri', [GaleriController::class, 'index'])->name('galeri.index');
 Route::get('/menu', [MenuController::class, 'Menu'])->name('Menu');
-Route::get('/testimonials', [TestimonialController::class, 'indexPublic'])->name('testimonials.indexPublic');
+Route::get('/testimonials', [TestimonialController::class, 'index'])->name('testimonials.index');
 Route::get('/contact', [ContactController::class, 'Contact'])->name('Contact');
 Route::get('/reservasi', [ReservasiController::class, 'index'])->name('reservasi.index');
 Route::get('/reservasi/create', [ReservasiController::class, 'create'])->name('reservasi.create');
@@ -109,7 +109,7 @@ Route::resource('admin/galeri', GaleriController::class)->names([
 Route::group(['middleware' => 'auth'], function () {
     // Route untuk menampilkan form testimonial
     Route::get('/testimonials/create', [TestimonialController::class, 'create'])->name('testimonials.create');
-
+    Route::get('/testimonials/{testimonial}', [TestimonialController::class, 'show'])->name('testimonials.index');
     // Route untuk menyimpan testimonial baru
     Route::post('/testimonials', [TestimonialController::class, 'store'])->name('testimonials.store');
 
