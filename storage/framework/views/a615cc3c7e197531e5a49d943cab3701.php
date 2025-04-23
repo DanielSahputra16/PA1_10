@@ -55,12 +55,12 @@
         <?php echo $__env->make('layouts.navbar', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
         <div class="container-xxl py-5 bg-dark hero-header mb-5">
             <div class="container text-center my-5 pt-5 pb-4">
-                <h1 class="display-3 text-white mb-3 animated slideInDown">Testimonial</h1>
+                <h1 class="display-3 text-white mb-3 animated slideInDown">Create Testimonial</h1>
                 <nav aria-label="breadcrumb">
                     <ol class="breadcrumb justify-content-center text-uppercase">
                         <li class="breadcrumb-item"><a href="#">Home</a></li>
                         <li class="breadcrumb-item"><a href="#">Pages</a></li>
-                        <li class="breadcrumb-item text-white active" aria-current="page">Testimonial</li>
+                        <li class="breadcrumb-item text-white active" aria-current="page">Create Testimonial</li>
                     </ol>
                 </nav>
             </div>
@@ -195,52 +195,6 @@ unset($__errorArgs, $__bag); ?>
         </div>
         <!-- Reservation & Form Section End -->
 
-                <!-- Testimonial Start (Approved Testimonials) -->
-                <div class="container-xxl py-5 wow fadeInUp" data-wow-delay="0.1s">
-                    <div class="container">
-                        <div class="text-center">
-                            <h5 class="section-title ff-secondary text-center text-primary fw-normal">Testimonials</h5>
-                            <h1 class="mb-5">What Our Clients Say!</h1>
-                        </div>
-                        <div class="row">
-                            <?php if(count($testimonials) > 0): ?>
-                                <?php $__currentLoopData = $testimonials; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $testimonial): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                    <div class="col-lg-6 wow fadeInUp" data-wow-delay="0.3s">
-                                        <div class="testimonial-item bg-transparent border rounded p-4">
-                                            <i class="fa fa-quote-left fa-2x text-primary mb-3"></i>
-                                            <p><?php echo e($testimonial->message); ?></p>
-                                            <div class="d-flex align-items-center">
-                                                <img class="img-fluid flex-shrink-0 rounded-circle" src="<?php echo e(asset('img/biodata.PNG')); ?>" style="width: 50px; height: 50px;">
-                                                <div class="ps-3">
-                                                    <h5 class="mb-1"><?php echo e($testimonial->name); ?></h5>
-                                                    <small><?php echo e($testimonial->subject); ?></small>
-                                                </div>
-                                            </div>
-
-                                            <!-- Tambahkan tombol hapus di sini -->
-                                            <form action="<?php echo e(route('testimonials.destroy', $testimonial->id)); ?>" method="POST" style="display: inline-block;">
-                                                <?php echo csrf_field(); ?>
-                                                <?php echo method_field('DELETE'); ?>
-                                                <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Apakah Anda yakin ingin menghapus testimonial ini?')">Hapus</button>
-                                            </form>
-
-                                        </div>
-                                    </div>
-                                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-                            <?php else: ?>
-                                <div class="col-12 text-center">
-                                    <p>No approved testimonials yet.</p>
-                                </div>
-                            <?php endif; ?>
-                        </div>
-                        <div class="d-flex justify-content-center mt-4">
-                            <?php echo e($testimonials->links()); ?>
-
-                        </div>
-                    </div>
-                </div>
-                <!-- Testimonial End -->
-
         <!-- Footer Start -->
         <?php echo $__env->make('layouts.footer', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
         <!-- Footer End -->
@@ -266,4 +220,4 @@ unset($__errorArgs, $__bag); ?>
 </body>
 
 </html>
-<?php /**PATH C:\xampp\htdocs\PA_10\resources\views/testimonials/indexPublic.blade.php ENDPATH**/ ?>
+<?php /**PATH C:\xampp\htdocs\PA_10\resources\views/testimonials/create.blade.php ENDPATH**/ ?>

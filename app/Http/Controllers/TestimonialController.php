@@ -9,35 +9,32 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\View\View;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Database\QueryException;
+use Illuminate\Database\Eloquent\Collection;
 
 class TestimonialController extends Controller
 {
-    /**
-     * Display a listing of the testimonials (for admin).
-     *
-     * @return View
-     */
-    public function index(): View
-    {
-        // Ambil semua testimonial dengan pagination (misalnya, 10 per halaman)
-        $testimonials = Testimonial::latest()->paginate(10);
-
-        // Kirim data testimonial ke view 'testimonials.index' (untuk admin)
-        return view('testimonials.index', compact('testimonials'));
-    }
 
     /**
      * Display a listing of approved testimonials for public users.
      *
      * @return View
      */
-    public function indexPublic(): View
+    public function index(): View
     {
         // Ambil semua testimonial yang statusnya 'approved'
-        $testimonials = Testimonial::latest()->paginate(10);
+        try {
+          $testimonials = Testimonial::latest()->paginate(10);
+          if (!($testimonials instanceof Collection)) {
+               $testimonials = collect([]);
+          }
+        } catch (\Exception $e) {
+            Log::error('Error retrieving testimonials: ' . $e->getMessage());
+            $testimonials = collect([]); // Ensure $testimonials is always a collection
+        }
 
-        // Kirim data testimonial ke view 'testimonials.indexPublic'
-        return view('testimonials.indexPublic', compact('testimonials'));
+        // Kirim data testimonial ke view 'testimonials.index'
+        return view('testimonials.index', compact('testimonials'));
     }
 
     /**
@@ -61,10 +58,10 @@ class TestimonialController extends Controller
     {
         // Validasi data input
         $validator = Validator::make($request->all(), [
-            'your_name' => 'required|string|max:255', // Sesuaikan dengan nama input di form
-            'your_email' => 'required|email|max:255', // Sesuaikan dengan nama input di form
-            'subject' => 'required|string|max:255',   // Sesuaikan dengan nama input di form
-            'message' => 'required|string',           // Sesuaikan dengan nama input di form
+            'your_name' => 'required|string|max:255',
+            'your_email' => 'required|email|max:255',
+            'subject' => 'required|string|max:255',
+            'message' => 'required|string',
         ]);
 
         // Jika validasi gagal, kembali ke form dengan error dan input lama
@@ -77,21 +74,26 @@ class TestimonialController extends Controller
         // Simpan data ke database
         try {
             Testimonial::create([
-                'name' => $request->input('your_name'), // Sesuaikan dengan nama input di form
-                'email' => $request->input('your_email'), // Sesuaikan dengan nama input di form
-                'subject' => $request->input('subject'),   // Sesuaikan dengan nama input di form
-                'message' => $request->input('message'),   // Sesuaikan dengan nama input di form
-                'status' => 'pending', // Status default (pastikan ada di $fillable)
+                'name' => $request->input('your_name'),
+                'email' => $request->input('your_email'),
+                'subject' => $request->input('subject'),
+                'message' => $request->input('message'),
             ]);
 
             // Redirect ke halaman "thank you" atau halaman testimonial
-            return Redirect::route('testimonials.indexPublic')->with('success', 'Terima kasih! Testimonial Anda telah berhasil dikirim dan akan segera diproses.');  // Redirect ke halaman yang sesuai untuk pengguna
+            return Redirect::route('testimonials.index')->with('success', 'Terima kasih! Testimonial Anda telah berhasil dikirim dan akan segera diproses.');
 
-        } catch (\Exception $e) {
-            // Tangani error jika gagal menyimpan ke database
-            Log::error('Gagal menyimpan testimonial: ' . $e->getMessage());
+        }  catch (QueryException $e) {
+            // Tangani error database
+            Log::error('Gagal menyimpan testimonial (database error): ' . $e->getMessage());
             return Redirect::route('testimonials.create')
-                ->with('error', 'Terjadi kesalahan saat menyimpan testimonial. Silakan coba lagi.')
+                ->with('error', 'Terjadi kesalahan database. Silakan coba lagi.')
+                ->withInput();
+        } catch (\Exception $e) {
+            // Tangani error umum lainnya
+            Log::error('Gagal menyimpan testimonial (general error): ' . $e->getMessage());
+            return Redirect::route('testimonials.create')
+                ->with('error', 'Terjadi kesalahan. Silakan coba lagi.')
                 ->withInput();
         }
     }
@@ -105,7 +107,7 @@ class TestimonialController extends Controller
     public function show(Testimonial $testimonial): View
     {
         // Tampilkan detail testimonial (untuk admin)
-        return view('testimonials.show', compact('testimonial'));
+        return view('testimonials', compact('testimonial'));
     }
 
     /**
@@ -131,10 +133,10 @@ class TestimonialController extends Controller
     {
         // Validasi data input
         $validator = Validator::make($request->all(), [
-            'your_name' => 'required|string|max:255', // Sesuaikan dengan nama input di form
-            'your_email' => 'required|email|max:255', // Sesuaikan dengan nama input di form
-            'subject' => 'required|string|max:255',   // Sesuaikan dengan nama input di form
-            'message' => 'required|string',           // Sesuaikan dengan nama input di form
+            'your_name' => 'required|string|max:255',
+            'your_email' => 'required|email|max:255',
+            'subject' => 'required|string|max:255',
+            'message' => 'required|string',
             'status' => 'required|in:pending,approved,rejected', // Validasi status
         ]);
 
@@ -148,18 +150,24 @@ class TestimonialController extends Controller
         // Update data di database
         try {
             $testimonial->update([
-                'name' => $request->input('your_name'), // Sesuaikan dengan nama input di form
-                'email' => $request->input('your_email'), // Sesuaikan dengan nama input di form
-                'subject' => $request->input('subject'),   // Sesuaikan dengan nama input di form
-                'message' => $request->input('message'),   // Sesuaikan dengan nama input di form
+                'name' => $request->input('your_name'),
+                'email' => $request->input('your_email'),
+                'subject' => $request->input('subject'),
+                'message' => $request->input('message'),
                 'status' => $request->input('status'),
             ]);
 
             // Redirect ke halaman index (untuk admin) dengan pesan sukses
             return Redirect::route('testimonials.index')->with('success', 'Testimonial berhasil diperbarui.');
 
+        }  catch (QueryException $e) {
+            // Tangani error database
+            Log::error('Gagal menyimpan testimonial (database error): ' . $e->getMessage());
+            return Redirect::route('testimonials.create')
+                ->with('error', 'Terjadi kesalahan database. Silakan coba lagi.')
+                ->withInput();
         } catch (\Exception $e) {
-            // Tangani error jika gagal memperbarui di database
+            // Tangani error umum lainnya
             Log::error('Gagal memperbarui testimonial: ' . $e->getMessage());
             return Redirect::route('testimonials.edit', $testimonial->id)
                 ->with('error', 'Terjadi kesalahan saat memperbarui testimonial. Silakan coba lagi.');
@@ -172,19 +180,16 @@ class TestimonialController extends Controller
      * @param  Testimonial  $testimonial
      * @return RedirectResponse
      */
-    public function destroy(Testimonial $testimonial): RedirectResponse
+    public function destroy(Testimonial $testimonial)
     {
-        // Hapus testimonial dari database
         try {
             $testimonial->delete();
-
-            // Redirect ke halaman index (untuk admin) dengan pesan sukses
-            return Redirect::route('testimonials.index')->with('success', 'Testimonial berhasil dihapus.');
-
+            return redirect()->route('testimonials.index')->with('success', 'Testimonial berhasil dihapus.');
         } catch (\Exception $e) {
-            // Tangani error jika gagal menghapus dari database
-            Log::error('Gagal menghapus testimonial: ' . $e->getMessage());
-            return Redirect::route('testimonials.index')->with('error', 'Terjadi kesalahan saat menghapus testimonial. Silakan coba lagi.');
+             // Log error (optional, but recommended)
+             \Log::error('Gagal menghapus testimonial: ' . $e->getMessage());
+
+            return Redirect::back()->withErrors(['error' => 'Gagal menghapus testimonial. Silakan coba lagi.']);
         }
     }
 }

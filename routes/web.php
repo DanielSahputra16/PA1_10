@@ -60,6 +60,7 @@ Route::put('/admin/contact-info', [Admin\ContactInfoController::class, 'update']
 // Testimonial routes untuk pengguna
 Route::get('/testimonials/create', [TestimonialController::class, 'create'])->name('testimonials.create');
 Route::post('/testimonials', [TestimonialController::class, 'store'])->name('testimonials.store');
+Route::delete('/testimonials/{testimonial}', [TestimonialController::class, 'destroy'])->name('testimonials.destroy');
 
 // Route untuk resource testimonial untuk Admin (di dalam middleware group)
 Route::group(['middleware' => ['auth', 'is_admin']], function () {
@@ -104,3 +105,14 @@ Route::resource('admin/galeri', GaleriController::class)->names([
     'update' => 'admin.galeri.update',
     'destroy' => 'admin.galeri.destroy',
 ]);
+
+Route::group(['middleware' => 'auth'], function () {
+    // Route untuk menampilkan form testimonial
+    Route::get('/testimonials/create', [TestimonialController::class, 'create'])->name('testimonials.create');
+
+    // Route untuk menyimpan testimonial baru
+    Route::post('/testimonials', [TestimonialController::class, 'store'])->name('testimonials.store');
+
+    //Route untuk menampilkan semua testimonial (index) dan menghapus (destroy)
+    Route::resource('testimonials', TestimonialController::class)->except(['create', 'store']); //kecuali create dan store karena sudah didefinisikan di atas
+});

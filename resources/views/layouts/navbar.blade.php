@@ -21,7 +21,7 @@
                 </div>
                 <a href="{{ route('galeri.index') }}" class="nav-item nav-link">Galeri</a>
                 <a href="{{ route('reservasi.index') }}" class="nav-item nav-link">Pemesanan Lapangan</a>
-                <a href="{{ route('testimonials.indexPublic') }}" class="nav-item nav-link">Testimonial</a>
+                <a href="{{ route('testimonials.index') }}" class="nav-item nav-link">Testimonial</a>
                 <a href="{{ route('Contact.index') }}" class="nav-item nav-link">Contact</a>
             </div>
         </div>

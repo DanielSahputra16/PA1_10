@@ -30,15 +30,6 @@
 
     <!-- Template Stylesheet -->
     <link href="{{ asset('css/style.css') }}" rel="stylesheet">
-
-    <style>
-        .alert { padding: 15px; margin-bottom: 20px; border: 1px solid transparent; border-radius: 4px; }
-        .alert-success { color: #155724; background-color: #d4edda; border-color: #c3e6cb; }
-        .alert-danger { color: #721c24; background-color: #f8d7da; border-color: #f5c6cb; }
-        .form-group { margin-bottom: 1rem; }
-        .form-control { display: block; width: 100%; padding: 0.375rem 0.75rem; /* ... styling lainnya */ }
-        .invalid-feedback { color: #dc3545; display: block; } /* Tampilkan pesan error */
-    </style>
 </head>
 
 <body>
@@ -67,78 +58,6 @@
         </div>
         <!-- Navbar & Hero End -->
 
-        <!-- Reservation & Form Section Start -->
-        <div class="container-xxl py-5 wow fadeInUp" data-wow-delay="0.1s">
-            <div class="container">
-                <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
-                    <h4 class="section-title ff-secondary text-center text-primary fw-normal">review</h4>
-                    <h1 class="mb-5">Bantu Kami Lebih Baik – Tulis Ulasanmu</h1>
-                </div>
-
-                <!-- Display Success and Error Messages -->
-                @if(session('success'))
-                    <div class="alert alert-success">{{ session('success') }}</div>
-                @endif
-
-                @if(session('error'))
-                    <div class="alert alert-danger">{{ session('error') }}</div>
-                @endif
-
-                <!-- Form Section -->
-                <div class="row justify-content-center">
-                    <div class="col-md-8 col-lg-6">
-                        <div class="wow fadeInUp" data-wow-delay="0.2s">
-                            <form method="POST" action="{{ route('testimonials.store') }}">
-                                @csrf
-                                <div class="row g-3">
-                                    <div class="col-md-6">
-                                        <div class="form-floating">
-                                            <input type="text" class="form-control @error('your_name') is-invalid @enderror" id="your_name" name="your_name" placeholder="Your Name" value="{{ old('your_name') }}">
-                                            <label for="your_name">Your Name</label>
-                                            @error('your_name')
-                                                <div class="invalid-feedback">{{ $message }}</div>
-                                            @enderror
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-floating">
-                                            <input type="email" class="form-control @error('your_email') is-invalid @enderror" id="your_email" name="your_email" placeholder="Your Email" value="{{ old('your_email') }}">
-                                            <label for="your_email">Your Email</label>
-                                            @error('your_email')
-                                                <div class="invalid-feedback">{{ $message }}</div>
-                                            @enderror
-                                        </div>
-                                    </div>
-                                    <div class="col-12">
-                                        <div class="form-floating">
-                                            <input type="text" class="form-control @error('subject') is-invalid @enderror" id="subject" name="subject" placeholder="Subject" value="{{ old('subject') }}">
-                                            <label for="subject">Subject</label>
-                                            @error('subject')
-                                                <div class="invalid-feedback">{{ $message }}</div>
-                                            @enderror
-                                        </div>
-                                    </div>
-                                    <div class="col-12">
-                                        <div class="form-floating">
-                                            <textarea class="form-control @error('message') is-invalid @enderror" placeholder="Leave a message here" id="message" name="message" style="height: 150px">{{ old('message') }}</textarea>
-                                            <label for="message">Message</label>
-                                            @error('message')
-                                                <div class="invalid-feedback">{{ $message }}</div>
-                                            @enderror
-                                        </div>
-                                    </div>
-                                    <div class="col-12">
-                                        <button class="btn btn-primary w-100 py-3" type="submit">Send Message</button>
-                                    </div>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- Reservation & Form Section End -->
-
         <!-- Testimonial Start (Approved Testimonials) -->
         <div class="container-xxl py-5 wow fadeInUp" data-wow-delay="0.1s">
             <div class="container">
@@ -160,6 +79,14 @@
                                             <small>{{ $testimonial->subject }}</small>
                                         </div>
                                     </div>
+
+                                    <!-- Tambahkan tombol hapus di sini -->
+                                    <form action="{{ route('testimonials.destroy', $testimonial->id) }}" method="POST" style="display: inline-block;">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Apakah Anda yakin ingin menghapus testimonial ini?')">Hapus</button>
+                                    </form>
+
                                 </div>
                             </div>
                         @endforeach
@@ -170,7 +97,13 @@
                     @endif
                 </div>
                 <div class="d-flex justify-content-center mt-4">
+                  @if($testimonials instanceof \Illuminate\Pagination\LengthAwarePaginator)
                     {{ $testimonials->links() }}
+                  @endif
+                </div>
+                 <!-- Tautan ke formulir pembuatan -->
+                 <div class="text-center mt-3">
+                    <a href="{{ route('testimonials.create') }}" class="btn btn-primary">Tambahkan Testimonial</a>
                 </div>
             </div>
         </div>
