@@ -13,8 +13,8 @@ class ContactInfo extends Model
         'whatsapp_link',
         'instagram_username',
         'address',
-        'latitude',
-        'longitude',
+            'latitude',
+            'longitude',
     ];
 
     public $timestamps = false; // Nonaktifkan timestamps jika tidak digunakan
