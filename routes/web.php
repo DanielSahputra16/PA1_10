@@ -11,6 +11,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ReservasiController;
 use App\Http\Controllers\ScheduleController;
 use App\Http\Controllers\TestimonialController;
+use App\Http\Controllers\InformasiLapanganController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -118,3 +119,8 @@ Route::group(['middleware' => ['auth']], function () {
         ]);
     });
 });
+
+
+Route::resource('informasi-lapangans', InformasiLapanganController::class);
+
+
