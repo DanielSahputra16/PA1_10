@@ -3,13 +3,13 @@
 
 <head>
     <meta charset="utf-8">
-    <title>Galeri - Ramos Badminton Center</title>
+    <title>Reservasi - Ramos Badminton Center</title>
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
-    <meta content="" name="keywords">
-    <meta content="" name="description">
+    <meta content="" name="keywords">  <!-- Sebaiknya diisi untuk SEO -->
+    <meta content="" name="description">  <!-- Sebaiknya diisi untuk SEO -->
 
     <!-- Favicon -->
-    <link href="{{ asset('img/favicon.ico') }}" rel="icon">
+    <link href="{{ URL::asset('img/favicon.ico') }}" rel="icon">
 
     <!-- Google Web Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -21,80 +21,15 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
 
     <!-- Libraries Stylesheet -->
-    <link href="{{ asset('lib/animate/animate.min.css') }}" rel="stylesheet">
-    <link href="{{ asset('lib/owlcarousel/assets/owl.carousel.min.css') }}" rel="stylesheet">
-    <link href="{{ asset('lib/tempusdominus/css/tempusdominus-bootstrap-4.min.css') }}" rel="stylesheet" />
+    <link href="{{ URL::asset('lib/animate/animate.min.css') }}" rel="stylesheet">
+    <link href="{{ URL::asset('lib/owlcarousel/assets/owl.carousel.min.css') }}" rel="stylesheet">
+    <link href="{{ URL::asset('lib/tempusdominus/css/tempusdominus-bootstrap-4.min.css') }}" rel="stylesheet" />
 
     <!-- Customized Bootstrap Stylesheet -->
-    <link href="{{ asset('css/bootstrap.min.css') }}" rel="stylesheet">
+    <link href="{{ URL::asset('css/bootstrap.min.css') }}" rel="stylesheet">
 
     <!-- Template Stylesheet -->
-    <link href="{{ asset('css/style.css') }}" rel="stylesheet">
-
-    <style>
-        /* Gaya tambahan untuk memastikan gambar responsif dan tidak terpotong */
-        .gallery-item img {
-            width: 100%;
-            height: auto;
-            object-fit: cover;
-            max-height: 200px;
-            cursor: pointer; /* Mengubah kursor menjadi pointer saat diarahkan ke gambar */
-        }
-
-        .gallery-item {
-            margin-bottom: 20px;
-        }
-
-        /* Gaya untuk modal */
-        .modal {
-            display: none; /* Sembunyikan modal secara default */
-            position: fixed;
-            z-index: 1;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            overflow: auto;
-            background-color: rgba(0, 0, 0, 0.9); /* Latar belakang hitam transparan */
-        }
-
-        .modal-content {
-            margin: auto;
-            display: block;
-            width: 80%;
-            max-width: 700px;
-            animation-name: zoom;
-            animation-duration: 0.6s;
-        }
-
-        @keyframes zoom {
-            from {
-                transform: scale(0)
-            }
-
-            to {
-                transform: scale(1)
-            }
-        }
-
-        .close {
-            position: absolute;
-            top: 15px;
-            right: 35px;
-            color: #f1f1f1;
-            font-size: 40px;
-            font-weight: bold;
-            transition: 0.3s;
-            cursor: pointer;
-        }
-
-        .close:hover,
-        .close:focus {
-            color: #bbb;
-            text-decoration: none;
-            cursor: pointer;
-        }
-    </style>
+    <link href="{{ URL::asset('css/style.css') }}" rel="stylesheet">
 </head>
 
 <body>
@@ -107,92 +42,84 @@
         </div>
         <!-- Spinner End -->
 
-        <!-- Navbar & Hero Start -->
+        <!-- Navbar -->
         @include('layouts.navbar')
+        <!-- End Navbar -->
+
+        <!-- Hero Header Start -->
         <div class="container-xxl py-5 bg-dark hero-header mb-5">
             <div class="container text-center my-5 pt-5 pb-4">
-                <h1 class="display-3 text-white mb-3 animated slideInDown">Gallery</h1>
+                <h1 class="display-3 text-white mb-3 animated slideInDown">Reservasi</h1>
                 <nav aria-label="breadcrumb">
                     <ol class="breadcrumb justify-content-center text-uppercase">
-                        <li class="breadcrumb-item"><a href="#">Home</a></li>
-                        <li class="breadcrumb-item"><a href="#">Pages</a></li>
-                        <li class="breadcrumb-item text-white active" aria-current="page">Gallery</li>
+                        <li class="breadcrumb-item"><a href="/">Home</a></li>
+                        <li class="breadcrumb-item text-white active" aria-current="page">Reservasi</li>
                     </ol>
                 </nav>
             </div>
         </div>
-    </div>
-    <!-- Navbar & Hero End -->
+        <!-- Hero Header End -->
 
-    <!-- Service Start -->
-    <div class="container-xxl py-5">
-        <div class="container">
-            <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
-                <h5 class="section-title ff-secondary text-center text-primary fw-normal">Our Gallery</h5>
-                <h1 class="mb-5">Explore Our Gallery</h1>
-            </div>
-            <div class="row g-4">
-                @forelse($galleries as $galeri)
-                    <div class="col-lg-3 col-sm-6 wow fadeInUp gallery-item" data-wow-delay="{{ ($loop->index % 4) * 0.2 + 0.1 }}s">
-                        <div class="service-item rounded pt-3">
-                            <img class="img-fluid mb-3" src="{{ Storage::url('images/Galeri/' . $galeri->image_path) }}" alt="{{ $galeri->title }}" onclick="openModal('{{ Storage::url('images/Galeri/' . $galeri->image_path) }}')">
-                            <div class="p-4">
-                                <h5>{{ $galeri->title }}</h5>
-                                <p>{{ $galeri->description }}</p>
-                            </div>
-                        </div>
+<div class="container-xxl py-5">
+    <div class="container">
+        <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
+            <h5 class="section-title ff-secondary text-center text-primary fw-normal">Our Gallery</h5>
+            <h1 class="mb-5">Explore Our Gallery</h1>
+        </div>
+        <div class="row g-4">
+            @forelse($galleries as $galeri)
+            <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12 wow fadeInUp gallery-item" data-wow-delay="{{ ($loop->index % 4) * 0.2 + 0.1 }}s">
+                <div class="service-item rounded">
+                    <img class="img-fluid" src="{{ Storage::url('images/Galeri/' . $galeri->image_path) }}" alt="{{ $galeri->title }}" onclick="openModal('{{ Storage::url('images/Galeri/' . $galeri->image_path) }}', '{{ $galeri->title }}', '{{ $galeri->description }}')">
+                    <div class="overlay">
+                        <h5>{{ $galeri->title }}</h5>
+                        <p>{{ Str::limit($galeri->description, 50, '...') }}</p> <!-- Batasi deskripsi -->
                     </div>
-                @empty
-                    <div class="col-12 text-center">
-                        <p>Tidak ada gambar di galeri saat ini.</p>
-                    </div>
-                @endforelse
+                </div>
             </div>
+            @empty
+            <div class="col-12 text-center">
+                <p>Tidak ada gambar di galeri saat ini.</p>
+            </div>
+            @endforelse
         </div>
     </div>
-    <!-- Service End -->
+</div>
 
-    <!-- The Modal -->
-    <div id="myModal" class="modal">
-        <span class="close" onclick="closeModal()">×</span>
-        <img class="modal-content" id="img01">
+<!-- The Modal -->
+<div id="myModal" class="modal">
+    <span class="close" onclick="closeModal()">×</span>
+    <div class="modal-content">
+        <img id="modalImage" src="" alt="">
+        <div id="modalCaption">
+            <h5 id="modalTitle"></h5>
+            <p id="modalDescription"></p>
+        </div>
     </div>
+</div>
 
-    <!-- Footer Start -->
-    @include('layouts.footer')
-    <!-- Footer End -->
+ <!-- Footer -->
+ @include('layouts.footer')
+ <!-- End Footer -->
 
-    <!-- Back to Top -->
-    <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
-    </div>
+ <!-- Back to Top -->
+ <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top" aria-label="Kembali ke atas"><i class="bi bi-arrow-up"></i></a>
+</div>
 
-    <!-- JavaScript Libraries -->
-    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="{{ asset('lib/wow/wow.min.js') }}"></script>
-    <script src="{{ asset('lib/easing/easing.min.js') }}"></script>
-    <script src="{{ asset('lib/waypoints/waypoints.min.js') }}"></script>
-    <script src="{{ asset('lib/counterup/counterup.min.js') }}"></script>
-    <script src="{{ asset('lib/owlcarousel/owl.carousel.min.js') }}"></script>
-    <script src="{{ asset('lib/tempusdominus/js/moment.min.js') }}"></script>
-    <script src="{{ asset('lib/tempusdominus/js/moment-timezone.min.js') }}"></script>
-    <script src="{{ asset('lib/tempusdominus/js/tempusdominus-bootstrap-4.min.js') }}"></script>
+<!-- JavaScript Libraries -->
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="{{ URL::asset('lib/wow/wow.min.js') }}"></script>
+<script src="{{ URL::asset('lib/easing/easing.min.js') }}"></script>
+<script src="{{ URL::asset('lib/waypoints/waypoints.min.js') }}"></script>
+<script src="{{ URL::asset('lib/counterup/counterup.min.js') }}"></script>
+<script src="{{ URL::asset('lib/owlcarousel/owl.carousel.min.js') }}"></script>
+<script src="{{ URL::asset('lib/tempusdominus/js/moment.min.js') }}"></script>
+<script src="{{ URL::asset('lib/tempusdominus/js/moment-timezone.min.js') }}"></script>
+<script src="{{ URL::asset('lib/tempusdominus/js/tempusdominus-bootstrap-4.min.js') }}"></script>
 
-    <!-- Template Javascript -->
-    <script src="{{ asset('js/main.js') }}"></script>
-
-    <script>
-        // Fungsi untuk membuka modal
-        function openModal(imageSrc) {
-            document.getElementById("myModal").style.display = "block";
-            document.getElementById("img01").src = imageSrc;
-        }
-
-        // Fungsi untuk menutup modal
-        function closeModal() {
-            document.getElementById("myModal").style.display = "none";
-        }
-    </script>
+<!-- Template Javascript -->
+<script src="{{ URL::asset('js/main.js') }}"></script>
 </body>
 
 </html>
