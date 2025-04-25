@@ -17,3 +17,4 @@ class Galeri extends Model
         'image_path',
     ];
 }
+    

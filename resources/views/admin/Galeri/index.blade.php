@@ -85,7 +85,7 @@
                                         <td>{{ $galeri->title }}</td>
                                         <td>{{ $galeri->description }}</td>
                                         <td>
-                                            <img src="{{ asset('images/galeri/' . $galeri->image_path) }}" alt="{{ $galeri->title }}" width="100">
+                                            <img src="{{ Storage::url('images/Galeri/' . $galeri->image_path) }}" alt="{{ $galeri->title }}" width="100">
                                         </td>
                                         <td class="text-center"> <!-- Tambahkan class text-center -->
                                             <a href="{{ route('admin.galeri.edit', $galeri->id) }}" class="btn btn-sm btn-warning me-1" title="Edit">  <!-- Ubah btn-primary menjadi btn-warning dan tambahkan me-1-->

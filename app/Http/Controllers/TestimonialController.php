@@ -19,18 +19,9 @@ class TestimonialController extends Controller
      *
      * @return View
      */
-    public function index(): View
+    public function index()
 {
-    try {
-        $testimonials = Testimonial::latest()->paginate(10); // Ambil *semua* testimonial (tanpa filter approved)
-        if (!($testimonials instanceof Collection)) {
-             $testimonials = collect([]);
-        }
-    } catch (\Exception $e) {
-        Log::error('Error retrieving testimonials: ' . $e->getMessage());
-        $testimonials = collect([]); // Ensure $testimonials is always a collection
-    }
-
+    $testimonials = Testimonial::latest()->paginate(6);
     return view('testimonials.index', compact('testimonials'));
 }
 

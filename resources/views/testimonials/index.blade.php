@@ -80,12 +80,14 @@
                                         </div>
                                     </div>
 
-                                    <!-- Tambahkan tombol hapus di sini -->
-                                    <form action="{{ route('testimonials.destroy', $testimonial->id) }}" method="POST" style="display: inline-block;">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Apakah Anda yakin ingin menghapus testimonial ini?')">Hapus</button>
-                                    </form>
+                                    <!-- Tombol hapus hanya muncul jika user sudah login -->
+                                    @auth
+                                        <form action="{{ route('testimonials.destroy', $testimonial->id) }}" method="POST" style="display: inline-block;">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Apakah Anda yakin ingin menghapus testimonial ini?')">Hapus</button>
+                                        </form>
+                                    @endauth
 
                                 </div>
                             </div>

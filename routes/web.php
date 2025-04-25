@@ -1,17 +1,17 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\AuthController;
 use App\Http\Controllers\AboutController;
+use App\Http\Controllers\Admin\AdminController;
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BookingController;
+use App\Http\Controllers\ContactController;
 use App\Http\Controllers\GaleriController;
 use App\Http\Controllers\MenuController;
-use App\Http\Controllers\TestimonialController;
-use App\Http\Controllers\ContactController;
-use App\Http\Controllers\AdminController;
-use App\Http\Controllers\ReservasiController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\ReservasiController;
 use App\Http\Controllers\ScheduleController;
+use App\Http\Controllers\TestimonialController;
+use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------
@@ -35,67 +35,30 @@ Route::get('/login', [AuthController::class, 'showLoginForm'])->name('showLoginF
 Route::post('/login', [AuthController::class, 'login'])->name('login');
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
-// Public Routes (Accessible to all)
+// Public Routes
 Route::get('/about', [AboutController::class, 'About'])->name('About');
 Route::get('/booking', [BookingController::class, 'Booking'])->name('Booking');
-Route::get('/galeri', [GaleriController::class, 'index'])->name('galeri.index');
+Route::get('/galeripublic', [GaleriController::class, 'indexPublic'])->name('galeri.index');
 Route::get('/menu', [MenuController::class, 'Menu'])->name('Menu');
-Route::get('/testimonials', [TestimonialController::class, 'index'])->name('testimonials.index');
+Route::get('/testimonialspublic', [TestimonialController::class, 'index'])->name('testimonials.index');
 Route::get('/contact', [ContactController::class, 'Contact'])->name('Contact');
-Route::get('/reservasi', [ReservasiController::class, 'index'])->name('reservasi.index');
-Route::get('/reservasi/create', [ReservasiController::class, 'create'])->name('reservasi.create');
-Route::post('/reservasi', [ReservasiController::class,'store'])->name('reservasi.store');
-Route::get('/reservasi/{reservasi}/edit', [ReservasiController::class,'edit'])->name('reservasi.edit');
-Route::get('/reservasi/{id}', [ReservasiController::class,'show'])->name('reservasi.show');
-Route::delete('/reservasi/{reservasi}', [ReservasiController::class,'destroy'])->name('reservasi.destroy');
-Route::put('/reservasi/{reservasi}', [ReservasiController::class,'update'])->name('reservasi.update');
-Route::get('/profile', [ProfileController::class, 'index'])->middleware('auth');
-Route::get('/admin/dashboard', [AdminController::class, 'index'])->middleware('auth'); // Gunakan middleware auth
 Route::get('/jadwal', [ScheduleController::class, 'index'])->name('jadwal.index');
 
+// Contact Routes
 Route::get('/contact', [ContactController::class, 'index'])->name('Contact.index');  // Frontend
 Route::get('/admin/contact-info', [Admin\ContactInfoController::class, 'index'])->name('admin.contact_info.index');
 Route::put('/admin/contact-info', [Admin\ContactInfoController::class, 'update'])->name('admin.contact_info.update');
 
-// Testimonial routes untuk pengguna
-Route::get('/testimonials/create', [TestimonialController::class, 'create'])->name('testimonials.create');
-Route::post('/testimonials', [TestimonialController::class, 'store'])->name('testimonials.store');
-Route::delete('/testimonials/{testimonial}', [TestimonialController::class, 'destroy'])->name('testimonials.destroy');
+// Reservasi Routes
+Route::get('/reservasi', [ReservasiController::class, 'index'])->name('reservasi.index');
+Route::get('/reservasi/create', [ReservasiController::class, 'create'])->name('reservasi.create');
+Route::post('/reservasi', [ReservasiController::class, 'store'])->name('reservasi.store');
+Route::get('/reservasi/{reservasi}/edit', [ReservasiController::class, 'edit'])->name('reservasi.edit');
+Route::get('/reservasi/{id}', [ReservasiController::class, 'show'])->name('reservasi.show');
+Route::put('/reservasi/{reservasi}', [ReservasiController::class, 'update'])->name('reservasi.update');
+Route::delete('/reservasi/{reservasi}', [ReservasiController::class, 'destroy'])->name('reservasi.destroy');
 
-// Route untuk resource testimonial untuk Admin (di dalam middleware group)
-Route::group(['middleware' => ['auth', 'is_admin']], function () {
-    Route::resource('admin/testimonials', TestimonialController::class)->names([
-        'index' => 'admin.testimonials.index',
-        'create' => 'admin.testimonials.create',
-        'store' => 'admin.testimonials.store',
-        'show' => 'admin.testimonials.show',
-        'edit' => 'admin.testimonials.edit',
-        'update' => 'admin.testimonials.update',
-        'destroy' => 'admin.testimonials.destroy',
-    ]);
-
-    Route::get('/admin/dashboard', function () {
-        return view('admin.dashboard');
-    })->name('admin.dashboard');
-
-    // Contoh route lain untuk manajemen lapangan
-    //Route::resource('admin/lapangan', App\Http\Controllers\LapanganController::class);
-
-    //Route::post('/logout', [AuthController::class, 'logout'])->name('logout'); //HAPUS ROUTE INI
-});
-
-Route::group(['middleware' => ['auth']], function () {
-    // Route yang hanya bisa diakses oleh user yang sudah login
-    Route::get('/home', function () {
-        return view('home');
-    })->name('home');
-});
-
-Route::middleware(['auth', 'admin'])->group(function () {
-    Route::get('/admin/users', [AdminController::class, 'manageUsers'])->name('admin.manageUsers');
-    Route::get('/admin/Bookings', [AdminController::class, 'manageBookings'])->name('admin.manageBookings');
-});
-
+// Galeri Routes for Admin
 Route::resource('admin/galeri', GaleriController::class)->names([
     'index' => 'admin.galeri.index',
     'create' => 'admin.galeri.create',
@@ -106,13 +69,31 @@ Route::resource('admin/galeri', GaleriController::class)->names([
     'destroy' => 'admin.galeri.destroy',
 ]);
 
-Route::group(['middleware' => 'auth'], function () {
-    // Route untuk menampilkan form testimonial
-    Route::get('/testimonials/create', [TestimonialController::class, 'create'])->name('testimonials.create');
-    Route::get('/testimonials/{testimonial}', [TestimonialController::class, 'show'])->name('testimonials.index');
-    // Route untuk menyimpan testimonial baru
-    Route::post('/testimonials', [TestimonialController::class, 'store'])->name('testimonials.store');
+// Testimonial Routes
+Route::get('/testimonials/create', [TestimonialController::class, 'create'])->name('testimonials.create');
+Route::post('/testimonials', [TestimonialController::class, 'store'])->name('testimonials.store');
+Route::delete('/testimonials/{testimonial}', [TestimonialController::class, 'destroy'])->name('testimonials.destroy');
 
-    //Route untuk menampilkan semua testimonial (index) dan menghapus (destroy)
-    Route::resource('testimonials', TestimonialController::class)->except(['create', 'store']); //kecuali create dan store karena sudah didefinisikan di atas
+// Grouped Routes with Middleware
+Route::group(['middleware' => ['auth']], function () {
+    Route::get('/home', function () {
+        return view('home');
+    })->name('home');
+    Route::get('/profile', [ProfileController::class, 'index']);
+
+    Route::group(['middleware' => ['admin'], 'prefix' => 'admin'], function () { // Tambahkan prefix 'admin'
+        Route::get('/dashboard', [AdminController::class, 'index'])->name('admin.dashboard');
+        Route::get('/users', [AdminController::class, 'manageUsers'])->name('admin.manageUsers');
+        Route::get('/bookings', [AdminController::class, 'manageBookings'])->name('admin.manageBookings');
+
+        Route::resource('testimonials', TestimonialController::class)->names([ // Testimonials di dalam admin
+            'index' => 'admin.testimonials.index',
+            'create' => 'admin.testimonials.create',
+            'store' => 'admin.testimonials.store',
+            'show' => 'admin.testimonials.show',
+            'edit' => 'admin.testimonials.edit',
+            'update' => 'admin.testimonials.update',
+            'destroy' => 'admin.testimonials.destroy',
+        ]);
+    });
 });

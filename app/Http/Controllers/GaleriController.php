@@ -9,6 +9,12 @@ use Illuminate\Support\Facades\Storage;
 
 class GaleriController extends Controller
 {
+    public function indexPublic()
+    {
+        $galleries = Galeri::all();
+        return view('galeri.index', compact('galleries')); // folder juga sebaiknya huruf kecil
+    }
+
     /**
      * Display a listing of the resource.
      *
