@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="utf-8">
-    <title>Edit Informasi Kontak - Ramos Badminton Center</title>
+    <title>Tambah Informasi Kontak - Ramos Badminton Center</title>
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <meta content="" name="keywords">
     <meta content="" name="description">
@@ -21,15 +21,15 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
 
     <!-- Libraries Stylesheet -->
-    <link href="{{URL::asset('lib/animate/animate.min.css')}}" rel="stylesheet">
-    <link href="{{URL::asset('lib/owlcarousel/assets/owl.carousel.min.css')}}" rel="stylesheet">
-    <link href="{{URL::asset('lib/tempusdominus/css/tempusdominus-bootstrap-4.min.css')}}" rel="stylesheet" />
+    <link href="<?php echo e(URL::asset('lib/animate/animate.min.css')); ?>" rel="stylesheet">
+    <link href="<?php echo e(URL::asset('lib/owlcarousel/assets/owl.carousel.min.css')); ?>" rel="stylesheet">
+    <link href="<?php echo e(URL::asset('lib/tempusdominus/css/tempusdominus-bootstrap-4.min.css')); ?>" rel="stylesheet" />
 
     <!-- Customized Bootstrap Stylesheet -->
-    <link href="{{URL::asset('css/bootstrap.min.css')}}" rel="stylesheet">
+    <link href="<?php echo e(URL::asset('css/bootstrap.min.css')); ?>" rel="stylesheet">
 
     <!-- Template Stylesheet -->
-    <link href="{{URL::asset('css/style.css')}}" rel="stylesheet">
+    <link href="<?php echo e(URL::asset('css/style.css')); ?>" rel="stylesheet">
 </head>
 
 <body>
@@ -44,15 +44,15 @@
 
 
         <!-- Navbar & Hero Start -->
-        @include('layouts.navbar')
+        <?php echo $__env->make('layouts.navbar', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
         <div class="container-xxl py-5 bg-dark hero-header mb-5">
             <div class="container text-center my-5 pt-5 pb-4">
-                <h1 class="display-3 text-white mb-3 animated slideInDown">Edit Informasi Kontak</h1>
+                <h1 class="display-3 text-white mb-3 animated slideInDown">Tambah Informasi Kontak</h1>
                 <nav aria-label="breadcrumb">
                     <ol class="breadcrumb justify-content-center text-uppercase">
                         <li class="breadcrumb-item"><a href="#">Home</a></li>
                         <li class="breadcrumb-item"><a href="#">Pages</a></li>
-                        <li class="breadcrumb-item text-white active" aria-current="page">Edit Kontak</li>
+                        <li class="breadcrumb-item text-white active" aria-current="page">Tambah Kontak</li>
                     </ol>
                 </nav>
             </div>
@@ -60,58 +60,57 @@
     </div>
         <!-- Navbar & Hero End -->
 
-@section('content')
+<?php $__env->startSection('content'); ?>
 <div class="container-fluid pt-4 px-4">
     <div class="row g-4">
         <div class="col-sm-12 col-xl-12">
             <div class="bg-light rounded h-100 p-4">
-                <h6 class="mb-4">Edit Informasi Kontak</h6>
+                <h6 class="mb-4">Tambah Informasi Kontak Baru</h6>
 
-                @if ($errors->any())
+                <?php if($errors->any()): ?>
                     <div class="alert alert-danger">
                         <strong>Whoops!</strong> Ada beberapa masalah dengan input Anda.<br><br>
                         <ul>
-                            @foreach ($errors->all() as $error)
-                                <li>{{ $error }}</li>
-                            @endforeach
+                            <?php $__currentLoopData = $errors->all(); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $error): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                <li><?php echo e($error); ?></li>
+                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                         </ul>
                     </div>
-                @endif
+                <?php endif; ?>
 
-                <form action="{{ route('admin.contacts.update', $contact->id) }}" method="POST">
-                    @csrf
-                    @method('PUT')
+                <form action="<?php echo e(route('admin.contacts.store')); ?>" method="POST">
+                    <?php echo csrf_field(); ?>
 
                     <div class="mb-3">
                         <label for="phone_number" class="form-label">Nomor Telepon</label>
-                        <input type="text" class="form-control" id="phone_number" name="phone_number" placeholder="Nomor Telepon" value="{{ $contact->phone_number }}">
+                        <input type="text" class="form-control" id="phone_number" name="phone_number" placeholder="Nomor Telepon">
                     </div>
                     <div class="mb-3">
                         <label for="operating_hours" class="form-label">Jam Operasi</label>
-                        <input type="text" class="form-control" id="operating_hours" name="operating_hours" placeholder="Jam Operasi" value="{{ $contact->operating_hours }}">
+                        <input type="text" class="form-control" id="operating_hours" name="operating_hours" placeholder="Jam Operasi">
                     </div>
                     <div class="mb-3">
                         <label for="whatsapp_link" class="form-label">Link WhatsApp</label>
-                        <input type="text" class="form-control" id="whatsapp_link" name="whatsapp_link" placeholder="Link WhatsApp" value="{{ $contact->whatsapp_link }}">
+                        <input type="text" class="form-control" id="whatsapp_link" name="whatsapp_link" placeholder="Link WhatsApp">
                     </div>
                     <div class="mb-3">
                         <label for="instagram_username" class="form-label">Username Instagram</label>
-                        <input type="text" class="form-control" id="instagram_username" name="instagram_username" placeholder="Username Instagram" value="{{ $contact->instagram_username }}">
+                        <input type="text" class="form-control" id="instagram_username" name="instagram_username" placeholder="Username Instagram">
                     </div>
                     <div class="mb-3">
                         <label for="embed_code" class="form-label">Embed Code</label>
-                        <textarea class="form-control" id="embed_code" name="embed_code" rows="3" placeholder="Embed Code">{{ $contact->embed_code }}</textarea>
+                        <textarea class="form-control" id="embed_code" name="embed_code" rows="3" placeholder="Embed Code"></textarea>
                     </div>
 
-                    <button type="submit" class="btn btn-primary">Update</button>
-                    <a href="{{ route('admin.contacts.index') }}" class="btn btn-secondary">Batal</a>
+                    <button type="submit" class="btn btn-primary">Simpan</button>
+                    <a href="<?php echo e(route('admin.contacts.index')); ?>" class="btn btn-secondary">Batal</a>
                 </form>
             </div>
         </div>
     </div>
 </div>
   <!-- Footer Start -->
-  @include('layouts.footer')
+  <?php echo $__env->make('layouts.footer', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
   <!-- Footer End -->
 
 
@@ -122,17 +121,18 @@
 <!-- JavaScript Libraries -->
 <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
-<script src="{{URL::asset('lib/wow/wow.min.js')}}"></script>
-<script src="{{URL::asset('lib/easing/easing.min.js')}}"></script>
-<script src="{{URL::asset('lib/waypoints/waypoints.min.js')}}"></script>
-<script src="{{URL::asset('lib/counterup/counterup.min.js')}}"></script>
-<script src="{{URL::asset('lib/owlcarousel/owl.carousel.min.js')}}"></script>
-<script src="{{URL::asset('lib/tempusdominus/js/moment.min.js')}}"></script>
-<script src="{{URL::asset('lib/tempusdominus/js/moment-timezone.min.js')}}"></script>
-<script src="{{URL::asset('lib/tempusdominus/js/tempusdominus-bootstrap-4.min.js')}}"></script>
+<script src="<?php echo e(URL::asset('lib/wow/wow.min.js')); ?>"></script>
+<script src="<?php echo e(URL::asset('lib/easing/easing.min.js')); ?>"></script>
+<script src="<?php echo e(URL::asset('lib/waypoints/waypoints.min.js')); ?>"></script>
+<script src="<?php echo e(URL::asset('lib/counterup/counterup.min.js')); ?>"></script>
+<script src="<?php echo e(URL::asset('lib/owlcarousel/owl.carousel.min.js')); ?>"></script>
+<script src="<?php echo e(URL::asset('lib/tempusdominus/js/moment.min.js')); ?>"></script>
+<script src="<?php echo e(URL::asset('lib/tempusdominus/js/moment-timezone.min.js')); ?>"></script>
+<script src="<?php echo e(URL::asset('lib/tempusdominus/js/tempusdominus-bootstrap-4.min.js')); ?>"></script>
 
 <!-- Template Javascript -->
-<script src="{{URL::asset('js/main.js')}}"></script>
+<script src="<?php echo e(URL::asset('js/main.js')); ?>"></script>
 </body>
 
 </html>
+<?php /**PATH C:\xampp\htdocs\PA_10\resources\views/admin/contact/create.blade.php ENDPATH**/ ?>

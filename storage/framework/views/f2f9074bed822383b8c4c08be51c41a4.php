@@ -23,15 +23,15 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 
     <!-- Libraries Stylesheet -->
-    <link href="{{ URL::asset('lib/animate/animate.min.css') }}" rel="stylesheet">
-    <link href="{{ URL::asset('lib/owlcarousel/assets/owl.carousel.min.css') }}" rel="stylesheet">
-    <link href="{{ URL::asset('lib/tempusdominus/css/tempusdominus-bootstrap-4.min.css') }}" rel="stylesheet" />
+    <link href="<?php echo e(URL::asset('lib/animate/animate.min.css')); ?>" rel="stylesheet">
+    <link href="<?php echo e(URL::asset('lib/owlcarousel/assets/owl.carousel.min.css')); ?>" rel="stylesheet">
+    <link href="<?php echo e(URL::asset('lib/tempusdominus/css/tempusdominus-bootstrap-4.min.css')); ?>" rel="stylesheet" />
 
     <!-- Customized Bootstrap Stylesheet -->
-    <link href="{{ URL::asset('css/bootstrap.min.css') }}" rel="stylesheet">
+    <link href="<?php echo e(URL::asset('css/bootstrap.min.css')); ?>" rel="stylesheet">
 
     <!-- Template Stylesheet -->
-    <link href="{{ URL::asset('css/style.css') }}" rel="stylesheet">
+    <link href="<?php echo e(URL::asset('css/style.css')); ?>" rel="stylesheet">
 
 </head>
 
@@ -47,7 +47,7 @@
 
 
         <!-- Navbar & Hero Start -->
-        @include('admin.navbar')
+        <?php echo $__env->make('admin.navbar', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
 
             <div class="container-xxl py-5 bg-dark hero-header mb-5">
                 <div class="container my-5 py-5">
@@ -55,10 +55,10 @@
                         <div class="col-lg-6 text-center text-lg-start">
                             <h1 class="display-3 text-white animated slideInLeft">Nikmati Permainan<br>Terbaik di Lapangan Kami</h1>
                             <p class="text-white animated slideInLeft mb-4 pb-2">Rasakan sensasi smash yang kuat, kelincahan di setiap langkah, dan keseruan tanpa batas. Bermainlah di lapangan terbaik dengan fasilitas yang nyaman dan berkualitas tinggi. Ajak teman-temanmu, tantang lawanmu, dan jadilah juara di setiap pertandingan.</p>
-                            <a href="{{ route('reservasi.index') }}" class="btn btn-primary py-sm-3 px-sm-5 me-3 animated slideInLeft">Pesan Lapangan</a>
+                            <a href="<?php echo e(route('reservasi.index')); ?>" class="btn btn-primary py-sm-3 px-sm-5 me-3 animated slideInLeft">Pesan Lapangan</a>
                         </div>
                         <div class="col-lg-6 text-center text-lg-end overflow-hidden">
-                            <img class="img-fluid" src="{{URL::asset('/img/upscalemedia-transformed.png')}}" alt="">
+                            <img class="img-fluid" src="<?php echo e(URL::asset('/img/upscalemedia-transformed.png')); ?>" alt="">
                         </div>
                     </div>
                 </div>
@@ -68,7 +68,7 @@
 
 
         <!-- Footer Start -->
-       @include('layouts.footer')
+       <?php echo $__env->make('layouts.footer', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
         <!-- Footer End -->
 
 
@@ -78,17 +78,18 @@
     <!-- JavaScript Libraries -->
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="{{URL::asset('lib/wow/wow.min.js')}}"></script>
-    <script src="{{URL::asset('lib/easing/easing.min.js')}}"></script>
-    <script src="{{URL::asset('lib/waypoints/waypoints.min.js')}}"></script>
-    <script src="{{URL::asset('lib/counterup/counterup.min.js')}}"></script>
-    <script src="{{URL::asset('lib/owlcarousel/owl.carousel.min.js')}}"></script>
-    <script src="{{URL::asset('lib/tempusdominus/js/moment.min.js')}}"></script>
-    <script src="{{URL::asset('lib/tempusdominus/js/moment-timezone.min.js')}}"></script>
-    <script src="{{URL::asset('lib/tempusdominus/js/tempusdominus-bootstrap-4.min.js')}}"></script>
+    <script src="<?php echo e(URL::asset('lib/wow/wow.min.js')); ?>"></script>
+    <script src="<?php echo e(URL::asset('lib/easing/easing.min.js')); ?>"></script>
+    <script src="<?php echo e(URL::asset('lib/waypoints/waypoints.min.js')); ?>"></script>
+    <script src="<?php echo e(URL::asset('lib/counterup/counterup.min.js')); ?>"></script>
+    <script src="<?php echo e(URL::asset('lib/owlcarousel/owl.carousel.min.js')); ?>"></script>
+    <script src="<?php echo e(URL::asset('lib/tempusdominus/js/moment.min.js')); ?>"></script>
+    <script src="<?php echo e(URL::asset('lib/tempusdominus/js/moment-timezone.min.js')); ?>"></script>
+    <script src="<?php echo e(URL::asset('lib/tempusdominus/js/tempusdominus-bootstrap-4.min.js')); ?>"></script>
 
     <!-- Template Javascript -->
-    <script src="{{URL::asset('js/main.js')}}"></script>
+    <script src="<?php echo e(URL::asset('js/main.js')); ?>"></script>
 </body>
 
 </html>
+<?php /**PATH C:\xampp\htdocs\PA_10\resources\views/admin/dashboard.blade.php ENDPATH**/ ?>

@@ -95,5 +95,26 @@ Route::group(['middleware' => ['auth']], function () {
             'update' => 'admin.testimonials.update',
             'destroy' => 'admin.testimonials.destroy',
         ]);
+
+        // Galeri Routes for Admin
+        Route::resource('galeri', GaleriController::class)->names([
+            'index' => 'admin.galeri.index',
+            'create' => 'admin.galeri.create',
+            'store' => 'admin.galeri.store',
+            'show' => 'admin.galeri.show',
+            'edit' => 'admin.galeri.edit',
+            'update' => 'admin.galeri.update',
+            'destroy' => 'admin.galeri.destroy',
+        ]);
+
+        Route::resource('contacts', ContactController::class)->names([
+            'index' => 'admin.contacts.index',
+            'create' => 'admin.contacts.create',
+            'store' => 'admin.contacts.store',
+            'show' => 'admin.contacts.show',
+            'edit' => 'admin.contacts.edit',
+            'update' => 'admin.contacts.update',
+            'destroy' => 'admin.contacts.destroy',
+        ]);
     });
 });

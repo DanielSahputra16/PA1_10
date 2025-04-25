@@ -2,56 +2,95 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\ContactInfo;
+use App\Models\Contact;
 use Illuminate\Http\Request;
 
 class ContactController extends Controller
 {
+    public function indexPublic()
+    {
+        $contacts = Contact::all();
+        return view('contact.index', compact('contacts'));  // Diubah
+    }
+    /**
+     * Display a listing of the resource.
+     */
     public function index()
     {
-        $contact = ContactInfo::first();
-
-        return view('contact.index', ['contact' => $contact]);
+        $contacts = Contact::all();
+        return view('admin.contact.index', compact('contacts'));  // Diubah
     }
-}
 
-class ContactInfoController extends Controller
-{
-    public function index()
+    /**
+     * Show the form for creating a new resource.
+     */
+    public function create()
     {
-        $contactInfo = ContactInfo::firstOrCreate();  // Lebih ringkas dan efisien
-
-        return view('admin.contact_info.edit', compact('contactInfo'));
+        return view('admin.contact.create');  // Diubah
     }
 
-
-    public function update(Request $request)
+    /**
+     * Store a newly created resource in storage.
+     */
+    public function store(Request $request)
     {
         $request->validate([
-            'phone_number' => 'required|string|max:20',
-            'operational_hours' => 'required|string|max:255',
+            'phone_number' => 'nullable|string|max:255',
+            'operating_hours' => 'nullable|string|max:255',
             'whatsapp_link' => 'nullable|string|max:255',
-            'instagram_username' => 'nullable|string|max:100',
-            'address' => 'required|string|max:255',
-            'latitude' => 'nullable|numeric',
-            'longitude' => 'nullable|numeric',
+            'instagram_username' => 'nullable|string|max:255',
+            'embed_code' => 'nullable|string',
         ]);
 
-        $contactInfo = ContactInfo::firstOrCreate(); // Pastikan selalu ada
+        Contact::create($request->all());
 
-        $contactInfo->fill($request->only([ // Lebih aman dan ringkas
-            'phone_number',
-            'operational_hours',
-            'whatsapp_link',
-            'instagram_username',
-            'address',
-            'latitude',
-            'longitude',
-        ]));
-
-        $contactInfo->save();
-
-        return redirect()->route('admin.contact_info.index')->with('success', 'Contact information updated successfully.');
+        return redirect()->route('admin.contacts.index') // Diubah
+                        ->with('success','Contact created successfully.');
     }
 
+    /**
+     * Display the specified resource.
+     */
+    public function show(Contact $contact)
+    {
+        return view('admin.contact.show',compact('contact')); // Diubah
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     */
+    public function edit(Contact $contact)
+    {
+        return view('admin.contact.edit',compact('contact')); // Diubah
+    }
+
+    /**
+     * Update the specified resource in storage.
+     */
+    public function update(Request $request, Contact $contact)
+    {
+        $request->validate([
+            'phone_number' => 'nullable|string|max:255',
+            'operating_hours' => 'nullable|string|max:255',
+            'whatsapp_link' => 'nullable|string|max:255',
+            'instagram_username' => 'nullable|string|max:255',
+            'embed_code' => 'nullable|string',
+        ]);
+
+        $contact->update($request->all());
+
+        return redirect()->route('admin.contacts.index') // Diubah
+                        ->with('success','Contact updated successfully');
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function destroy(Contact $contact)
+    {
+        $contact->delete();
+
+        return redirect()->route('admin.contacts.index') // Diubah
+                        ->with('success','Contact deleted successfully');
+    }
 }

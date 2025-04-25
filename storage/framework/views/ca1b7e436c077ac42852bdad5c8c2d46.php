@@ -21,15 +21,15 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
 
     <!-- Libraries Stylesheet -->
-    <link href="{{URL::asset('lib/animate/animate.min.css')}}" rel="stylesheet">
-    <link href="{{URL::asset('lib/owlcarousel/assets/owl.carousel.min.css')}}" rel="stylesheet">
-    <link href="{{URL::asset('lib/tempusdominus/css/tempusdominus-bootstrap-4.min.css')}}" rel="stylesheet" />
+    <link href="<?php echo e(URL::asset('lib/animate/animate.min.css')); ?>" rel="stylesheet">
+    <link href="<?php echo e(URL::asset('lib/owlcarousel/assets/owl.carousel.min.css')); ?>" rel="stylesheet">
+    <link href="<?php echo e(URL::asset('lib/tempusdominus/css/tempusdominus-bootstrap-4.min.css')); ?>" rel="stylesheet" />
 
     <!-- Customized Bootstrap Stylesheet -->
-    <link href="{{URL::asset('css/bootstrap.min.css')}}" rel="stylesheet">
+    <link href="<?php echo e(URL::asset('css/bootstrap.min.css')); ?>" rel="stylesheet">
 
     <!-- Template Stylesheet -->
-    <link href="{{URL::asset('css/style.css')}}" rel="stylesheet">
+    <link href="<?php echo e(URL::asset('css/style.css')); ?>" rel="stylesheet">
 </head>
 
 <body>
@@ -44,7 +44,7 @@
 
 
         <!-- Navbar & Hero Start -->
-        @include('layouts.navbar')
+        <?php echo $__env->make('layouts.navbar', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
         <div class="container-xxl py-5 bg-dark hero-header mb-5">
             <div class="container text-center my-5 pt-5 pb-4">
                 <h1 class="display-3 text-white mb-3 animated slideInDown">Informasi Kontak</h1>
@@ -60,12 +60,12 @@
     </div>
         <!-- Navbar & Hero End -->
 
-@section('content')
+<?php $__env->startSection('content'); ?>
     <div class="container-fluid pt-4 px-4">
         <div class="row g-4">
             <div class="col-sm-12 col-xl-12">
                 <div class="wow fadeInUp" data-wow-delay="0.1s">
-                    <a href="{{ route('admin.contacts.create') }}" class="btn btn-primary mb-3">Tambah Informasi Kontak Baru</a>
+                    <a href="<?php echo e(route('admin.contacts.create')); ?>" class="btn btn-primary mb-3">Tambah Informasi Kontak Baru</a>
 
                     <div class="table-responsive">
                         <table class="table table-striped table-bordered table-hover align-middle">  <!-- Tambahkan class align-middle -->
@@ -81,34 +81,34 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @forelse($contacts as $contact)  <!-- Ubah foreach menjadi forelse -->
+                                <?php $__empty_1 = true; $__currentLoopData = $contacts; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $contact): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>  <!-- Ubah foreach menjadi forelse -->
                                     <tr>
-                                        <th scope="row">{{ $contact->id }}</th>
-                                        <td>{{ $contact->phone_number }}</td>
-                                        <td>{{ $contact->operating_hours }}</td>
-                                        <td>{{ $contact->whatsapp_link }}</td>
-                                        <td>{{ $contact->instagram_username }}</td>
-                                        <td>{{ $contact->embed_code }}</td>
+                                        <th scope="row"><?php echo e($contact->id); ?></th>
+                                        <td><?php echo e($contact->phone_number); ?></td>
+                                        <td><?php echo e($contact->operating_hours); ?></td>
+                                        <td><?php echo e($contact->whatsapp_link); ?></td>
+                                        <td><?php echo e($contact->instagram_username); ?></td>
+                                        <td><?php echo e($contact->embed_code); ?></td>
                                         <td class="text-center"> <!-- Tambahkan class text-center -->
-                                            <a href="{{ route('admin.contacts.edit', $contact->id) }}" class="btn btn-sm btn-warning me-1" title="Edit">  <!-- Ubah btn-primary menjadi btn-warning dan tambahkan me-1-->
+                                            <a href="<?php echo e(route('admin.contacts.edit', $contact->id)); ?>" class="btn btn-sm btn-warning me-1" title="Edit">  <!-- Ubah btn-primary menjadi btn-warning dan tambahkan me-1-->
                                                 <i class="fas fa-edit"></i>  <!-- Tambahkan icon -->
                                             </a>
-                                            <form action="{{ route('admin.contacts.destroy', $contact->id) }}" method="POST" class="d-inline" onsubmit="return confirm('Apakah Anda yakin ingin menghapus informasi kontak ini?')">  <!-- Tambahkan class d-inline -->
-                                                @csrf
-                                                @method('DELETE')
+                                            <form action="<?php echo e(route('admin.contacts.destroy', $contact->id)); ?>" method="POST" class="d-inline" onsubmit="return confirm('Apakah Anda yakin ingin menghapus informasi kontak ini?')">  <!-- Tambahkan class d-inline -->
+                                                <?php echo csrf_field(); ?>
+                                                <?php echo method_field('DELETE'); ?>
                                                 <button type="submit" class="btn btn-sm btn-danger" title="Hapus"> <!-- Tambahkan title -->
                                                     <i class="fas fa-trash-alt"></i> <!-- Tambahkan icon -->
                                                 </button>
                                             </form>
                                         </td>
                                     </tr>
-                                @empty  <!-- Tambahkan bagian empty -->
+                                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?>  <!-- Tambahkan bagian empty -->
                                     <tr>
                                         <td colspan="7" class="text-center py-4">
                                             <i class="fas fa-info-circle me-2"></i> Tidak ada informasi kontak ditemukan.</i>
                                         </td>
                                     </tr>
-                                @endforelse  <!-- Ubah endforeach menjadi endforelse -->
+                                <?php endif; ?>  <!-- Ubah endforeach menjadi endforelse -->
                             </tbody>
                         </table>
                     </div>
@@ -117,7 +117,7 @@
         </div>
     </div>
   <!-- Footer Start -->
-  @include('layouts.footer')
+  <?php echo $__env->make('layouts.footer', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
   <!-- Footer End -->
 
 
@@ -128,17 +128,18 @@
 <!-- JavaScript Libraries -->
 <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
-<script src="{{URL::asset('lib/wow/wow.min.js')}}"></script>
-<script src="{{URL::asset('lib/easing/easing.min.js')}}"></script>
-<script src="{{URL::asset('lib/waypoints/waypoints.min.js')}}"></script>
-<script src="{{URL::asset('lib/counterup/counterup.min.js')}}"></script>
-<script src="{{URL::asset('lib/owlcarousel/owl.carousel.min.js')}}"></script>
-<script src="{{URL::asset('lib/tempusdominus/js/moment.min.js')}}"></script>
-<script src="{{URL::asset('lib/tempusdominus/js/moment-timezone.min.js')}}"></script>
-<script src="{{URL::asset('lib/tempusdominus/js/tempusdominus-bootstrap-4.min.js')}}"></script>
+<script src="<?php echo e(URL::asset('lib/wow/wow.min.js')); ?>"></script>
+<script src="<?php echo e(URL::asset('lib/easing/easing.min.js')); ?>"></script>
+<script src="<?php echo e(URL::asset('lib/waypoints/waypoints.min.js')); ?>"></script>
+<script src="<?php echo e(URL::asset('lib/counterup/counterup.min.js')); ?>"></script>
+<script src="<?php echo e(URL::asset('lib/owlcarousel/owl.carousel.min.js')); ?>"></script>
+<script src="<?php echo e(URL::asset('lib/tempusdominus/js/moment.min.js')); ?>"></script>
+<script src="<?php echo e(URL::asset('lib/tempusdominus/js/moment-timezone.min.js')); ?>"></script>
+<script src="<?php echo e(URL::asset('lib/tempusdominus/js/tempusdominus-bootstrap-4.min.js')); ?>"></script>
 
 <!-- Template Javascript -->
-<script src="{{URL::asset('js/main.js')}}"></script>
+<script src="<?php echo e(URL::asset('js/main.js')); ?>"></script>
 </body>
 
 </html>
+<?php /**PATH C:\xampp\htdocs\PA_10\resources\views/admin/contact/index.blade.php ENDPATH**/ ?>
