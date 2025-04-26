@@ -64,9 +64,10 @@
     <div class="container-fluid pt-4 px-4">
         <div class="row g-4">
             <div class="col-sm-12 col-xl-12">
-                <div class="wow fadeInUp" data-wow-delay="0.1s">
+                <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
+                    <h4 class="section-title ff-secondary text-center text-primary fw-normal">Daftar Galeri</h4>
+                </div>
                     <a href="<?php echo e(route('admin.galeri.create')); ?>" class="btn btn-primary mb-3">Tambah Gambar Baru</a>
-
                     <div class="table-responsive">
                         <table class="table table-striped table-bordered table-hover align-middle">  <!-- Tambahkan class align-middle -->
                             <thead class="table-dark"> <!-- Tambahkan class table-dark -->

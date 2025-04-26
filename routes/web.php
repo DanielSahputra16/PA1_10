@@ -37,7 +37,7 @@ Route::post('/login', [AuthController::class, 'login'])->name('login');
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 // Public Routes
-Route::get('/about', [AboutController::class, 'indexPublic'])->name('about.index'); // Perbaikan di sini!
+Route::get('/Aboutpublic', [AboutController::class, 'indexPublic'])->name('About.index'); // Perbaikan di sini!
 Route::get('/booking', [BookingController::class, 'Booking'])->name('Booking');
 Route::get('/galeripublic', [GaleriController::class, 'indexPublic'])->name('galeri.index');
 Route::get('/menu', [MenuController::class, 'Menu'])->name('Menu');
@@ -97,17 +97,6 @@ Route::group(['middleware' => ['auth']], function () {
             'destroy' => 'admin.testimonials.destroy',
         ]);
 
-        // Galeri Routes for Admin
-        Route::resource('galeri', GaleriController::class)->names([
-            'index' => 'admin.galeri.index',
-            'create' => 'admin.galeri.create',
-            'store' => 'admin.galeri.store',
-            'show' => 'admin.galeri.show',
-            'edit' => 'admin.galeri.edit',
-            'update' => 'admin.galeri.update',
-            'destroy' => 'admin.galeri.destroy',
-        ]);
-
         Route::resource('contacts', ContactController::class)->names([
             'index' => 'admin.contacts.index',
             'create' => 'admin.contacts.create',
@@ -119,14 +108,14 @@ Route::group(['middleware' => ['auth']], function () {
         ]);
 
         // Rute CRUD About untuk Admin
-        Route::resource('admin/abouts', AboutController::class)->names([
-            'index' => 'admin.abouts.index',
-            'create' => 'admin.abouts.create',
-            'store' => 'admin.abouts.store',
-            'show' => 'admin.abouts.show',
-            'edit' => 'admin.abouts.edit',
-            'update' => 'admin.abouts.update',
-            'destroy' => 'admin.abouts.destroy',
+        Route::resource('admin/About', AboutController::class)->names([
+            'index' => 'admin.About.index',
+            'create' => 'admin.About.create',
+            'store' => 'admin.About.store',
+            'show' => 'admin.About.show',
+            'edit' => 'admin.About.edit',
+            'update' => 'admin.About.update',
+            'destroy' => 'admin.About.destroy',
         ]);
     });
 });

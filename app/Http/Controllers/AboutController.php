@@ -12,12 +12,22 @@ class AboutController extends Controller
     /**
      * Display a listing of the resource for the admin side.
      */
-    public function indexpublic()
+    public function indexPublic()
     {
-        $Abouts = About::all();
-        return view('admin.About.index', compact('Abouts'));
+        $abouts = About::all();
+        return view('About.index', compact('abouts'));
     }
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
 
+    public function index()
+    {
+        $abouts = About::all();
+        return view('admin.About.index', compact('abouts'));
+    }
     /**
      * Show the form for creating a new resource.
      */
@@ -32,7 +42,7 @@ class AboutController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'judul' => 'required|unique:Abouts,judul', // Tambahkan validasi unique (opsional)
+            'judul' => 'required|unique:abouts,judul', // Tambahkan validasi unique (opsional)
             'deskripsi' => 'required',
             'gambar' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
@@ -40,39 +50,39 @@ class AboutController extends Controller
         $input = $request->all();
 
         if ($request->hasFile('gambar')) {
-            $gambarPath = $request->file('gambar')->store('images/About', 'public');
+            $gambarPath = $request->file('gambar')->store('images/abouts', 'public');
             $input['gambar'] = $gambarPath;
         }
 
         About::create($input);
 
-        return redirect()->route('admin.About.index')
+        return redirect()->route('admin.abouts.index')
             ->with('success', 'About created successfully.');
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(About $About)
+    public function show(About $about)
     {
-        return view('admin.About.show', compact('About'));
+        return view('admin.About.show', compact('about')); // Perbaiki: menggunakan $about
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(About $About)
+    public function edit(About $about)
     {
-        return view('admin.About.edit', compact('About'));
+        return view('admin.About.edit', compact('about')); // Perbaiki: menggunakan $about
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, About $About)
+    public function update(Request $request, About $about)
     {
         $request->validate([
-            'judul' => 'required|unique:Abouts,judul,' . $About->id, // Tambahkan validasi unique (opsional)
+            'judul' => 'required|unique:abouts,judul,' . $about->id, // Tambahkan validasi unique (opsional)
             'deskripsi' => 'required',
             'gambar' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
@@ -80,35 +90,35 @@ class AboutController extends Controller
         $input = $request->all();
 
         if ($request->hasFile('gambar')) {
-            if ($About->gambar) {
-                Storage::disk('public')->delete($About->gambar);
+            if ($about->gambar) {
+                Storage::disk('public')->delete($about->gambar);
             }
 
-            $gambarPath = $request->file('gambar')->store('images/About', 'public');
+            $gambarPath = $request->file('gambar')->store('images/abouts', 'public');
             $input['gambar'] = $gambarPath;
         } else {
             unset($input['gambar']);
         }
 
-        $About->update($input);
+        $about->update($input); // Perbaiki: menggunakan $about
 
-        return redirect()->route('admin.Abouts.index')
+        return redirect()->route('admin.abouts.index')
             ->with('success', 'About updated successfully');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(About $About)
+    public function destroy(About $about)
     {
         DB::beginTransaction(); // Mulai transaksi
 
         try {
-            if ($About->gambar) {
-                Storage::disk('public')->delete($About->gambar);
+            if ($about->gambar) {
+                Storage::disk('public')->delete($about->gambar);
             }
 
-            $About->delete();
+            $about->delete();
 
             DB::commit(); // Commit transaksi
         } catch (\Exception $e) {
@@ -116,7 +126,7 @@ class AboutController extends Controller
             throw $e; // Re-throw exception untuk penanganan lebih lanjut
         }
 
-        return redirect()->route('admin.Abouts.index')
+        return redirect()->route('admin.abouts.index')
             ->with('success', 'About deleted successfully.');
     }
 }
