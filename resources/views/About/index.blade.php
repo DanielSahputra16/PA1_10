@@ -66,6 +66,23 @@
                 <div class="row g-5 align-items-center">
                     <div class="col-lg-6">
                         <div class="row g-3">
+                            <div class="row g-4">
+                                @forelse($Abouts as $about)
+                                <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12 wow fadeInUp gallery-item" data-wow-delay="{{ ($loop->index % 4) * 0.2 + 0.1 }}s">
+                                    <div class="service-item rounded">
+                                        <img class="img-fluid" src="{{ Storage::url('images/about/' . $about->image_path) }}" alt="{{ $about->title }}" onclick="openModal('{{ Storage::url('images/about/' . $about->image_path) }}', '{{ $about->title }}', '{{ $about->description }}')">
+                                        <div class="overlay">
+                                            <h5>{{ $about->title }}</h5>
+                                            <p>{{ Str::limit($about->description, 50, '...') }}</p> <!-- Batasi deskripsi -->
+                                        </div>
+                                    </div>
+                                </div>
+                                @empty
+                                <div class="col-12 text-center">
+                                    <p>Tidak ada gambar di about saat ini.</p>
+                                </div>
+                                @endforelse
+                            </div>
                             <div class="col-6 text-start">
                                 <img class="img-fluid rounded w-90 wow zoomIn" data-wow-delay="0.1s" src="{{URL::asset('img/about1.jpeg')}}">
                             </div>

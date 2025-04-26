@@ -1,68 +1,49 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Laravel CRUD About</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
-</head>
-<body>
+@extends('layouts.app')
 
-<div class="container">
-    <div class="row">
-        <div class="col-lg-12 margin-tb">
-            <div class="pull-left">
-                <h2>Laravel CRUD About</h2>
+@section('content')
+    <div class="container">
+        <h2>Daftar About</h2>
+        <a href="{{ route('admin.abouts.create') }}" class="btn btn-primary mb-3">Tambah About</a>
+
+        @if ($message = Session::get('success'))
+            <div class="alert alert-success">
+                <p>{{ $message }}</p>
             </div>
-            <div class="pull-right">
-                <a class="btn btn-success" href="{{ route('abouts.create') }}"> Create New About</a>
-            </div>
-        </div>
+        @endif
+
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Judul</th>
+                    <th>Deskripsi</th>
+                    <th>Gambar</th>
+                    <th>Aksi</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach ($Abouts as $about)
+                    <tr>
+                        <td>{{ $about->judul }}</td>
+                        <td>{{ $about->deskripsi }}</td>
+                        <td>
+                            @if($about->gambar)
+                                <img src="{{ asset('storage/' . $about->gambar) }}" alt="{{ $about->judul }}" width="100">
+                            @else
+                                Tidak Ada Gambar
+                            @endif
+                        </td>
+                        <td>
+                            <a href="{{ route('admin.abouts.show', $about->id) }}" class="btn btn-info btn-sm">Lihat</a>
+                            <a href="{{ route('admin.abouts.edit', $about->id) }}" class="btn btn-primary btn-sm">Edit</a>
+                            <form action="{{ route('admin.abouts.destroy', $about->id) }}" method="POST" style="display: inline;">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Apakah Anda yakin ingin menghapus?')">Hapus</button>
+                            </form>
+                        </td>
+                    </tr>
+                @endforeach
+            </tbody>
+        </table>
     </div>
-
-    @if ($message = Session::get('success'))
-        <div class="alert alert-success">
-            <p>{{ $message }}</p>
-        </div>
-    @endif
-
-    <table class="table table-bordered">
-        <tr>
-            <th>ID</th>
-            <th>Title</th>
-            <th>Content</th>
-            <th>Image</th>
-            <th width="280px">Action</th>
-        </tr>
-        @foreach ($abouts as $about)
-        <tr>
-            <td>{{ $about->id }}</td>
-            <td>{{ $about->title }}</td>
-            <td>{{ Str::limit($about->content, 100) }}</td>
-            <td>
-                @if($about->image)
-                    <img src="{{ asset('storage/abouts/' . $about->image) }}" alt="{{ $about->title }}" width="100">
-                @else
-                    No Image
-                @endif
-            </td>
-            <td>
-                <form action="{{ route('abouts.destroy',$about->id) }}" method="POST">
-
-                    <a class="btn btn-info" href="{{ route('abouts.show',$about->id) }}">Show</a>
-
-                    <a class="btn btn-primary" href="{{ route('abouts.edit',$about->id) }}">Edit</a>
-
-                    @csrf
-                    @method('DELETE')
-
-                    <button type="submit" class="btn btn-danger">Delete</button>
-                </form>
-            </td>
-        </tr>
-        @endforeach
-    </table>
-
-
-</div>
-
-</body>
-</html>
+@endsection

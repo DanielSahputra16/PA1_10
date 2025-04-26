@@ -1,10 +1,8 @@
-@extends('layouts.app')
-
-@section('content')
+<?php $__env->startSection('content'); ?>
     <div class="container">
         <h2>Tambah About</h2>
-        <form action="{{ route('admin.abouts.store') }}" method="POST" enctype="multipart/form-data">
-            @csrf
+        <form action="<?php echo e(route('admin.abouts.store')); ?>" method="POST" enctype="multipart/form-data">
+            <?php echo csrf_field(); ?>
             <div class="mb-3">
                 <label for="judul" class="form-label">Judul:</label>
                 <input type="text" class="form-control" id="judul" name="judul" required>
@@ -18,7 +16,9 @@
                 <input type="file" class="form-control" id="gambar" name="gambar">
             </div>
             <button type="submit" class="btn btn-primary">Simpan</button>
-            <a href="{{ route('admin.abouts.index') }}" class="btn btn-secondary">Batal</a>
+            <a href="<?php echo e(route('admin.abouts.index')); ?>" class="btn btn-secondary">Batal</a>
         </form>
     </div>
-@endsection
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('layouts.app', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\xampp\htdocs\PA_10\resources\views/admin/About/create.blade.php ENDPATH**/ ?>

@@ -37,7 +37,7 @@ Route::post('/login', [AuthController::class, 'login'])->name('login');
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 // Public Routes
-Route::get('/about', [AboutController::class, 'About'])->name('About');
+Route::get('/about', [AboutController::class, 'indexPublic'])->name('about.index'); // Perbaikan di sini!
 Route::get('/booking', [BookingController::class, 'Booking'])->name('Booking');
 Route::get('/galeripublic', [GaleriController::class, 'indexPublic'])->name('galeri.index');
 Route::get('/menu', [MenuController::class, 'Menu'])->name('Menu');
@@ -117,10 +117,16 @@ Route::group(['middleware' => ['auth']], function () {
             'update' => 'admin.contacts.update',
             'destroy' => 'admin.contacts.destroy',
         ]);
+
+        // Rute CRUD About untuk Admin
+        Route::resource('admin/abouts', AboutController::class)->names([
+            'index' => 'admin.abouts.index',
+            'create' => 'admin.abouts.create',
+            'store' => 'admin.abouts.store',
+            'show' => 'admin.abouts.show',
+            'edit' => 'admin.abouts.edit',
+            'update' => 'admin.abouts.update',
+            'destroy' => 'admin.abouts.destroy',
+        ]);
     });
 });
-
-
-Route::resource('informasi-lapangans', InformasiLapanganController::class);
-
-
