@@ -78,7 +78,7 @@
                     </div>
                 @endif
 
-                <form action="{{ route('admin.contacts.store') }}" method="POST">
+                <form action="{{ route('admin.contact.store') }}" method="POST">
                     @csrf
 
                     <div class="mb-3">
@@ -103,7 +103,7 @@
                     </div>
 
                     <button type="submit" class="btn btn-primary">Simpan</button>
-                    <a href="{{ route('admin.contacts.index') }}" class="btn btn-secondary">Batal</a>
+                    <a href="{{ route('admin.contact.index') }}" class="btn btn-secondary">Batal</a>
                 </form>
             </div>
         </div>

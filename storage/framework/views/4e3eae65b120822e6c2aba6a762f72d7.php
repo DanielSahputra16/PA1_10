@@ -29,9 +29,7 @@
             <!-- Authentication Links -->
             <?php if(auth()->guard()->guest()): ?>
                 <a href="<?php echo e(route('showLoginForm')); ?>" class="nav-item nav-link">Login</a>
-                <?php if(Route::has('register')): ?>
-                    <a class="nav-item nav-link" href="<?php echo e(route('register')); ?>"><?php echo e(__('Register')); ?></a>
-                <?php endif; ?>
+               
             <?php else: ?>
                 <div class="nav-item dropdown">
                     <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>

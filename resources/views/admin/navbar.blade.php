@@ -22,7 +22,7 @@
                 <a href="{{ route('admin.galeri.index') }}" class="nav-item nav-link">Galeri</a>
                 <a href="{{ route('reservasi.index') }}" class="nav-item nav-link">Pemesanan Lapangan</a>
                 <a href="/testimonialspublic" class="nav-item nav-link">Testimonial</a>
-                <a href="{{ route('admin.contacts.index') }}" class="nav-item nav-link">Contact</a>
+                <a href="{{ route('admin.Contact.index') }}" class="nav-item nav-link">Contact</a>
             </div>
         </div>
 

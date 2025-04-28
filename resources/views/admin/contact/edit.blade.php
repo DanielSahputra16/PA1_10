@@ -78,7 +78,7 @@
                     </div>
                 @endif
 
-                <form action="{{ route('admin.contacts.update', $contact->id) }}" method="POST">
+                <form action="{{ route('admin.contact.update', $contact->id) }}" method="POST">
                     @csrf
                     @method('PUT')
 
@@ -104,7 +104,7 @@
                     </div>
 
                     <button type="submit" class="btn btn-primary">Update</button>
-                    <a href="{{ route('admin.contacts.index') }}" class="btn btn-secondary">Batal</a>
+                    <a href="{{ route('admin.contact.index') }}" class="btn btn-secondary">Batal</a>
                 </form>
             </div>
         </div>

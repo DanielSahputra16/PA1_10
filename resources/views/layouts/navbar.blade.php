@@ -29,9 +29,7 @@
             <!-- Authentication Links -->
             @guest
                 <a href="{{ route('showLoginForm') }}" class="nav-item nav-link">Login</a>
-                @if (Route::has('register'))
-                    <a class="nav-item nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
-                @endif
+               
             @else
                 <div class="nav-item dropdown">
                     <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>

@@ -7,31 +7,32 @@ use Illuminate\Http\Request;
 
 class ContactController extends Controller
 {
+    // Menampilkan daftar kontak di frontend
     public function indexPublic()
     {
         $contacts = Contact::all();
-        return view('contact.index', compact('contacts'));  // Diubah
+        return view('Contact.index', compact('contacts'));
     }
     /**
      * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
      */
+
+    // Menampilkan daftar kontak di admin
     public function index()
     {
         $contacts = Contact::all();
-        return view('admin.contact.index', compact('contacts'));  // Diubah
+        return view('admin.contact.index', compact('contacts'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
+    // Menampilkan form untuk membuat kontak baru di admin
     public function create()
     {
-        return view('admin.contact.create');  // Diubah
+        return view('admin.contact.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
+    // Menyimpan kontak baru di admin
     public function store(Request $request)
     {
         $request->validate([
@@ -44,29 +45,23 @@ class ContactController extends Controller
 
         Contact::create($request->all());
 
-        return redirect()->route('admin.contacts.index') // Diubah
-                        ->with('success','Contact created successfully.');
+        return redirect()->route('admin.contact.index')
+                         ->with('success','Contact created successfully.');
     }
 
-    /**
-     * Display the specified resource.
-     */
+    // Menampilkan detail kontak di admin
     public function show(Contact $contact)
     {
-        return view('admin.contact.show',compact('contact')); // Diubah
+        return view('admin.contact.show', compact('contact'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
+    // Menampilkan form untuk mengedit kontak di admin
     public function edit(Contact $contact)
     {
-        return view('admin.contact.edit',compact('contact')); // Diubah
+        return view('admin.contact.edit', compact('contact'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
+    // Memperbarui kontak di admin
     public function update(Request $request, Contact $contact)
     {
         $request->validate([
@@ -79,18 +74,16 @@ class ContactController extends Controller
 
         $contact->update($request->all());
 
-        return redirect()->route('admin.contacts.index') // Diubah
-                        ->with('success','Contact updated successfully');
+        return redirect()->route('admin.contact.index')
+                         ->with('success','Contact updated successfully.');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
+    // Menghapus kontak di admin
     public function destroy(Contact $contact)
     {
         $contact->delete();
 
-        return redirect()->route('admin.contacts.index') // Diubah
-                        ->with('success','Contact deleted successfully');
+        return redirect()->route('admin.contact.index')
+                         ->with('success','Contact deleted successfully.');
     }
 }

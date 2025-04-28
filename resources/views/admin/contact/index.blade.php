@@ -65,7 +65,7 @@
         <div class="row g-4">
             <div class="col-sm-12 col-xl-12">
                 <div class="wow fadeInUp" data-wow-delay="0.1s">
-                    <a href="{{ route('admin.contacts.create') }}" class="btn btn-primary mb-3">Tambah Informasi Kontak Baru</a>
+                    <a href="{{ route('admin.contact.create') }}" class="btn btn-primary mb-3">Tambah Informasi Kontak Baru</a>
 
                     <div class="table-responsive">
                         <table class="table table-striped table-bordered table-hover align-middle">  <!-- Tambahkan class align-middle -->
@@ -90,10 +90,10 @@
                                         <td>{{ $contact->instagram_username }}</td>
                                         <td>{{ $contact->embed_code }}</td>
                                         <td class="text-center"> <!-- Tambahkan class text-center -->
-                                            <a href="{{ route('admin.contacts.edit', $contact->id) }}" class="btn btn-sm btn-warning me-1" title="Edit">  <!-- Ubah btn-primary menjadi btn-warning dan tambahkan me-1-->
+                                            <a href="{{ route('admin.contact.edit', $contact->id) }}" class="btn btn-sm btn-warning me-1" title="Edit">  <!-- Ubah btn-primary menjadi btn-warning dan tambahkan me-1-->
                                                 <i class="fas fa-edit"></i>  <!-- Tambahkan icon -->
                                             </a>
-                                            <form action="{{ route('admin.contacts.destroy', $contact->id) }}" method="POST" class="d-inline" onsubmit="return confirm('Apakah Anda yakin ingin menghapus informasi kontak ini?')">  <!-- Tambahkan class d-inline -->
+                                            <form action="{{ route('admin.contact.destroy', $contact->id) }}" method="POST" class="d-inline" onsubmit="return confirm('Apakah Anda yakin ingin menghapus informasi kontak ini?')">  <!-- Tambahkan class d-inline -->
                                                 @csrf
                                                 @method('DELETE')
                                                 <button type="submit" class="btn btn-sm btn-danger" title="Hapus"> <!-- Tambahkan title -->

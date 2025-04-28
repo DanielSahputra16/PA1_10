@@ -42,13 +42,10 @@ Route::get('/booking', [BookingController::class, 'Booking'])->name('Booking');
 Route::get('/galeripublic', [GaleriController::class, 'indexPublic'])->name('galeri.index');
 Route::get('/menu', [MenuController::class, 'Menu'])->name('Menu');
 Route::get('/testimonialspublic', [TestimonialController::class, 'index'])->name('testimonials.index');
-Route::get('/contact', [ContactController::class, 'Contact'])->name('Contact');
 Route::get('/jadwal', [ScheduleController::class, 'index'])->name('jadwal.index');
 
-// Contact Routes
-Route::get('/contact', [ContactController::class, 'index'])->name('Contact.index');  // Frontend
-Route::get('/admin/contact-info', [Admin\ContactInfoController::class, 'index'])->name('admin.contact_info.index');
-Route::put('/admin/contact-info', [Admin\ContactInfoController::class, 'update'])->name('admin.contact_info.update');
+// Contact Routes (Frontend - Jika Diperlukan)
+Route::get('/Contactpublic', [ContactController::class, 'indexPublic'])->name('Contact.index'); // Frontend
 
 // Reservasi Routes
 Route::get('/reservasi', [ReservasiController::class, 'index'])->name('reservasi.index');
@@ -97,14 +94,14 @@ Route::group(['middleware' => ['auth']], function () {
             'destroy' => 'admin.testimonials.destroy',
         ]);
 
-        Route::resource('contacts', ContactController::class)->names([
-            'index' => 'admin.contacts.index',
-            'create' => 'admin.contacts.create',
-            'store' => 'admin.contacts.store',
-            'show' => 'admin.contacts.show',
-            'edit' => 'admin.contacts.edit',
-            'update' => 'admin.contacts.update',
-            'destroy' => 'admin.contacts.destroy',
+        Route::resource('contact', ContactController::class)->names([
+            'index' => 'admin.contact.index',
+            'create' => 'admin.contact.create',
+            'store' => 'admin.contact.store',
+            'show' => 'admin.contact.show',
+            'edit' => 'admin.contact.edit',
+            'update' => 'admin.contact.update',
+            'destroy' => 'admin.contact.destroy',
         ]);
 
         // Rute CRUD About untuk Admin
