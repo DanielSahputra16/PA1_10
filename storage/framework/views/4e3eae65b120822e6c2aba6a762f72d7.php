@@ -15,7 +15,7 @@
                     <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">About</a>
                     <div class="dropdown-menu">
                         <a href="<?php echo e(route('About.index')); ?>" class="dropdown-item">Informasi Lapangan</a>
-                        <a href="<?php echo e(route('Menu')); ?>" class="dropdown-item">Daftar Peralatan</a>
+                        <a href="<?php echo e(route('Menu.index')); ?>" class="dropdown-item">Daftar Peralatan</a>
                         <a href="<?php echo e(route('jadwal.index')); ?>" class="dropdown-item">Ketersediaan Lapangan</a>
                     </div>
                 </div>
@@ -29,7 +29,7 @@
             <!-- Authentication Links -->
             <?php if(auth()->guard()->guest()): ?>
                 <a href="<?php echo e(route('showLoginForm')); ?>" class="nav-item nav-link">Login</a>
-               
+
             <?php else: ?>
                 <div class="nav-item dropdown">
                     <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>

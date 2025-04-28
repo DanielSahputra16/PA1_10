@@ -15,14 +15,14 @@
                     <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">About</a>
                     <div class="dropdown-menu">
                         <a href="{{ route('admin.About.index') }}" class="dropdown-item">Informasi Lapangan</a>
-                        <a href="{{ route('Menu') }}" class="dropdown-item">Daftar Peralatan</a>
+                        <a href="{{ route('admin.Menu.index') }}" class="dropdown-item">Daftar Peralatan</a>
                         <a href="{{ route('jadwal.index')}}" class="dropdown-item">Ketersediaan Lapangan</a>
                     </div>
                 </div>
                 <a href="{{ route('admin.galeri.index') }}" class="nav-item nav-link">Galeri</a>
                 <a href="{{ route('reservasi.index') }}" class="nav-item nav-link">Pemesanan Lapangan</a>
                 <a href="/testimonialspublic" class="nav-item nav-link">Testimonial</a>
-                <a href="{{ route('admin.Contact.index') }}" class="nav-item nav-link">Contact</a>
+                <a href="{{ route('admin.contact.index') }}" class="nav-item nav-link">Contact</a>
             </div>
         </div>
 

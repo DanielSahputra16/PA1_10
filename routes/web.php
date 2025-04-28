@@ -3,7 +3,6 @@
 use App\Http\Controllers\AboutController;
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\AuthController;
-use App\Http\Controllers\BookingController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\GaleriController;
 use App\Http\Controllers\MenuController;
@@ -11,7 +10,6 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ReservasiController;
 use App\Http\Controllers\ScheduleController;
 use App\Http\Controllers\TestimonialController;
-use App\Http\Controllers\InformasiLapanganController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -40,7 +38,7 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 Route::get('/Aboutpublic', [AboutController::class, 'indexPublic'])->name('About.index'); // Perbaikan di sini!
 Route::get('/booking', [BookingController::class, 'Booking'])->name('Booking');
 Route::get('/galeripublic', [GaleriController::class, 'indexPublic'])->name('galeri.index');
-Route::get('/menu', [MenuController::class, 'Menu'])->name('Menu');
+Route::get('/menupublic', [MenuController::class, 'index.public'])->name('Menu.index');
 Route::get('/testimonialspublic', [TestimonialController::class, 'index'])->name('testimonials.index');
 Route::get('/jadwal', [ScheduleController::class, 'index'])->name('jadwal.index');
 
@@ -113,6 +111,17 @@ Route::group(['middleware' => ['auth']], function () {
             'edit' => 'admin.About.edit',
             'update' => 'admin.About.update',
             'destroy' => 'admin.About.destroy',
+        ]);
+
+        // Rute CRUD About untuk Admin
+        Route::resource('admin/Menu', MenuController::class)->names([
+            'index' => 'admin.Menu.index',
+            'create' => 'admin.Menu.create',
+            'store' => 'admin.Menu.store',
+            'show' => 'admin.Menu.show',
+            'edit' => 'admin.Menu.edit',
+            'update' => 'admin.Menu.update',
+            'destroy' => 'admin.Menu.destroy',
         ]);
     });
 });
