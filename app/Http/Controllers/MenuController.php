@@ -8,10 +8,10 @@ use Illuminate\Support\Facades\Storage; // Import Storage facade
 
 class MenuController extends Controller
 {
-    public function indexPublic()
+        public function indexPublic()
     {
-        $menus = Menu::all();
-        return view('Menu.index', compact('menus')); // folder juga sebaiknya huruf kecil
+        $menu = Menu::all();
+        return view('Menu.index', compact('menu')); // Perbaikan!
     }
 
     /**
@@ -21,8 +21,8 @@ class MenuController extends Controller
      */
     public function index()
     {
-        $menus = Menu::all();
-        return view('admin.Menu.index', compact('menus'));
+        $menu = Menu::all();
+        return view('admin.Menu.index', compact('menu')); // Perbaikan!
     }
 
     /**
@@ -39,8 +39,8 @@ class MenuController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'judul' => 'required',
-            'deskripsi' => 'required',
+            'judul' => 'required|string|max:255', //Tambahkan Validasi String
+            'deskripsi' => 'required|string', //Tambahkan Validasi String
             'gambar' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048', // Validasi gambar
         ]);
 
@@ -49,7 +49,7 @@ class MenuController extends Controller
         if ($request->hasFile('gambar')) {
             $gambar = $request->file('gambar');
             $nama_gambar = time() . '_' . $gambar->getClientOriginalName();
-            $path = $gambar->storeAs('public/Menu', $nama_gambar); // Simpan di storage/app/public/menus
+            $path = $gambar->storeAs('public/menus', $nama_gambar); // Simpan di storage/app/public/menus <-- PERUBAHAN DI SINI
             $data['gambar'] = $nama_gambar;
         }
 
@@ -81,8 +81,8 @@ class MenuController extends Controller
     public function update(Request $request, Menu $menu)
     {
         $request->validate([
-            'judul' => 'required',
-            'deskripsi' => 'required',
+            'judul' => 'required|string|max:255', //Tambahkan Validasi String
+            'deskripsi' => 'required|string', //Tambahkan Validasi String
             'gambar' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048', // Validasi gambar
         ]);
 
@@ -91,12 +91,12 @@ class MenuController extends Controller
         if ($request->hasFile('gambar')) {
             // Hapus gambar lama (jika ada)
             if ($menu->gambar) {
-                Storage::delete('public/Menu/' . $menu->gambar);
+                Storage::delete('public/menus/' . $menu->gambar); // <-- PERUBAHAN DI SINI
             }
 
             $gambar = $request->file('gambar');
             $nama_gambar = time() . '_' . $gambar->getClientOriginalName();
-            $path = $gambar->storeAs('public/Menu', $nama_gambar);
+            $path = $gambar->storeAs('public/menus', $nama_gambar); // Simpan di storage/app/public/menus <-- PERUBAHAN DI SINI
             $data['gambar'] = $nama_gambar;
         }
 
@@ -113,7 +113,7 @@ class MenuController extends Controller
     {
         // Hapus gambar (jika ada)
         if ($menu->gambar) {
-            Storage::delete('public/Menu/' . $menu->gambar);
+            Storage::delete('public/menus/' . $menu->gambar); // <-- PERUBAHAN DI SINI
         }
 
         $menu->delete();
