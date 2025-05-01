@@ -1,14 +1,15 @@
+<!-- resources/views/admin/jadwals/index.blade.php -->
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
     <meta charset="utf-8">
-    <title>Ketersediaan Lapangan - Ramos Badminton Center</title>
+    <title>Jadwal - Ramos Badminton Center</title>
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
-    <meta content="" name="keywords"> <!-- Sebaiknya diisi untuk SEO -->
-    <meta content="" name="description"> <!-- Sebaiknya diisi untuk SEO -->
+    <meta content="" name="keywords">  <!-- Sebaiknya diisi untuk SEO -->
+    <meta content="" name="description">  <!-- Sebaiknya diisi untuk SEO -->
 
-    <!-- Favicon -->
+    <!-- Favicon (Optional - Sesuaikan Path) -->
     <link href="{{ URL::asset('img/favicon.ico') }}" rel="icon">
 
     <!-- Google Web Fonts -->
@@ -34,7 +35,7 @@
 
 <body>
     <div class="container-xxl bg-white p-0">
-        <!-- Spinner Start -->
+        <!-- Spinner Start (Optional) -->
         <div id="spinner" class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
             <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
                 <span class="sr-only">Loading...</span>
@@ -42,86 +43,104 @@
         </div>
         <!-- Spinner End -->
 
-        <!-- Navbar -->
+        <!-- Navbar (Optional - Jika ingin menggunakan Navbar yang sama) -->
         @include('layouts.navbar')
-        <!-- End Navbar -->
 
-        <!-- Hero Header Start -->
+        <!-- Hero Header Start (Optional - Jika ingin menggunakan Header yang sama) -->
         <div class="container-xxl py-5 bg-dark hero-header mb-5">
             <div class="container text-center my-5 pt-5 pb-4">
-                <h1 class="display-3 text-white mb-3 animated slideInDown">Ketersediaan Lapangan</h1>
+                <h1 class="display-3 text-white mb-3 animated slideInDown">Jadwal</h1>
                 <nav aria-label="breadcrumb">
                     <ol class="breadcrumb justify-content-center text-uppercase">
                         <li class="breadcrumb-item"><a href="/">Home</a></li>
-                        <li class="breadcrumb-item text-white active" aria-current="page">Schedule</li>
+                        <li class="breadcrumb-item text-white active" aria-current="page">Jadwal</li>
                     </ol>
                 </nav>
             </div>
         </div>
         <!-- Hero Header End -->
 
-        @section('content')
-        <div class="container-xxl py-5 wow fadeInUp" data-wow-delay="0.1s">
+        <!-- Jadwal List Start -->
+        <div class="container-xxl py-7 wow fadeInUp" data-wow-delay="0.1s">
             <div class="container">
-                <div class="bg-light rounded h-100 p-4">
-                    <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
-                        <h4 class="section-title ff-secondary text-center text-primary fw-normal">Schedule</h4>
-                        <h1 class="mb-5">Jadwal Ketersediaan Lapangan - {{ $tanggal->isoFormat('dddd, D MMMM YYYY') }}</h1>
-                    </div>
+                <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
+                    <h4 class="section-title ff-secondary text-center text-primary fw-normal">Admin</h4>
+                    <h1 class="mb-5">Daftar Jadwal Lapangan</h1>
+                </div>
 
-                    <!-- Pilihan Tanggal -->
-                    <form action="{{ route('jadwal.index') }}" method="GET" class="mb-3 wow fadeInUp" data-wow-delay="0.2s">
-                        <div class="input-group">
-                            <input type="date" class="form-control" name="tanggal" value="{{ $tanggal->toDateString() }}">
-                            <button class="btn btn-primary" type="submit">Tampilkan</button>
-                        </div>
-                    </form>
+                <div class="container-fluid px-0">
+                    <div class="row g-4 justify-content-center">
+                        <div class="col-12 px-0">
 
-                    <div class="table-responsive wow fadeInUp" data-wow-delay="0.3s">
-                        <table class="table table-striped table-bordered table-hover align-middle">
-                            <thead class="table-dark">
-                                <tr>
-                                    <th>Waktu</th>
-                                    @foreach($lapangans as $lapangan)
-                                        <th>{{ $lapangan->nama }}</th>
-                                    @endforeach
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @for($jam = $jamBuka; $jam <= $jamTutup; $jam++)
-                                    <tr>
-                                        <td>{{ str_pad($jam, 2, '0', STR_PAD_LEFT) }}:00 - {{ str_pad($jam+1, 2, '0', STR_PAD_LEFT) }}:00</td>
-                                        @foreach($lapangans as $lapangan)
-                                            @php
-                                                $waktuMulai = $tanggal->copy()->hour($jam)->minute(0)->second(0);
-                                                $waktuSelesai = $tanggal->copy()->hour($jam + 1)->minute(0)->second(0);
-                                                $booked = $lapangan->reservasis()->isBookedBetween($waktuMulai, $waktuSelesai)->exists();
-                                            @endphp
-                                            <td class="text-center">
-                                                @if($booked)
-                                                    <span class="badge bg-danger">Booked</span>
-                                                @else
-                                                    <span class="badge bg-success">Available</span>
-                                                @endif
-                                            </td>
+                            <!-- Pesan Sukses -->
+                            @if ($message = Session::get('success'))
+                                <div class="alert alert-success alert-dismissible fade show wow fadeInUp" data-wow-delay="0.2s" role="alert">
+                                    <i class="fas fa-check-circle me-2"></i> {{ $message }}
+                                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                </div>
+                            @endif
+
+                            <!-- Tombol Tambah Jadwal -->
+                            <div class="text-end mb-4 wow fadeInUp" data-wow-delay="0.3s">
+                                <a href="{{ route('admin.jadwals.create') }}" class="btn btn-primary py-2 px-4">
+                                    <i class="fas fa-plus me-2"></i>Tambah Jadwal
+                                </a>
+                            </div>
+
+                            <!-- Tabel Jadwal -->
+                            <div class="table-responsive wow fadeInUp" data-wow-delay="0.4s">
+                                <table class="table table-striped table-bordered table-hover align-middle">
+                                    <thead class="table-dark">
+                                        <tr>
+                                            <th scope="col">Tanggal</th>
+                                            <th scope="col">Waktu Mulai</th>
+                                            <th scope="col">Waktu Selesai</th>
+                                            <th scope="col">Lapangan 1 Tersedia</th>
+                                            <th scope="col">Lapangan 2 Tersedia</th>
+                                            <th scope="col" class="text-center">Aksi</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach ($jadwals as $jadwal)
+                                            <tr>
+                                                <td>{{ $jadwal->tanggal }}</td>
+                                                <td>{{ $jadwal->waktu_mulai }}</td>
+                                                <td>{{ $jadwal->waktu_selesai }}</td>
+                                                <td>{{ $jadwal->lapangan_1_tersedia ? 'Ya' : 'Tidak' }}</td>
+                                                <td>{{ $jadwal->lapangan_2_tersedia ? 'Ya' : 'Tidak' }}</td>
+                                                <td class="text-center">
+                                                    <a class="btn btn-sm btn-info me-1" href="{{ route('admin.jadwals.show',$jadwal->id) }}" title="Detail">
+                                                        <i class="fas fa-eye"></i>
+                                                    </a>
+                                                    <a class="btn btn-sm btn-warning me-1" href="{{ route('admin.jadwals.edit',$jadwal->id) }}" title="Edit">
+                                                        <i class="fas fa-edit"></i>
+                                                    </a>
+                                                    <form action="{{ route('admin.jadwals.destroy',$jadwal->id) }}" method="POST" class="d-inline" onsubmit="return confirm('Apakah Anda yakin ingin menghapus jadwal ini?');">
+                                                        @csrf
+                                                        @method('DELETE')
+                                                        <button type="submit" class="btn btn-sm btn-danger" title="Hapus">
+                                                            <i class="fas fa-trash-alt"></i>
+                                                        </button>
+                                                    </form>
+                                                </td>
+                                            </tr>
                                         @endforeach
-                                    </tr>
-                                @endfor
-                            </tbody>
-                        </table>
+                                    </tbody>
+                                </table>
+                            </div>
+
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
+        <!-- Jadwal List End -->
 
-        <!-- Footer -->
+        <!-- Footer (Optional - Jika ingin menggunakan Footer yang sama) -->
         @include('layouts.footer')
-        <!-- End Footer -->
 
         <!-- Back to Top -->
-        <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top" aria-label="Kembali ke atas">
-            <i class="bi bi-arrow-up"></i>
-        </a>
+        <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top" aria-label="Kembali ke atas"><i class="bi bi-arrow-up"></i></a>
     </div>
 
     <!-- JavaScript Libraries -->

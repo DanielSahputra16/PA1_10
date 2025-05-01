@@ -20,7 +20,7 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach($menus as $menu)
+                @foreach($menu as $menu)
                     <tr>
                         <td>{{ $menu->id }}</td>
                         <td>{{ $menu->judul }}</td>

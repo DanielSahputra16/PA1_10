@@ -66,7 +66,7 @@
                 <div class="col-sm-12 col-xl-12">
                     <div class="bg-light rounded h-100 p-4">
                         <h4 class="section-title ff-secondary text-center text-primary fw-normal">Edit Galeri Image</h4>
-                        <form action="{{ route('admin.galeri.update', $galeri->id) }}" method="POST" enctype="multipart/form-data">
+                        <form action="{{ route('admin.Galeri.update', $galeri->id) }}" method="POST" enctype="multipart/form-data">
                             @csrf
                             @method('PUT') <!-- Penting untuk update -->
 
@@ -96,7 +96,7 @@
                             </div>
 
                             <button type="submit" class="btn btn-primary">Update</button>
-                            <a href="{{ route('admin.galeri.index') }}" class="btn btn-secondary">Cancel</a>
+                            <a href="{{ route('admin.Galeri.index') }}" class="btn btn-secondary">Cancel</a>
                         </form>
                     </div>
                 </div>

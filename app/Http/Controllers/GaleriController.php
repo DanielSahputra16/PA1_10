@@ -23,12 +23,12 @@ class GaleriController extends Controller
     public function index()
 {
     $galleries = Galeri::all();
-    return view('admin.galeri.index', compact('galleries')); // folder juga sebaiknya huruf kecil
+    return view('admin.Galeri.index', compact('galleries')); // folder juga sebaiknya huruf kecil
 }
 
 public function create()
 {
-    return view('admin.galeri.create');
+    return view('admin.Galeri.create');
 }
 
 public function store(Request $request)
@@ -39,7 +39,7 @@ public function store(Request $request)
         'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
     ]);
 
-    $imagePath = $request->file('image')->store('images/Galeri', 'public');
+    $imagePath = $request->file('image')->store('images/galeri', 'public');
 
     Galeri::create([
         'title' => $request->title,
@@ -47,12 +47,12 @@ public function store(Request $request)
         'image_path' => basename($imagePath),
     ]);
 
-    return redirect()->route('admin.galeri.index')->with('success', 'Image added successfully.');
+    return redirect()->route('admin.Galeri.index')->with('success', 'Image added successfully.');
 }
 
 public function edit(Galeri $galeri)
 {
-    return view('admin.galeri.edit', compact('galeri'));
+    return view('admin.Galeri.edit', compact('galeri'));
 }
 
 public function update(Request $request, Galeri $galeri)
@@ -69,21 +69,21 @@ public function update(Request $request, Galeri $galeri)
     ];
 
     if ($request->hasFile('image')) {
-        Storage::disk('public')->delete('images/Galeri/' . $galeri->image_path);
+        Storage::disk('public')->delete('images/galeri/' . $galeri->image_path);
         $imagePath = $request->file('image')->store('images/Galeri', 'public');
         $data['image_path'] = basename($imagePath);
     }
 
     $galeri->update($data);
 
-    return redirect()->route('admin.galeri.index')->with('success', 'Image updated successfully.');
+    return redirect()->route('admin.Galeri.index')->with('success', 'Image updated successfully.');
 }
 
 public function destroy(Galeri $galeri)
 {
-    Storage::disk('public')->delete('images/Galeri/' . $galeri->image_path);
+    Storage::disk('public')->delete('images/galeri/' . $galeri->image_path);
     $galeri->delete();
 
-    return redirect()->route('admin.galeri.index')->with('success', 'Image deleted successfully.');
+    return redirect()->route('admin.Galeri.index')->with('success', 'Image deleted successfully.');
 }
 }

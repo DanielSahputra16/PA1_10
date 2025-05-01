@@ -3,7 +3,7 @@
 @section('content')
     <div class="container">
         <h2>Tambah About</h2>
-        <form action="{{ route('admin.abouts.store') }}" method="POST" enctype="multipart/form-data">
+        <form action="{{ route('admin.About.store') }}" method="POST" enctype="multipart/form-data">
             @csrf
             <div class="mb-3">
                 <label for="judul" class="form-label">Judul:</label>
@@ -18,7 +18,7 @@
                 <input type="file" class="form-control" id="gambar" name="gambar">
             </div>
             <button type="submit" class="btn btn-primary">Simpan</button>
-            <a href="{{ route('admin.abouts.index') }}" class="btn btn-secondary">Batal</a>
+            <a href="{{ route('admin.About.index') }}" class="btn btn-secondary">Batal</a>
         </form>
     </div>
 @endsection

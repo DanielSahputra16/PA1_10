@@ -6,9 +6,7 @@
     <title>Reservasi - Ramos Badminton Center</title>
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <meta content="" name="keywords">
-    <!-- Sebaiknya diisi untuk SEO -->
     <meta content="" name="description">
-    <!-- Sebaiknya diisi untuk SEO -->
 
     <!-- Favicon -->
     <link href="{{ URL::asset('img/favicon.ico') }}" rel="icon">
@@ -48,7 +46,7 @@
         <!-- Spinner End -->
 
         <!-- Navbar -->
-        @include('layouts.navbar')
+        @include('admin.navbar')
         <!-- End Navbar -->
 
         @section('content')
@@ -70,7 +68,7 @@
                     <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
                         <h4 class="section-title ff-secondary text-center text-primary fw-normal">Informasi Lapangan</h4>
                     </div>
-                        <div>
+                    <div>
                         <a href="{{ route('admin.About.create') }}" class="btn btn-primary mb-3">Tambah About</a>
                     </div>
                     @if ($message = Session::get('success'))
@@ -102,11 +100,11 @@
                                         @endif
                                     </td>
                                     <td>
-                                        <a href="{{ route('admin.About.show', $about->id) }}"
+                                        <a href="{{ route('admin.About.show', ['About' => $about->id]) }}"
                                             class="btn btn-info btn-sm">Lihat</a>
-                                        <a href="{{ route('admin.About.edit', $about->id) }}"
+                                        <a href="{{ route('admin.About.edit', ['About' => $about->id]) }}"
                                             class="btn btn-primary btn-sm">Edit</a>
-                                        <form action="{{ route('admin.About.destroy', $about->id) }}" method="POST"
+                                        <form action="{{ route('admin.About.destroy', ['About' => $about->id]) }}" method="POST"
                                             style="display: inline;">
                                             @csrf
                                             @method('DELETE')

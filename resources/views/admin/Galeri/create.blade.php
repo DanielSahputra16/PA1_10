@@ -66,7 +66,7 @@
         <div class="col-sm-12 col-xl-12">
             <div class="bg-light rounded h-100 p-4">
                 <h3 class="section-title ff-secondary text-center text-primary fw-normal">Tambah Gambar Galeri Baru</h3>
-                <form action="{{ route('admin.galeri.store') }}" method="POST" enctype="multipart/form-data">
+                <form action="{{ route('admin.Galeri.store') }}" method="POST" enctype="multipart/form-data">
                     @csrf
 
                     <div class="mb-3">
@@ -94,7 +94,7 @@
                     </div>
 
                     <button type="submit" class="btn btn-primary">Simpan</button> <!-- Button Indonesia -->
-                    <a href="{{ route('admin.galeri.index') }}" class="btn btn-secondary">Batal</a> <!-- Button Indonesia -->
+                    <a href="{{ route('admin.Galeri.index') }}" class="btn btn-secondary">Batal</a> <!-- Button Indonesia -->
                 </form>
             </div>
         </div>

@@ -1,6 +1,6 @@
 <div class="container-xxl position-relative p-0">
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark px-4 px-lg-5 py-3 py-lg-0">
-        <a href="<?php echo e(route('welcome')); ?>" class="navbar-brand p-0">
+        <a href="<?php echo e(route('admin.dashboard')); ?>" class="navbar-brand p-0">
             <h2 class="text-primary"><i class="fas fa-shuttlecock"></i><img src="/img/shuttelcock2.png" alt="Shuttlecock" width="30">Ramos Badminton Center</h2>
             <!-- <img src="img/logo.png" alt="Restoran Logo"> -->
         </a>
@@ -10,16 +10,16 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarCollapse">
             <div class="navbar-nav ms-auto py-0 pe-4">
-                <a href="<?php echo e(route('welcome')); ?>" class="nav-item nav-link">Home</a>
+                <a href="<?php echo e(route('admin.dashboard')); ?>" class="nav-item nav-link">Home</a>
                 <div class="nav-item dropdown">
                     <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">About</a>
                     <div class="dropdown-menu">
                         <a href="<?php echo e(route('admin.About.index')); ?>" class="dropdown-item">Informasi Lapangan</a>
                         <a href="<?php echo e(route('admin.Menu.index')); ?>" class="dropdown-item">Daftar Peralatan</a>
-                        <a href="<?php echo e(route('jadwal.index')); ?>" class="dropdown-item">Ketersediaan Lapangan</a>
+                        <a href="<?php echo e(route('admin.jadwals.index')); ?>" class="dropdown-item">Ketersediaan Lapangan</a>
                     </div>
                 </div>
-                <a href="<?php echo e(route('admin.galeri.index')); ?>" class="nav-item nav-link">Galeri</a>
+                <a href="<?php echo e(route('admin.Galeri.index')); ?>" class="nav-item nav-link">Galeri</a>
                 <a href="<?php echo e(route('reservasi.index')); ?>" class="nav-item nav-link">Pemesanan Lapangan</a>
                 <a href="/testimonialspublic" class="nav-item nav-link">Testimonial</a>
                 <a href="<?php echo e(route('admin.contact.index')); ?>" class="nav-item nav-link">Contact</a>

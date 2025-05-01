@@ -47,7 +47,7 @@
 
 
         <!-- Navbar & Hero Start -->
-        <?php echo $__env->make('layouts.navbar', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
+        <?php echo $__env->make('admin.navbar', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
 
             <div class="container-xxl py-5 bg-dark hero-header mb-5">
                 <div class="container my-5 py-5">

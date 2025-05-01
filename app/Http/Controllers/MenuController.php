@@ -11,7 +11,7 @@ class MenuController extends Controller
         public function indexPublic()
     {
         $menu = Menu::all();
-        return view('Menu.index', compact('menu')); // Perbaikan!
+        return view('menu.index', compact('menu')); // Perbaikan!
     }
 
     /**
@@ -22,7 +22,7 @@ class MenuController extends Controller
     public function index()
     {
         $menu = Menu::all();
-        return view('admin.Menu.index', compact('menu')); // Perbaikan!
+        return view('admin.menu.index', compact('menu')); // Perbaikan!
     }
 
     /**
@@ -55,7 +55,7 @@ class MenuController extends Controller
 
         Menu::create($data);
 
-        return redirect()->route('admin.Menu.index')
+        return redirect()->route('admin.menu.index')
             ->with('success', 'Menu berhasil ditambahkan.');
     }
 
@@ -64,7 +64,7 @@ class MenuController extends Controller
      */
     public function show(Menu $menu)
     {
-        return view('admin.Menu.show', compact('menu'));
+        return view('admin.menu.show', compact('menu'));
     }
 
     /**

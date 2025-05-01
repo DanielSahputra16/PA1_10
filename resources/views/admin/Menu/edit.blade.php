@@ -1,4 +1,5 @@
-<form action="{{ route('admin.Menu.update', $menu) }}" method="POST" enctype="multipart/form-data">
+<form action="{{ route('admin.Menu.update', ['Menu' => $menu->id]) }}" method="POST" enctype="multipart/form-data">
+
     @csrf
     @method('PUT')
 

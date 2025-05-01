@@ -15,7 +15,7 @@
                     <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">About</a>
                     <div class="dropdown-menu">
                         <a href="<?php echo e(route('About.index')); ?>" class="dropdown-item">Informasi Lapangan</a>
-                        <a href="<?php echo e(route('Menu.index')); ?>" class="dropdown-item">Daftar Peralatan</a>
+                        <a href="<?php echo e(route('menu.index')); ?>" class="dropdown-item">Daftar Peralatan</a>
                         <a href="<?php echo e(route('jadwal.index')); ?>" class="dropdown-item">Ketersediaan Lapangan</a>
                     </div>
                 </div>

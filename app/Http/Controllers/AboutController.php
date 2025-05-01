@@ -56,7 +56,7 @@ class AboutController extends Controller
 
         About::create($input);
 
-        return redirect()->route('admin.abouts.index')
+        return redirect()->route('admin.About.index')
             ->with('success', 'About created successfully.');
     }
 
@@ -72,9 +72,17 @@ class AboutController extends Controller
      * Show the form for editing the specified resource.
      */
     public function edit(About $about)
-    {
-        return view('admin.About.edit', compact('about')); // Perbaiki: menggunakan $about
+{
+    // Coba ambil data About secara manual
+    try {
+        $about = \App\Models\About::findOrFail($about->id);
+        dd($about->toArray());
+    } catch (\Exception $e) {
+        dd('Error: ' . $e->getMessage());
     }
+
+    return view('admin.About.edit', compact('about'));
+}
 
     /**
      * Update the specified resource in storage.
@@ -110,23 +118,31 @@ class AboutController extends Controller
      * Remove the specified resource from storage.
      */
     public function destroy(About $about)
-    {
-        DB::beginTransaction(); // Mulai transaksi
+{
+    \Log::info('Attempting to delete About with ID: ' . $about->id);
 
-        try {
-            if ($about->gambar) {
-                Storage::disk('public')->delete($about->gambar);
-            }
+    \DB::beginTransaction();
 
-            $about->delete();
-
-            DB::commit(); // Commit transaksi
-        } catch (\Exception $e) {
-            DB::rollback(); // Rollback transaksi jika terjadi kesalahan
-            throw $e; // Re-throw exception untuk penanganan lebih lanjut
+    try {
+        if ($about->gambar) {
+            \Log::info('Deleting image: ' . $about->gambar);
+            \Storage::disk('public')->delete($about->gambar);
+            \Log::info('Image deleted successfully.');
         }
 
-        return redirect()->route('admin.abouts.index')
+        $about->delete(); // Atau $about->forceDelete() jika tidak menggunakan soft deletes
+        \Log::info('About deleted successfully from database.');
+
+        \DB::commit();
+        \Log::info('Transaction committed.');
+
+        return redirect()->route('admin.About.index')
             ->with('success', 'About deleted successfully.');
+    } catch (\Exception $e) {
+        \DB::rollback();
+        \Log::error('Error deleting About: ' . $e->getMessage());
+        return redirect()->route('admin.About.index')
+            ->with('error', 'Error deleting About: ' . $e->getMessage()); // Tampilkan pesan error
     }
+}
 }

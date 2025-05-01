@@ -44,7 +44,7 @@
 
 
         <!-- Navbar & Hero Start -->
-        @include('layouts.navbar')
+        @include('admin.navbar')
         <div class="container-xxl py-5 bg-dark hero-header mb-5">
             <div class="container text-center my-5 pt-5 pb-4">
                 <h1 class="display-3 text-white mb-3 animated slideInDown">Gallery</h1>
@@ -67,7 +67,7 @@
                 <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
                     <h4 class="section-title ff-secondary text-center text-primary fw-normal">Daftar Galeri</h4>
                 </div>
-                    <a href="{{ route('admin.galeri.create') }}" class="btn btn-primary mb-3">Tambah Gambar Baru</a>
+                    <a href="{{ route('admin.Galeri.create') }}" class="btn btn-primary mb-3">Tambah Gambar Baru</a>
                     <div class="table-responsive">
                         <table class="table table-striped table-bordered table-hover align-middle">  <!-- Tambahkan class align-middle -->
                             <thead class="table-dark"> <!-- Tambahkan class table-dark -->
@@ -89,10 +89,10 @@
                                             <img src="{{ Storage::url('images/Galeri/' . $galeri->image_path) }}" alt="{{ $galeri->title }}" width="100">
                                         </td>
                                         <td class="text-center"> <!-- Tambahkan class text-center -->
-                                            <a href="{{ route('admin.galeri.edit', $galeri->id) }}" class="btn btn-sm btn-warning me-1" title="Edit">  <!-- Ubah btn-primary menjadi btn-warning dan tambahkan me-1-->
+                                            <a href="{{ route('admin.Galeri.edit', $galeri->id) }}" class="btn btn-sm btn-warning me-1" title="Edit">  <!-- Ubah btn-primary menjadi btn-warning dan tambahkan me-1-->
                                                 <i class="fas fa-edit"></i>  <!-- Tambahkan icon -->
                                             </a>
-                                            <form action="{{ route('admin.galeri.destroy', $galeri->id) }}" method="POST" class="d-inline" onsubmit="return confirm('Apakah Anda yakin ingin menghapus gambar ini?')">  <!-- Tambahkan class d-inline -->
+                                            <form action="{{ route('admin.Galeri.destroy', $galeri->id) }}" method="POST" class="d-inline" onsubmit="return confirm('Apakah Anda yakin ingin menghapus gambar ini?')">  <!-- Tambahkan class d-inline -->
                                                 @csrf
                                                 @method('DELETE')
                                                 <button type="submit" class="btn btn-sm btn-danger" title="Hapus"> <!-- Tambahkan title -->

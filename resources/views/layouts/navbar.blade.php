@@ -14,8 +14,8 @@
                 <div class="nav-item dropdown">
                     <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">About</a>
                     <div class="dropdown-menu">
-                        <a href="{{ route('About.index') }}" class="dropdown-item">Informasi Lapangan</a>
-                        <a href="{{ route('Menu.index') }}" class="dropdown-item">Daftar Peralatan</a>
+                        <a href="{{ route('About.indexPublic') }}" class="dropdown-item">Informasi Lapangan</a>
+                        <a href="{{ route('menu.index') }}" class="dropdown-item">Daftar Peralatan</a>
                         <a href="{{ route('jadwal.index')}}" class="dropdown-item">Ketersediaan Lapangan</a>
                     </div>
                 </div>
