@@ -14,21 +14,21 @@
                 <div class="nav-item dropdown">
                     <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">About</a>
                     <div class="dropdown-menu">
-                        <a href="<?php echo e(route('About.index')); ?>" class="dropdown-item">Informasi Lapangan</a>
-                        <a href="<?php echo e(route('menu.index')); ?>" class="dropdown-item">Daftar Peralatan</a>
-                        <a href="<?php echo e(route('jadwal.index')); ?>" class="dropdown-item">Ketersediaan Lapangan</a>
+                        <a href="<?php echo e(route('About.indexPublic')); ?>" class="dropdown-item">Informasi Lapangan</a>
+                        <a href="<?php echo e(route('menu.indexPublic')); ?>" class="dropdown-item">Daftar Peralatan</a>
+                        <a href="<?php echo e(route('jadwal.indexPublic')); ?>" class="dropdown-item">Ketersediaan Lapangan</a>
                     </div>
                 </div>
-                <a href="<?php echo e(route('galeri.index')); ?>" class="nav-item nav-link">Galeri</a>
+                <a href="<?php echo e(route('galeri.indexPublic')); ?>" class="nav-item nav-link">Galeri</a>
                 <a href="<?php echo e(route('reservasi.index')); ?>" class="nav-item nav-link">Reservasi</a>
                 <a href="/testimonialspublic" class="nav-item nav-link">Testimonial</a>
-                <a href="<?php echo e(route('Contact.index')); ?>" class="nav-item nav-link">Contact</a>
+                <a href="<?php echo e(route('Contact.indexPublic')); ?>" class="nav-item nav-link">Contact</a>
             </div>
         </div>
 
             <!-- Authentication Links -->
             <?php if(auth()->guard()->guest()): ?>
-                <a href="<?php echo e(route('showLoginForm')); ?>" class="nav-item nav-link">Login</a>
+                <a href="<?php echo e(route('login')); ?>" class="nav-item nav-link">Login</a>
 
             <?php else: ?>
                 <div class="nav-item dropdown">

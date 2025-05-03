@@ -14,7 +14,9 @@
     <!-- Google Web Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600&family=Nunito:wght@600;700;800&family=Pacifico&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600&family=Nunito:wght@600;700;800&family=Pacifico&display=swap"
+        rel="stylesheet">
 
     <!-- Icon Font Stylesheet -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
@@ -35,7 +37,8 @@
 <body>
     <div class="container-xxl bg-white p-0">
         <!-- Spinner Start -->
-        <div id="spinner" class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
+        <div id="spinner"
+            class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
             <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
                 <span class="sr-only">Loading...</span>
             </div>
@@ -50,8 +53,8 @@
                 <h1 class="display-3 text-white mb-3 animated slideInDown">Edit Reservasi</h1>
                 <nav aria-label="breadcrumb">
                     <ol class="breadcrumb justify-content-center text-uppercase">
-                        <li class="breadcrumb-item"><a href="#">Home</a></li>
-                        <li class="breadcrumb-item"><a href="#">Reservasi</a></li>
+                        <li class="breadcrumb-item"><a href="/">Home</a></li>
+                        <li class="breadcrumb-item"><a href="{{ route('reservasi.index') }}">Reservasi</a></li>
                         <li class="breadcrumb-item text-white active" aria-current="page">Edit</li>
                     </ol>
                 </nav>
@@ -77,9 +80,33 @@
                     <form action="{{ route('reservasi.update', $reservasi->id) }}" method="POST">
                         @csrf
                         @method('PUT')
+
+                        <!-- Field Nama -->
+                        <div class="mb-3">
+                            <label for="nama" class="form-label">Nama:</label>
+                            <input type="text" name="nama" id="nama"
+                                class="form-control @error('nama') is-invalid @enderror" required
+                                value="{{ old('nama', $reservasi->nama) }}">
+                            @error('nama')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+
+                        <!-- Field No. HP -->
+                        <div class="mb-3">
+                            <label for="no_hp" class="form-label">Nomor HP:</label>
+                            <input type="text" name="no_hp" id="no_hp"
+                                class="form-control @error('no_hp') is-invalid @enderror" required
+                                value="{{ old('no_hp', $reservasi->no_hp) }}">
+                            @error('no_hp')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+
                         <div class="mb-3">
                             <label for="lapangan_id" class="form-label">Lapangan:</label>
-                            <select class="form-control" id="lapangan_id" name="lapangan_id" required>
+                            <select class="form-control @error('lapangan_id') is-invalid @enderror" id="lapangan_id"
+                                name="lapangan_id" required>
                                 @foreach ($lapangans as $lapangan)
                                     <option value="{{ $lapangan->id }}"
                                         {{ (old('lapangan_id') == $lapangan->id) || ($reservasi->lapangan_id == $lapangan->id) ? 'selected' : '' }}>
@@ -87,21 +114,35 @@
                                     </option>
                                 @endforeach
                             </select>
+                            @error('lapangan_id')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
                         </div>
 
                         <div class="mb-3">
                             <label class="form-label" for="tanggal_mulai">Tanggal Mulai:</label>
-                            <input class="form-control" id="tanggal_mulai" name="tanggal_mulai" type="datetime-local"
-                                value="{{ old('tanggal_mulai', \Carbon\Carbon::parse($reservasi->tanggal_mulai)->format('Y-m-d\TH:i')) }}" required>
+                            <input class="form-control @error('tanggal_mulai') is-invalid @enderror" id="tanggal_mulai"
+                                name="tanggal_mulai" type="datetime-local"
+                                value="{{ old('tanggal_mulai', \Carbon\Carbon::parse($reservasi->tanggal_mulai)->format('Y-m-d\TH:i')) }}"
+                                required>
+                            @error('tanggal_mulai')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
                         </div>
 
                         <div class="mb-3">
                             <label class="form-label" for="tanggal_selesai">Tanggal Selesai:</label>
-                            <input class="form-control" id="tanggal_selesai" name="tanggal_selesai" type="datetime-local"
-                                value="{{ old('tanggal_selesai', \Carbon\Carbon::parse($reservasi->tanggal_selesai)->format('Y-m-d\TH:i')) }}" required>
+                            <input class="form-control @error('tanggal_selesai') is-invalid @enderror" id="tanggal_selesai"
+                                name="tanggal_selesai" type="datetime-local"
+                                value="{{ old('tanggal_selesai', \Carbon\Carbon::parse($reservasi->tanggal_selesai)->format('Y-m-d\TH:i')) }}"
+                                required>
+                            @error('tanggal_selesai')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
                         </div>
 
                         <button class="btn btn-primary" type="submit">Edit Reservasi</button>
+                        <a href="{{ route('reservasi.index') }}" class="btn btn-secondary">Batal</a>
                     </form>
                 </div>
             </div>

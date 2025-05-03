@@ -19,7 +19,7 @@ Route::get('/', function () {
 Route::get('/Aboutpublic', [AboutController::class, 'indexPublic'])->name('About.indexPublic');
 Route::get('/galeripublic', [GaleriController::class, 'indexPublic'])->name('galeri.indexPublic');
 Route::get('/testimonialspublic', [TestimonialController::class, 'index'])->name('testimonials.index');
-Route::get('/jadwalpublic', [JadwalController::class, 'indexPublic'])->name('jadwal.index');
+Route::get('/jadwalpublic', [JadwalController::class, 'indexPublic'])->name('jadwal.indexPublic');
 Route::get('/Contactpublic', [ContactController::class, 'indexPublic'])->name('Contact.indexPublic');
 Route::get('/Menupublic', [MenuController::class, 'indexPublic'])->name('menu.indexPublic');
 
@@ -27,7 +27,7 @@ Route::get('/Menupublic', [MenuController::class, 'indexPublic'])->name('menu.in
 Route::get('/register', [AuthController::class, 'showRegistrationForm'])->name('register');
 Route::post('/register', [AuthController::class, 'register']);
 Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
-Route::post('/login', [AuthController::class, 'login'])->name('login');
+Route::post('/login', [AuthController::class, 'login'])->name('login.process');
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 // Resource route untuk frontend testimonials
@@ -46,12 +46,11 @@ Route::group(['middleware' => ['auth', 'admin'], 'prefix' => 'admin'], function 
     Route::get('/Galeri', [GaleriController::class, 'index'])->name('admin.Galeri.index');
     Route::get('/Galeri/create', [GaleriController::class, 'create'])->name('admin.Galeri.create');
     Route::post('/Galeri', [GaleriController::class, 'store'])->name('admin.Galeri.store');
-    Route::get('/Galeri/{Galeri}', [GaleriController::class, 'show'])->name('admin.Galeri.show');
-    Route::get('/Galeri/{Galeri}/edit', [GaleriController::class, 'edit'])->name('admin.Galeri.edit');
-    Route::put('/Galeri/{Galeri}', [GaleriController::class, 'update'])->name('admin.Galeri.update');
-    Route::delete('/Galeri/{Galeri}', [GaleriController::class, 'destroy'])->name('admin.Galeri.destroy');
+    Route::get('/Galeri/{galeri}', [GaleriController::class, 'show'])->name('admin.Galeri.show');
+    Route::get('/Galeri/{galeri}/edit', [GaleriController::class, 'edit'])->name('admin.Galeri.edit');
+    Route::put('/Galeri/{galeri}', [GaleriController::class, 'update'])->name('admin.Galeri.update');
+    Route::delete('/Galeri/{galeri}', [GaleriController::class, 'destroy'])->name('admin.Galeri.destroy');
 
-    // About Routes (Manual)
     Route::get('/About', [AboutController::class, 'index'])->name('admin.About.index');
     Route::get('/About/create', [AboutController::class, 'create'])->name('admin.About.create');
     Route::post('/About', [AboutController::class, 'store'])->name('admin.About.store');
@@ -60,16 +59,14 @@ Route::group(['middleware' => ['auth', 'admin'], 'prefix' => 'admin'], function 
     Route::put('/About/{About}', [AboutController::class, 'update'])->name('admin.About.update');
     Route::delete('/About/{About}', [AboutController::class, 'destroy'])->name('admin.About.destroy');
 
-    // Menu Routes (Manual)
     Route::get('/Menu', [MenuController::class, 'index'])->name('admin.Menu.index');
     Route::get('/Menu/create', [MenuController::class, 'create'])->name('admin.Menu.create');
     Route::post('/Menu', [MenuController::class, 'store'])->name('admin.Menu.store');
-    Route::get('/Menu/{Menu}', [MenuController::class, 'show'])->name('admin.Menu.show');
-    Route::get('/Menu/{Menu}/edit', [MenuController::class, 'edit'])->name('admin.Menu.edit');
-    Route::put('/Menu/{Menu}', [MenuController::class, 'update'])->name('admin.Menu.update');
+    Route::get('/Menu/{menu}', [MenuController::class, 'show'])->name('admin.Menu.show');
+    Route::get('/Menu/{menu}/edit', [MenuController::class, 'edit'])->name('admin.Menu.edit');
+    Route::put('/admin/Menu/{menu}', [MenuController::class, 'update'])->name('admin.Menu.update');
     Route::delete('/Menu/{Menu}', [MenuController::class, 'destroy'])->name('admin.Menu.destroy');
 
-    // Testimonials Routes (Manual)
     Route::get('/testimonials', [TestimonialController::class, 'index'])->name('admin.testimonials.index');
     Route::get('/testimonials/create', [TestimonialController::class, 'create'])->name('admin.testimonials.create');
     Route::post('/testimonials', [TestimonialController::class, 'store'])->name('admin.testimonials.store');
@@ -78,7 +75,6 @@ Route::group(['middleware' => ['auth', 'admin'], 'prefix' => 'admin'], function 
     Route::put('/testimonials/{testimonial}', [TestimonialController::class, 'update'])->name('admin.testimonials.update');
     Route::delete('/testimonials/{testimonial}', [TestimonialController::class, 'destroy'])->name('admin.testimonials.destroy');
 
-    // Contact Routes (Manual)
     Route::get('/contact', [ContactController::class, 'index'])->name('admin.contact.index');
     Route::get('/contact/create', [ContactController::class, 'create'])->name('admin.contact.create');
     Route::post('/contact', [ContactController::class, 'store'])->name('admin.contact.store');
@@ -87,7 +83,6 @@ Route::group(['middleware' => ['auth', 'admin'], 'prefix' => 'admin'], function 
     Route::put('/contact/{contact}', [ContactController::class, 'update'])->name('admin.contact.update');
     Route::delete('/contact/{contact}', [ContactController::class, 'destroy'])->name('admin.contact.destroy');
 
-    // Jadwals Routes (Manual)
     Route::get('/jadwals', [JadwalController::class, 'index'])->name('admin.jadwals.index');
     Route::get('/jadwals/create', [JadwalController::class, 'create'])->name('admin.jadwals.create');
     Route::post('/jadwals', [JadwalController::class, 'store'])->name('admin.jadwals.store');

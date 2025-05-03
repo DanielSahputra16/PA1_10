@@ -4,18 +4,25 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;  // Tambahkan ini jika Anda ingin soft delete
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Reservasi extends Model
 {
-    use HasFactory, SoftDeletes; // tambahkan softdeletes jika ingin soft delete
+    use HasFactory, SoftDeletes;
 
-    protected $fillable = [ // Tambahkan semua atribut yang bisa diisi (fillable)
+    protected $fillable = [
+        'nama',
+        'no_hp',
         'lapangan_id',
         'user_id',
         'tanggal_mulai',
         'tanggal_selesai',
-        //Tambahkan properti lainnya jika ada
+        'status', // Ditambahkan status
+    ];
+
+    protected $casts = [
+        'tanggal_mulai' => 'datetime',
+        'tanggal_selesai' => 'datetime',
     ];
 
     public function lapangan()

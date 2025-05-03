@@ -34,6 +34,8 @@ class ReservasiController extends Controller
             'lapangan_id' => 'required|exists:lapangans,id',
             'tanggal_mulai' => 'required|date',
             'tanggal_selesai' => 'required|date|after:tanggal_mulai',
+            'nama' => 'required|string|max:255', // Validasi nama
+            'no_hp' => 'required|string|max:20',  // Validasi no_hp
         ]);
 
         // Cek ketersediaan
@@ -61,6 +63,8 @@ class ReservasiController extends Controller
         $reservasi->tanggal_mulai = $request->tanggal_mulai;
         $reservasi->tanggal_selesai = $request->tanggal_selesai;
         $reservasi->user_id = auth()->user()->id; // Dapatkan ID pengguna yang login
+        $reservasi->nama = $request->nama; // Simpan nama
+        $reservasi->no_hp = $request->no_hp; // Simpan no_hp
         $reservasi->save();
 
         // Eager Load User setelah disimpan agar relasi tersedia untuk pengiriman email
@@ -105,6 +109,8 @@ class ReservasiController extends Controller
             'lapangan_id' => 'required|exists:lapangans,id',
             'tanggal_mulai' => 'required|date',
             'tanggal_selesai' => 'required|date|after:tanggal_mulai',
+            'nama' => 'required|string|max:255', // Validasi nama
+            'no_hp' => 'required|string|max:20',  // Validasi no_hp
         ]);
 
         // Cek ketersediaan
@@ -131,6 +137,8 @@ class ReservasiController extends Controller
         $reservasi->lapangan_id = $request->lapangan_id;
         $reservasi->tanggal_mulai = $request->tanggal_mulai;
         $reservasi->tanggal_selesai = $request->tanggal_selesai;
+        $reservasi->nama = $request->nama; // Simpan nama
+        $reservasi->no_hp = $request->no_hp; // Simpan no_hp
 
         $reservasi->save();
             // Eager Load User setelah di-update agar relasi tersedia untuk pengiriman email

@@ -15,20 +15,20 @@
                     <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">About</a>
                     <div class="dropdown-menu">
                         <a href="{{ route('About.indexPublic') }}" class="dropdown-item">Informasi Lapangan</a>
-                        <a href="{{ route('menu.index') }}" class="dropdown-item">Daftar Peralatan</a>
-                        <a href="{{ route('jadwal.index')}}" class="dropdown-item">Ketersediaan Lapangan</a>
+                        <a href="{{ route('menu.indexPublic') }}" class="dropdown-item">Daftar Peralatan</a>
+                        <a href="{{ route('jadwal.indexPublic')}}" class="dropdown-item">Ketersediaan Lapangan</a>
                     </div>
                 </div>
-                <a href="{{ route('galeri.index') }}" class="nav-item nav-link">Galeri</a>
+                <a href="{{ route('galeri.indexPublic') }}" class="nav-item nav-link">Galeri</a>
                 <a href="{{ route('reservasi.index') }}" class="nav-item nav-link">Reservasi</a>
                 <a href="/testimonialspublic" class="nav-item nav-link">Testimonial</a>
-                <a href="{{ route('Contact.index') }}" class="nav-item nav-link">Contact</a>
+                <a href="{{ route('Contact.indexPublic') }}" class="nav-item nav-link">Contact</a>
             </div>
         </div>
 
             <!-- Authentication Links -->
             @guest
-                <a href="{{ route('showLoginForm') }}" class="nav-item nav-link">Login</a>
+                <a href="{{ route('login') }}" class="nav-item nav-link">Login</a>
 
             @else
                 <div class="nav-item dropdown">

@@ -102,6 +102,28 @@
                                 <form action="{{ route('reservasi.store') }}" method="POST">
                                     @csrf
 
+                                     <!-- Field Nama -->
+                                    <div class="mb-3">
+                                        <label for="nama" class="form-label fw-bold">Nama:</label>
+                                        <input type="text" name="nama" id="nama"
+                                            class="form-control @error('nama') is-invalid @enderror" required
+                                            value="{{ old('nama') }}">
+                                        @error('nama')
+                                            <div class="invalid-feedback">{{ $message }}</div>
+                                        @enderror
+                                    </div>
+
+                                    <!-- Field No. HP -->
+                                    <div class="mb-3">
+                                        <label for="no_hp" class="form-label fw-bold">Nomor HP:</label>
+                                        <input type="text" name="no_hp" id="no_hp"
+                                            class="form-control @error('no_hp') is-invalid @enderror" required
+                                            value="{{ old('no_hp') }}">
+                                        @error('no_hp')
+                                            <div class="invalid-feedback">{{ $message }}</div>
+                                        @enderror
+                                    </div>
+
                                     <!-- Field Lapangan -->
                                     <div class="mb-3">
                                         <label for="lapangan_id" class="form-label fw-bold">Pilih Lapangan:</label>

@@ -16,10 +16,4 @@ class Jadwal extends Model
         'lapangan_1_tersedia',
         'lapangan_2_tersedia',
     ];
-
-    protected $casts = [
-        'tanggal' => 'date',
-        'lapangan_1_tersedia' => 'boolean',
-        'lapangan_2_tersedia' => 'boolean',
-    ];
 }

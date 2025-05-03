@@ -16,3 +16,4 @@ class Lapangan extends Model
         return $this->hasMany(Reservasi::class);
     }
 }
+

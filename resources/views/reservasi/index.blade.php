@@ -129,6 +129,8 @@
                                 <thead class="table-dark">
                                     <tr>
                                         <th scope="col">ID</th>
+                                        <th scope="col">Nama</th>  <!-- Tambahkan kolom nama -->
+                                        <th scope="col">No. HP</th> <!-- Tambahkan kolom no_hp -->
                                         <th scope="col">Lapangan</th>
                                         <th scope="col">Tanggal Mulai</th>
                                         <th scope="col">Tanggal Selesai</th>
@@ -140,6 +142,8 @@
                                     @forelse ($reservasis as $reservasi)
                                         <tr>
                                             <th scope="row">{{ $reservasi->id }}</th>
+                                            <td>{{ $reservasi->nama }}</td>  <!-- Tampilkan nama -->
+                                            <td>{{ $reservasi->no_hp }}</td> <!-- Tampilkan no_hp -->
                                             <td>{{ $reservasi->lapangan->nama ?? 'N/A' }}</td>  <!-- Handle jika relasi lapangan null -->
                                             <td>{{ \Carbon\Carbon::parse($reservasi->tanggal_mulai)->isoFormat('D MMM YYYY, HH:mm') }}</td>  <!-- Format tanggal lokal -->
                                             <td>{{ \Carbon\Carbon::parse($reservasi->tanggal_selesai)->isoFormat('D MMM YYYY, HH:mm') }}</td>  <!-- Format tanggal lokal -->
@@ -166,7 +170,7 @@
                                     @empty
                                         <tr>
                                              <!-- Pesan jika tabel kosong -->
-                                            <td colspan="6" class="text-center py-4">
+                                            <td colspan="8" class="text-center py-4">
                                                 <i class="fas fa-info-circle me-2"></i> Tidak ada data reservasi ditemukan.
                                             </td>
                                         </tr>
