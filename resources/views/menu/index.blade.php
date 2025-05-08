@@ -71,7 +71,7 @@
                 <div class="tab-class text-center wow fadeInUp" data-wow-delay="0.1s">
                     <ul class="nav nav-pills d-inline-flex justify-content-center border-bottom mb-5">
                         <li class="nav-item">
-                            <a class="d-flex align-items-center text-start mx-3 ms-0 pb-3 active" data-bs-toggle="pill" href="#tab-1">
+                            <a class="d-flex align-items-center text-start mx-3 ms-0 pb-3" data-bs-toggle="pill" href="#tab-lapangan">
                                 <i class="fa fa-table-tennis fa-2x text-primary"></i>
                                 <div class="ps-3">
                                     <small class="text-body">List of</small>
@@ -80,7 +80,7 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="d-flex align-items-center text-start mx-3 pb-3" data-bs-toggle="pill" href="#tab-2">
+                            <a class="d-flex align-items-center text-start mx-3 pb-3" data-bs-toggle="pill" href="#tab-alat">
                                 <i class="fa fa-calendar-alt fa-2x text-primary"></i>
                                 <div class="ps-3">
                                     <small class="text-body">Field Rental</small>
@@ -89,7 +89,7 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="d-flex align-items-center text-start mx-3 me-0 pb-3" data-bs-toggle="pill" href="#tab-3">
+                            <a class="d-flex align-items-center text-start mx-3 me-0 pb-3" data-bs-toggle="pill" href="#tab-fasilitas">
                                 <i class="fa fa-plus-square fa-2x text-primary"></i>
                                 <div class="ps-3">
                                     <small class="text-body">List of</small>
@@ -100,300 +100,63 @@
                     </ul>
                     <div class="tab-content">
 
-                        <!-- Tab Badminton Court Types (Static Data) -->
-                        <div id="tab-1" class="tab-pane fade show p-0 active">
+                        <!-- Tab Badminton Court Types (Dynamic Data) -->
+                        <div id="tab-lapangan" class="tab-pane fade show p-0">
                             <div class="row g-4">
-                                <div class="col-lg-6">
-                                    <div class="d-flex align-items-center">
-                                        <img class="flex-shrink-0 img-fluid rounded" src="{{ asset('img/download.jpeg') }}" alt="Lapangan 1" style="width: 80px;">
-                                        <div class="w-100 d-flex flex-column text-start ps-4">
-                                            <h5 class="d-flex justify-content-between border-bottom pb-2">
-                                                <span>Lapangan 1</span>
-                                                <span class="text-primary">25k</span>
-                                            </h5>
-                                            <small class="fst-italic">Lapangan indoor dengan pencahayaan maksimal dan lantai Beton standar nasional. Cocok untuk latihan dan turnamen.</small>
+                                @foreach($menu->where('jenis', 'lapangan') as $lapangan)
+                                    <div class="col-lg-6">
+                                        <div class="d-flex align-items-center">
+                                            <img class="flex-shrink-0 img-fluid rounded" src="{{ asset('storage/menus/' . $lapangan->gambar) }}" alt="{{ $lapangan->judul }}" style="width: 80px;">
+                                            <div class="w-100 d-flex flex-column text-start ps-4">
+                                                <h5 class="d-flex justify-content-between border-bottom pb-2">
+                                                    <span>{{ $lapangan->judul }}</span>
+                                                    <span class="text-primary">Harga</span>
+                                                </h5>
+                                                <small class="fst-italic">{{ $lapangan->deskripsi }}</small>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="col-lg-6">
-                                    <div class="d-flex align-items-center">
-                                        <img class="flex-shrink-0 img-fluid rounded" src="{{ asset('img/bg.lapangan1.jpg') }}" alt="Lapangan 2" style="width: 80px;">
-                                        <div class="w-100 d-flex flex-column text-start ps-4">
-                                            <h5 class="d-flex justify-content-between border-bottom pb-2">
-                                                <span>Lapangan 2</span>
-                                                <span class="text-primary">25k</span>
-                                            </h5>
-                                            <small class="fst-italic">Lapangan indoor dengan permukaan berkualitas tinggi dan garis lapangan yang jelas. Cocok untuk latihan dan turnamen.</small>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!-- Tambahkan data lapangan lainnya di sini -->
+                                @endforeach
                             </div>
                         </div>
 
-                        <!-- Tab Field Rental Packages (Static Data) -->
-                        <div id="tab-2" class="tab-pane fade show p-0">
+                        <!-- Tab Field Rental Packages (Dynamic Data) -->
+                        <div id="tab-alat" class="tab-pane fade show p-0">
                             <div class="row g-4">
-                                <div class="col-lg-6">
-                                    <div class="d-flex align-items-center">
-                                        <img class="flex-shrink-0 img-fluid rounded" src="{{ asset('img/raket1.jpeg') }}" alt="Paket Hemat" style="width: 80px;">
-                                        <div class="w-100 d-flex flex-column text-start ps-4">
-                                            <h5 class="d-flex justify-content-between border-bottom pb-2">
-                                                <span>Raket1</span>
-                                                <span class="text-primary">10k</span>
-                                            </h5>
-                                            <small class="fst-italic">Sewa Raket perjam.</small>
+                                @foreach($menu->where('jenis', 'alat') as $alat)
+                                    <div class="col-lg-6">
+                                        <div class="d-flex align-items-center">
+                                            <img class="flex-shrink-0 img-fluid rounded" src="{{ asset('storage/menus/' . $alat->gambar) }}" alt="{{ $alat->judul }}" style="width: 80px;">
+                                            <div class="w-100 d-flex flex-column text-start ps-4">
+                                                <h5 class="d-flex justify-content-between border-bottom pb-2">
+                                                    <span>{{ $alat->judul }}</span>
+                                                    <span class="text-primary">Harga</span>
+                                                </h5>
+                                                <small class="fst-italic">{{ $alat->deskripsi }}</small>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="col-lg-6">
-                                    <div class="d-flex align-items-center">
-                                        <img class="flex-shrink-0 img-fluid rounded" src="{{ asset('img/raket2.jpeg') }}" alt="Paket Lengkap" style="width: 80px;">
-                                        <div class="w-100 d-flex flex-column text-start ps-4">
-                                            <h5 class="d-flex justify-content-between border-bottom pb-2">
-                                                <span>Raket2</span>
-                                                <span class="text-primary">10k</span>
-                                            </h5>
-                                            <small class="fst-italic">Sewa Raket perjam.</small>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-lg-6">
-                                    <div class="d-flex align-items-center">
-                                        <img class="flex-shrink-0 img-fluid rounded" src="{{ asset('img/raket3.jpeg') }}" alt="Paket Lengkap" style="width: 80px;">
-                                        <div class="w-100 d-flex flex-column text-start ps-4">
-                                            <h5 class="d-flex justify-content-between border-bottom pb-2">
-                                                <span>Raket3</span>
-                                                <span class="text-primary">10k</span>
-                                            </h5>
-                                            <small class="fst-italic">Sewa Raket perjam.</small>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-lg-6">
-                                    <div class="d-flex align-items-center">
-                                        <img class="flex-shrink-0 img-fluid rounded" src="{{ asset('img/raket4.jpeg') }}" alt="Paket Lengkap" style="width: 80px;">
-                                        <div class="w-100 d-flex flex-column text-start ps-4">
-                                            <h5 class="d-flex justify-content-between border-bottom pb-2">
-                                                <span>Raket4</span>
-                                                <span class="text-primary">10k</span>
-                                            </h5>
-                                            <small class="fst-italic">Sewa Raket perjam.</small>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-lg-6">
-                                    <div class="d-flex align-items-center">
-                                        <img class="flex-shrink-0 img-fluid rounded" src="{{ asset('img/raket5.jpeg') }}" alt="Paket Lengkap" style="width: 80px;">
-                                        <div class="w-100 d-flex flex-column text-start ps-4">
-                                            <h5 class="d-flex justify-content-between border-bottom pb-2">
-                                                <span>Raket5</span>
-                                                <span class="text-primary">10k</span>
-                                            </h5>
-                                            <small class="fst-italic">Sewa Raket perjam.</small>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-lg-6">
-                                    <div class="d-flex align-items-center">
-                                        <img class="flex-shrink-0 img-fluid rounded" src="{{ asset('img/raket6.jpeg') }}" alt="Paket Lengkap" style="width: 80px;">
-                                        <div class="w-100 d-flex flex-column text-start ps-4">
-                                            <h5 class="d-flex justify-content-between border-bottom pb-2">
-                                                <span>Raket6</span>
-                                                <span class="text-primary">10k</span>
-                                            </h5>
-                                            <small class="fst-italic">Sewa Raket perjam.</small>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-lg-6">
-                                    <div class="d-flex align-items-center">
-                                        <img class="flex-shrink-0 img-fluid rounded" src="{{ asset('img/bola1.png') }}" alt="Paket Lengkap" style="width: 80px;">
-                                        <div class="w-100 d-flex flex-column text-start ps-4">
-                                            <h5 class="d-flex justify-content-between border-bottom pb-2">
-                                                <span>Shuttlecock</span>
-                                                <span class="text-primary">15k</span>
-                                            </h5>
-                                            <small class="fst-italic">Rasakan pengalaman bermain badminton yang lebih maksimal dengan shuttlecock berkualitas.</small>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-lg-6">
-                                    <div class="d-flex align-items-center">
-                                        <img class="flex-shrink-0 img-fluid rounded" src="{{ asset('img/bola2.jpg') }}" alt="Paket Lengkap" style="width: 80px;">
-                                        <div class="w-100 d-flex flex-column text-start ps-4">
-                                            <h5 class="d-flex justify-content-between border-bottom pb-2">
-                                                <span>Shuttlecock</span>
-                                                <span class="text-primary">15k</span>
-                                            </h5>
-                                            <small class="fst-italic">Rasakan pengalaman bermain badminton yang lebih maksimal dengan shuttlecock berkualitas.</small>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-lg-6">
-                                    <div class="d-flex align-items-center">
-                                        <img class="flex-shrink-0 img-fluid rounded" src="{{ asset('img/bola3.jpg') }}" alt="Paket Lengkap" style="width: 80px;">
-                                        <div class="w-100 d-flex flex-column text-start ps-4">
-                                            <h5 class="d-flex justify-content-between border-bottom pb-2">
-                                                <span>Shuttlecock</span>
-                                                <span class="text-primary">10k</span>
-                                            </h5>
-                                            <small class="fst-italic">Rasakan pengalaman bermain badminton yang lebih maksimal dengan shuttlecock berkualitas.</small>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-lg-6">
-                                    <div class="d-flex align-items-center">
-                                        <img class="flex-shrink-0 img-fluid rounded" src="{{ asset('img/bola4.jpg') }}" alt="Paket Lengkap" style="width: 80px;">
-                                        <div class="w-100 d-flex flex-column text-start ps-4">
-                                            <h5 class="d-flex justify-content-between border-bottom pb-2">
-                                                <span>Shuttlecock</span>
-                                                <span class="text-primary">10k</span>
-                                            </h5>
-                                            <small class="fst-italic">Rasakan pengalaman bermain badminton yang lebih maksimal dengan shuttlecock berkualitas.</small>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-lg-6">
-                                    <div class="d-flex align-items-center">
-                                        <img class="flex-shrink-0 img-fluid rounded" src="{{ asset('img/bola6.jpg') }}" alt="Paket Lengkap" style="width: 80px;">
-                                        <div class="w-100 d-flex flex-column text-start ps-4">
-                                            <h5 class="d-flex justify-content-between border-bottom pb-2">
-                                                <span>Shuttlecock</span>
-                                                <span class="text-primary">8k</span>
-                                            </h5>
-                                            <small class="fst-italic">Rasakan pengalaman bermain badminton yang lebih maksimal dengan shuttlecock berkualitas.</small>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-lg-6">
-                                    <div class="d-flex align-items-center">
-                                        <img class="flex-shrink-0 img-fluid rounded" src="{{ asset('img/bola5.jpg') }}" alt="Paket Lengkap" style="width: 80px;">
-                                        <div class="w-100 d-flex flex-column text-start ps-4">
-                                            <h5 class="d-flex justify-content-between border-bottom pb-2">
-                                                <span>Shuttlecock</span>
-                                                <span class="text-primary">8k</span>
-                                            </h5>
-                                            <small class="fst-italic">Rasakan pengalaman bermain badminton yang lebih maksimal dengan shuttlecock berkualitas.</small>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-lg-6">
-                                    <div class="d-flex align-items-center">
-                                        <img class="flex-shrink-0 img-fluid rounded" src="{{ asset('img/jersey1.jpg') }}" alt="Paket Lengkap" style="width: 80px;">
-                                        <div class="w-100 d-flex flex-column text-start ps-4">
-                                            <h5 class="d-flex justify-content-between border-bottom pb-2">
-                                                <span>Marchandise</span>
-                                                <span class="text-primary">140k</span>
-                                            </h5>
-                                            <small class="fst-italic">Dapatkan jersey favorit Anda dengan harga terjangkau dan rasakan pengalaman bermain yang lebih optimal.</small>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-lg-6">
-                                    <div class="d-flex align-items-center">
-                                        <img class="flex-shrink-0 img-fluid rounded" src="{{ asset('img/jersey2.jpg') }}" alt="Paket Lengkap" style="width: 80px;">
-                                        <div class="w-100 d-flex flex-column text-start ps-4">
-                                            <h5 class="d-flex justify-content-between border-bottom pb-2">
-                                                <span>Marchandise</span>
-                                                <span class="text-primary">140k</span>
-                                            </h5>
-                                            <small class="fst-italic">Dapatkan jersey favorit Anda dengan harga terjangkau dan rasakan pengalaman bermain yang lebih optimal.</small>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-lg-6">
-                                    <div class="d-flex align-items-center">
-                                        <img class="flex-shrink-0 img-fluid rounded" src="{{ asset('img/jersey3.jpg') }}" alt="Paket Lengkap" style="width: 80px;">
-                                        <div class="w-100 d-flex flex-column text-start ps-4">
-                                            <h5 class="d-flex justify-content-between border-bottom pb-2">
-                                                <span>SMarchandise</span>
-                                                <span class="text-primary">150k</span>
-                                            </h5>
-                                            <small class="fst-italic">Dapatkan jersey favorit Anda dengan harga terjangkau dan rasakan pengalaman bermain yang lebih optimal.</small>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-lg-6">
-                                    <div class="d-flex align-items-center">
-                                        <img class="flex-shrink-0 img-fluid rounded" src="{{ asset('img/jersey4.jpg') }}" alt="Paket Lengkap" style="width: 80px;">
-                                        <div class="w-100 d-flex flex-column text-start ps-4">
-                                            <h5 class="d-flex justify-content-between border-bottom pb-2">
-                                                <span>Marchandise</span>
-                                                <span class="text-primary">150k</span>
-                                            </h5>
-                                            <small class="fst-italic">Dapatkan jersey favorit Anda dengan harga terjangkau dan rasakan pengalaman bermain yang lebih optimal.</small>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!-- Tambahkan data paket rental lainnya di sini -->
+                                @endforeach
                             </div>
                         </div>
 
-                        <!-- Tab Additional Facilities (Static Data) -->
-                        <div id="tab-3" class="tab-pane fade">
+                        <!-- Tab Additional Facilities (Dynamic Data) -->
+                        <div id="tab-fasilitas" class="tab-pane fade">
                             <div class="row g-4">
-                                <div class="col-lg-6">
-                                    <div class="d-flex align-items-center">
-                                        <img class="img-fluid rounded" src="{{ asset('img/wifi.jpg') }}" alt="Wi-Fi" style="width: 80px;">
-                                        <div class="w-100 d-flex flex-column text-start ps-4">
-                                            <h5 class="d-flex justify-content-between border-bottom pb-2">
-                                                <span>Wi-Fi</span>
-                                                <span class="text-primary">Gratis</span>
-                                            </h5>
-                                            <small class="fst-italic">Akses internet cepat dan stabil.</small>
+                                @foreach($menu->where('jenis', 'fasilitas') as $fasilitas)
+                                    <div class="col-lg-6">
+                                        <div class="d-flex align-items-center">
+                                            <img class="flex-shrink-0 img-fluid rounded" src="{{ asset('storage/menus/' . $fasilitas->gambar) }}" alt="{{ $fasilitas->judul }}" style="width: 80px;">
+                                            <div class="w-100 d-flex flex-column text-start ps-4">
+                                                <h5 class="d-flex justify-content-between border-bottom pb-2">
+                                                    <span>{{ $fasilitas->judul }}</span>
+                                                    <span class="text-primary">Harga</span>
+                                                </h5>
+                                                <small class="fst-italic">{{ $fasilitas->deskripsi }}</small>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="col-lg-6">
-                                    <div class="d-flex align-items-center">
-                                        <img class="flex-shrink-0 img-fluid rounded" src="{{ asset('img/toilet.jpg') }}" alt="Kamar Mandi" style="width: 80px;">
-                                        <div class="w-100 d-flex flex-column text-start ps-4">
-                                            <h5 class="d-flex justify-content-between border-bottom pb-2">
-                                                <span>Kamar Mandi</span>
-                                                <span class="text-primary">Gratis</span>
-                                            </h5>
-                                            <small class="fst-italic">Kamar mandi bersih dan terawat.</small>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-lg-6">
-                                    <div class="d-flex align-items-center">
-                                        <img class="flex-shrink-0 img-fluid rounded" src="{{ asset('img/AREA PARKIR.jpg') }}" alt="Kamar Mandi" style="width: 80px;">
-                                        <div class="w-100 d-flex flex-column text-start ps-4">
-                                            <h5 class="d-flex justify-content-between border-bottom pb-2">
-                                                <span>Area Parkir</span>
-                                                <span class="text-primary">Gratis</span>
-                                            </h5>
-                                            <small class="fst-italic">Area parkir yang aman dan memadai untuk motor dan mobil.</small>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-lg-6">
-                                    <div class="d-flex align-items-center">
-                                        <img class="flex-shrink-0 img-fluid rounded" src="{{ asset('img/area istirahat.jpg') }}" alt="Kamar Mandi" style="width: 80px;">
-                                        <div class="w-100 d-flex flex-column text-start ps-4">
-                                            <h5 class="d-flex justify-content-between border-bottom pb-2">
-                                                <span>Area Tunggu/Istirahat</span>
-                                                <span class="text-primary">Gratis</span>
-                                            </h5>
-                                            <small class="fst-italic">Kursi yang nyaman.</small>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-lg-6">
-                                    <div class="d-flex align-items-center">
-                                        <img class="flex-shrink-0 img-fluid rounded" src="{{ asset('img/kantin.jpg') }}" alt="Kamar Mandi" style="width: 80px;">
-                                        <div class="w-100 d-flex flex-column text-start ps-4">
-                                            <h5 class="d-flex justify-content-between border-bottom pb-2">
-                                                <span>Minuman & Snack</span>
-                                                <span class="text-primary">Berbayar</span>
-                                            </h5>
-                                            <small class="fst-italic">Area penjualan snack ringan.</small>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!-- Tambahkan lebih banyak fasilitas di sini -->
+                                @endforeach
                             </div>
                         </div>
                     </div>

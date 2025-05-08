@@ -136,4 +136,4 @@
 </body>
 
 </html>
-<?php /**PATH C:\xampp\htdocs\PA_10\resources\views/Contact/index.blade.php ENDPATH**/ ?>
+<?php /**PATH C:\xampp\htdocs\PA_10\resources\views/contact/index.blade.php ENDPATH**/ ?>

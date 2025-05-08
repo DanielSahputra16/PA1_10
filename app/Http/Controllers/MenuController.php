@@ -11,13 +11,13 @@ class MenuController extends Controller
     public function indexPublic()
     {
         $menu = Menu::all();
-        return view('menu.index', compact('menu'));
+        return view('Menu.index', compact('menu'));
     }
 
     public function index()
     {
         $menu = Menu::all();
-        return view('admin.menu.index', compact('menu'));
+        return view('admin.Menu.index', compact('menu'));
     }
 
     public function create()
@@ -28,6 +28,7 @@ class MenuController extends Controller
     public function store(Request $request)
     {
         $request->validate([
+            'jenis' => 'required|in:lapangan,alat,fasilitas', // Validasi jenis
             'judul' => 'required|string|max:255',
             'deskripsi' => 'required|string',
             'gambar' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
@@ -44,23 +45,24 @@ class MenuController extends Controller
 
         Menu::create($data);
 
-        return redirect()->route('admin.menu.index')
+        return redirect()->route('admin.Menu.index')
             ->with('success', 'Menu berhasil ditambahkan.');
     }
 
     public function show(Menu $menu)
     {
-        return view('admin.menu.show', compact('menu'));
+        return view('admin.Menu.show', compact('menu'));
     }
 
     public function edit(Menu $menu)
     {
-        return view('admin.menu.edit', compact('menu'));
+        return view('admin.Menu.edit', compact('menu'));
     }
 
     public function update(Request $request, Menu $menu)
     {
         $request->validate([
+            'jenis' => 'required|in:lapangan,alat,fasilitas', // Validasi jenis
             'judul' => 'required|string|max:255',
             'deskripsi' => 'required|string',
             'gambar' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
@@ -87,25 +89,16 @@ class MenuController extends Controller
     }
 
     public function destroy(Menu $menu)
-{
-    // Hapus gambar (jika ada)
-    if ($menu->gambar) {
-        try {
+    {
+        // Hapus gambar (jika ada)
+        if ($menu->gambar) {
             Storage::delete('public/menus/' . $menu->gambar);
-        } catch (\Exception $e) {
-            \Log::error('Failed to delete image: ' . $e->getMessage());
-            return redirect()->back()->with('error', 'Terjadi kesalahan saat menghapus gambar: ' . $e->getMessage());
         }
-    }
 
-    // Hapus data menu
-    try {
+        // Hapus data menu dari database
         $menu->delete();
-        dd('Data menu berhasil dihapus dari database!'); // Tambahkan ini
-        return redirect()->route('admin.Menu.index')->with('success', 'Menu berhasil dihapus.');
-    } catch (\Exception $e) {
-        \Log::error('Failed to delete menu data: ' . $e->getMessage());
-        return redirect()->back()->with('error', 'Terjadi kesalahan saat menghapus menu: ' . $e->getMessage());
+
+        return redirect()->route('admin.Menu.index')
+            ->with('success', 'Menu berhasil dihapus.');
     }
-}
 }

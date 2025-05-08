@@ -15,12 +15,10 @@ class LapanganSeeder extends Seeder
     {
         Lapangan::create([
             'nama' => 'Lapangan 1',
-            'harga_per_jam' => 25000,
         ]);
 
         Lapangan::create([
             'nama' => 'Lapangan 2',
-            'harga_per_jam' => 25000,
         ]);
 
         // Anda bisa menambahkan lebih banyak data lapangan di sini

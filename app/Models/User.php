@@ -42,4 +42,10 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    // Di dalam model User.php
+    public function isAdmin()
+    {
+        return $this->role === 'admin'; // Asumsikan kolom 'role' menyimpan peran user
+    }
 }

@@ -7,6 +7,18 @@
         <form action="{{ route('admin.Menu.store') }}" method="POST" enctype="multipart/form-data">
             @csrf
 
+             <div class="form-group">
+                <label for="jenis">Jenis:</label>
+                <select class="form-control" id="jenis" name="jenis" required>
+                    <option value="lapangan" {{ old('jenis') == 'lapangan' ? 'selected' : '' }}>Lapangan</option>
+                    <option value="alat" {{ old('jenis') == 'alat' ? 'selected' : '' }}>Alat</option>
+                    <option value="fasilitas" {{ old('jenis') == 'fasilitas' ? 'selected' : '' }}>Fasilitas</option>
+                </select>
+                @error('jenis')
+                    <div class="alert alert-danger">{{ $message }}</div>
+                @enderror
+            </div>
+
             <div class="form-group">
                 <label for="judul">Judul:</label>
                 <input type="text" class="form-control" id="judul" name="judul" value="{{ old('judul') }}" required>

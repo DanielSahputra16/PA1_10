@@ -76,9 +76,9 @@ class AboutController extends Controller
     // Coba ambil data About secara manual
     try {
         $about = \App\Models\About::findOrFail($about->id);
-        dd($about->toArray());
+        ($about->toArray());
     } catch (\Exception $e) {
-        dd('Error: ' . $e->getMessage());
+        ('Error: ' . $e->getMessage());
     }
 
     return view('admin.About.edit', compact('about'));
@@ -110,7 +110,7 @@ class AboutController extends Controller
 
         $about->update($input); // Perbaiki: menggunakan $about
 
-        return redirect()->route('admin.abouts.index')
+        return redirect()->route('admin.About.index')
             ->with('success', 'About updated successfully');
     }
 

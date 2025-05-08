@@ -10,6 +10,7 @@ class Menu extends Model
     use HasFactory;
 
     protected $fillable = [
+        'jenis',  // Tambahkan 'jenis' ke daftar fillable
         'judul',
         'deskripsi',
         'gambar',

@@ -22,7 +22,7 @@
                 <a href="<?php echo e(route('galeri.indexPublic')); ?>" class="nav-item nav-link">Galeri</a>
                 <a href="<?php echo e(route('reservasi.index')); ?>" class="nav-item nav-link">Reservasi</a>
                 <a href="/testimonialspublic" class="nav-item nav-link">Testimonial</a>
-                <a href="<?php echo e(route('Contact.indexPublic')); ?>" class="nav-item nav-link">Contact</a>
+                <a href="<?php echo e(route('contact.index')); ?>" class="nav-item nav-link">Contact</a>
             </div>
         </div>
 

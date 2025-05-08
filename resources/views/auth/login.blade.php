@@ -137,7 +137,7 @@
             <div class="col-md-6">
                 <div class="card login-card">
                     <div class="card-header">
-                        <h4 style="text-align: center;"><strong>{{ __('Create your Account') }}</strong></h4>
+                        <h4 style="text-align: center;"><strong>{{ __('Login your Account') }}</strong></h4>
                     </div>
                     <div class="card-body">
                         <form method="POST" action="{{ route('login') }}">

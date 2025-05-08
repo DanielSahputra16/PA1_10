@@ -1,4 +1,4 @@
-<!-- resources/views/admin/jadwals/index.blade.php -->
+<!-- resources/views/jadwal/index.blade.php -->
 <!DOCTYPE html>
 <html lang="en">
 
@@ -64,7 +64,6 @@
         <div class="container-xxl py-7 wow fadeInUp" data-wow-delay="0.1s">
             <div class="container">
                 <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
-                    <h4 class="section-title ff-secondary text-center text-primary fw-normal">Admin</h4>
                     <h1 class="mb-5">Daftar Jadwal Lapangan</h1>
                 </div>
 
@@ -72,58 +71,26 @@
                     <div class="row g-4 justify-content-center">
                         <div class="col-12 px-0">
 
-                            <!-- Pesan Sukses -->
-                            <?php if($message = Session::get('success')): ?>
-                                <div class="alert alert-success alert-dismissible fade show wow fadeInUp" data-wow-delay="0.2s" role="alert">
-                                    <i class="fas fa-check-circle me-2"></i> <?php echo e($message); ?>
-
-                                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                                </div>
-                            <?php endif; ?>
-
-                            <!-- Tombol Tambah Jadwal -->
-                            <div class="text-end mb-4 wow fadeInUp" data-wow-delay="0.3s">
-                                <a href="<?php echo e(route('admin.jadwals.create')); ?>" class="btn btn-primary py-2 px-4">
-                                    <i class="fas fa-plus me-2"></i>Tambah Jadwal
-                                </a>
-                            </div>
-
                             <!-- Tabel Jadwal -->
                             <div class="table-responsive wow fadeInUp" data-wow-delay="0.4s">
                                 <table class="table table-striped table-bordered table-hover align-middle">
                                     <thead class="table-dark">
                                         <tr>
-                                            <th scope="col">Tanggal</th>
+                                            <th scope="col">Nama</th>
                                             <th scope="col">Waktu Mulai</th>
                                             <th scope="col">Waktu Selesai</th>
                                             <th scope="col">Lapangan 1 Tersedia</th>
                                             <th scope="col">Lapangan 2 Tersedia</th>
-                                            <th scope="col" class="text-center">Aksi</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <?php $__currentLoopData = $jadwals; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $jadwal): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                        <?php $__currentLoopData = $jadwalLapangans; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $jadwalLapangan): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                             <tr>
-                                                <td><?php echo e($jadwal->tanggal); ?></td>
-                                                <td><?php echo e($jadwal->waktu_mulai); ?></td>
-                                                <td><?php echo e($jadwal->waktu_selesai); ?></td>
-                                                <td><?php echo e($jadwal->lapangan_1_tersedia ? 'Ya' : 'Tidak'); ?></td>
-                                                <td><?php echo e($jadwal->lapangan_2_tersedia ? 'Ya' : 'Tidak'); ?></td>
-                                                <td class="text-center">
-                                                    <a class="btn btn-sm btn-info me-1" href="<?php echo e(route('admin.jadwals.show',$jadwal->id)); ?>" title="Detail">
-                                                        <i class="fas fa-eye"></i>
-                                                    </a>
-                                                    <a class="btn btn-sm btn-warning me-1" href="<?php echo e(route('admin.jadwals.edit',$jadwal->id)); ?>" title="Edit">
-                                                        <i class="fas fa-edit"></i>
-                                                    </a>
-                                                    <form action="<?php echo e(route('admin.jadwals.destroy',$jadwal->id)); ?>" method="POST" class="d-inline" onsubmit="return confirm('Apakah Anda yakin ingin menghapus jadwal ini?');">
-                                                        <?php echo csrf_field(); ?>
-                                                        <?php echo method_field('DELETE'); ?>
-                                                        <button type="submit" class="btn btn-sm btn-danger" title="Hapus">
-                                                            <i class="fas fa-trash-alt"></i>
-                                                        </button>
-                                                    </form>
-                                                </td>
+                                                <td><?php echo e($jadwalLapangan->nama); ?></td>
+                                                <td><?php echo e($jadwalLapangan->waktu_mulai); ?></td>
+                                                <td><?php echo e($jadwalLapangan->waktu_selesai); ?></td>
+                                                <td><?php echo e($jadwalLapangan->lapangan_1 ? 'Ya' : 'Tidak'); ?></td>
+                                                <td><?php echo e($jadwalLapangan->lapangan_2 ? 'Ya' : 'Tidak'); ?></td>
                                             </tr>
                                         <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                     </tbody>

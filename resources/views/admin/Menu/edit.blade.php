@@ -64,6 +64,18 @@
             @csrf
             @method('PUT')
 
+             <div class="form-group">
+                <label for="jenis">Jenis:</label>
+                <select class="form-control" id="jenis" name="jenis" required>
+                    <option value="lapangan" {{ $menu->jenis == 'lapangan' ? 'selected' : '' }}>Lapangan</option>
+                    <option value="alat" {{ $menu->jenis == 'alat' ? 'selected' : '' }}>Alat</option>
+                    <option value="fasilitas" {{ $menu->jenis == 'fasilitas' ? 'selected' : '' }}>Fasilitas</option>
+                </select>
+                @error('jenis')
+                    <div class="alert alert-danger">{{ $message }}</div>
+                @enderror
+            </div>
+
             <div class="form-group">
                 <label for="judul">Judul:</label>
                 <input type="text" class="form-control" id="judul" name="judul" value="{{ $menu->judul }}" required>

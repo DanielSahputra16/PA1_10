@@ -13,6 +13,6 @@
                 Tidak Ada Gambar
             @endif
         </p>
-        <a href="{{ route('admin.abouts.index') }}" class="btn btn-secondary">Kembali</a>
+        <a href="{{ route('admin.About.index') }}" class="btn btn-secondary">Kembali</a>
     </div>
 @endsection

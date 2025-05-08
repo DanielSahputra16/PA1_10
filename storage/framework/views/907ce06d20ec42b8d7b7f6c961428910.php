@@ -142,4 +142,4 @@ unset($__errorArgs, $__bag); ?>
 </body>
 
 </html>
-<?php /**PATH C:\xampp\htdocs\PA_10\resources\views/admin/menu/edit.blade.php ENDPATH**/ ?>
+<?php /**PATH C:\xampp\htdocs\PA_10\resources\views/admin/Menu/edit.blade.php ENDPATH**/ ?>

@@ -100,11 +100,11 @@
                                         @endif
                                     </td>
                                     <td>
-                                        <a href="{{ route('admin.About.show', ['About' => $about->id]) }}"
+                                        <a href="{{ route('admin.About.show', ['about' => $about->id]) }}"
                                             class="btn btn-info btn-sm">Lihat</a>
-                                        <a href="{{ route('admin.About.edit', ['About' => $about->id]) }}"
+                                        <a href="{{ route('admin.About.edit', ['about' => $about->id]) }}"
                                             class="btn btn-primary btn-sm">Edit</a>
-                                        <form action="{{ route('admin.About.destroy', ['About' => $about->id]) }}" method="POST"
+                                        <form action="{{ route('admin.About.destroy', ['about' => $about->id]) }}" method="POST"
                                             style="display: inline;">
                                             @csrf
                                             @method('DELETE')

@@ -13,11 +13,16 @@ use Illuminate\Support\Facades\DB; //Import DB Facade
 
 class ReservasiController extends Controller
 {
+    public function indexPublic()
+    {
+        $reservasis = Reservasi::with(['lapangan', 'user'])->get();
+        return view('reservasi.index', compact('reservasis'));
+    }
+
     public function index()
     {
-        // Eager load relasi 'lapangan' dan 'user'
         $reservasis = Reservasi::with(['lapangan', 'user'])->get(); //withTrashed()->get(); jika mau menampilkan yang softdeleted juga
-        return view('reservasi.index', compact('reservasis'));
+        return view('admin.reservasi.index', compact('reservasis'));
     }
 
     public function create()
@@ -81,6 +86,13 @@ class ReservasiController extends Controller
         $reservasi = Reservasi::with(['lapangan', 'user'])->findOrFail($id);
 
         return view('reservasi.show', compact('reservasi'));
+    }
+
+    public function showAdmin($id)
+    {
+        $reservasi = Reservasi::with(['lapangan', 'user'])->findOrFail($id);
+
+        return view('admin.reservasi.show', compact('reservasi'));
     }
 
     public function edit($reservasi)
@@ -156,22 +168,35 @@ class ReservasiController extends Controller
 
     public function destroy(Reservasi $reservasi)
     {
+        // Otorisasi: Pastikan user yang login adalah pemilik reservasi atau admin
+        if (auth()->user()->id !== $reservasi->user_id && !auth()->user()->isAdmin()) {
+            abort(403, 'Anda tidak diizinkan membatalkan reservasi ini.'); // Atau redirect dengan pesan error
+        }
 
-      // Gunakan DB::transaction untuk memastikan operasi atomik
-      DB::transaction(function () use ($reservasi) {
-        // Kirim email pembatalan SEBELUM di hapus
-        $this->sendCancellationEmail($reservasi);
-          if (auth()->check()){ //cek apakah user terautentikasi
-                //Menghapus data reservasi
-                $reservasi->forceDelete();   //untuk delete permanen
-               // $reservasi->delete(); //Softdelete
+        // Gunakan DB::transaction untuk memastikan operasi atomik
+        DB::transaction(function () use ($reservasi) {
+            // Kirim email pembatalan SEBELUM dihapus
+            $this->sendCancellationEmail($reservasi);
 
-                 return redirect()->route('reservasi.index')->with('success', 'Reservasi berhasil dibatalkan!'); //kembalikan tampilan
-            }
-
+            //Soft Delete data reservasi
+            $reservasi->delete();
         });
 
         return redirect()->route('reservasi.index')->with('success', 'Reservasi berhasil dibatalkan!');
+    }
+
+    public function destroyAdmin(Reservasi $reservasi)
+    {
+        // Gunakan DB::transaction untuk memastikan operasi atomik
+        DB::transaction(function () use ($reservasi) {
+            // Kirim email pembatalan SEBELUM dihapus
+            $this->sendCancellationEmail($reservasi);
+
+            //Soft Delete data reservasi
+            $reservasi->delete();
+        });
+
+        return redirect()->route('admin.reservasi.index')->with('success', 'Reservasi berhasil dibatalkan!');
     }
 
     protected function sendConfirmationEmail(Reservasi $reservasi)

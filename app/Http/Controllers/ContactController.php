@@ -11,7 +11,7 @@ class ContactController extends Controller
     public function indexPublic()
     {
         $contacts = Contact::all();
-        return view('Contact.index', compact('contacts'));
+        return view('contact.index', compact('contacts'));
     }
     /**
      * Display a listing of the resource.

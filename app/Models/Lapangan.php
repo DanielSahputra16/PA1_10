@@ -9,7 +9,7 @@ class Lapangan extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['nama', 'harga_per_jam'];
+    protected $fillable = ['nama'];
 
     public function reservasis()
     {

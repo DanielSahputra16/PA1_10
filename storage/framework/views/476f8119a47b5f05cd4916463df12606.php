@@ -20,7 +20,7 @@
                 <?php endif; ?>
             </div>
             <button type="submit" class="btn btn-primary">Simpan</button>
-            <a href="<?php echo e(route('admin.abouts.index')); ?>" class="btn btn-secondary">Batal</a>
+            <a href="<?php echo e(route('admin.About.index')); ?>" class="btn btn-secondary">Batal</a>
         </form>
     </div>
 <?php $__env->stopSection(); ?>
