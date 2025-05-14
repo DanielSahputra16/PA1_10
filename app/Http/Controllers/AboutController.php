@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\About;
+use App\Models\Contact;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\DB; // Tambahkan ini untuk transaksi
@@ -15,7 +16,8 @@ class AboutController extends Controller
     public function indexPublic()
     {
         $abouts = About::all();
-        return view('About.index', compact('abouts'));
+        $contacts = Contact::all();
+        return view('About.index', compact('abouts', 'contacts'));
     }
     /**
      * Display a listing of the resource.

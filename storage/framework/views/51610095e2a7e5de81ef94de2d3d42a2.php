@@ -150,6 +150,18 @@
                                                 <a href="<?php echo e(route('admin.reservasi.show', $reservasi->id)); ?>" class="btn btn-sm btn-info me-1" title="Detail">
                                                     <i class="fas fa-eye"></i>
                                                 </a>
+
+                                                <!-- Form Edit Status -->
+                                                <form action="<?php echo e(route('admin.reservasi.updateStatus', $reservasi->id)); ?>" method="POST" class="d-inline">
+                                                    <?php echo csrf_field(); ?>
+                                                    <?php echo method_field('PATCH'); ?>  <!-- Penting: Gunakan method PATCH -->
+                                                    <select name="status" class="form-select form-select-sm" onchange="this.form.submit()">
+                                                        <option value="pending" <?php if($reservasi->status == 'pending'): ?> selected <?php endif; ?>>Pending</option>
+                                                        <option value="confirmed" <?php if($reservasi->status == 'confirmed'): ?> selected <?php endif; ?>>Dikonfirmasi</option>
+                                                        <option value="cancelled" <?php if($reservasi->status == 'cancelled'): ?> selected <?php endif; ?>>Dibatalkan</option>
+                                                    </select>
+                                                </form>
+
                                                 <form action="<?php echo e(route('admin.reservasi.destroy', $reservasi->id)); ?>" method="POST" class="d-inline" onsubmit="return confirm('Apakah Anda yakin ingin membatalkan reservasi ini?');">
                                                     <?php echo csrf_field(); ?>
                                                     <?php echo method_field('DELETE'); ?>

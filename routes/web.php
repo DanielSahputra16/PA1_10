@@ -100,5 +100,6 @@ Route::group(['middleware' => ['auth', 'admin'], 'prefix' => 'admin'], function 
     //Reservasi Routes (ADMIN)
     Route::get('/reservasi', [ReservasiController::class, 'index'])->name('admin.reservasi.index');
     Route::get('/reservasi/{reservasi}', [ReservasiController::class, 'showAdmin'])->name('admin.reservasi.show');
+    Route::patch('/reservasi/{reservasi}/status', [ReservasiController::class, 'updateStatus'])->name('admin.reservasi.updateStatus');
     Route::delete('/reservasi/{reservasi}', [ReservasiController::class, 'destroyAdmin'])->name('admin.reservasi.destroy');
 });

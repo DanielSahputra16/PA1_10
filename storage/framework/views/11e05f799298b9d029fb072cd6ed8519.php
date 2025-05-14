@@ -42,7 +42,6 @@
         </div>
         <!-- Spinner End -->
 
-
         <!-- Navbar & Hero Start -->
         <?php echo $__env->make('layouts.navbar', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
 
@@ -62,7 +61,6 @@
             </div>
         </div>
         <!-- Navbar & Hero End -->
-
 
         <!-- Service Start -->
         <div class="container-xxl py-5">
@@ -109,7 +107,6 @@
         </div>
         <!-- Service End -->
 
-
         <!-- About Start -->
         <div class="container-xxl py-5">
             <div class="container">
@@ -117,16 +114,16 @@
                     <div class="col-lg-6">
                         <div class="row g-3">
                             <div class="col-6 text-start">
-                                <img class="img-fluid rounded w-100 wow zoomIn" data-wow-delay="0.1s" src="<?php echo e(URL::asset('img/about5.jpeg')); ?>">
+                                <img class="img-fluid rounded w-100 wow zoomIn" data-wow-delay="0.1s" src="<?php echo e(URL::asset('img/IMG-20250512-WA0013.jpg')); ?>">
                             </div>
                             <div class="col-6 text-start">
-                                <img class="img-fluid rounded w-75 wow zoomIn" data-wow-delay="0.3s" src="<?php echo e(URL::asset('img/about8.jpeg')); ?>">
+                                <img class="img-fluid rounded w-75 wow zoomIn" data-wow-delay="0.3s" src="<?php echo e(URL::asset('img/IMG-20250512-WA0008.jpg')); ?>">
                             </div>
                             <div class="col-6 text-end">
-                                <img class="img-fluid rounded w-75 wow zoomIn" data-wow-delay="0.5s" src="<?php echo e(URL::asset('img/about6.jpeg')); ?>">
+                                <img class="img-fluid rounded w-75 wow zoomIn" data-wow-delay="0.5s" src="<?php echo e(URL::asset('img/IMG-20250512-WA0023.jpg')); ?>">
                             </div>
                             <div class="col-6 text-end">
-                                <img class="img-fluid rounded w-100 wow zoomIn" data-wow-delay="0.7s" src="<?php echo e(URL::asset('img/about7.jpeg')); ?>">
+                                <img class="img-fluid rounded w-100 wow zoomIn" data-wow-delay="0.7s" src="<?php echo e(URL::asset('img/IMG-20250512-WA0007.jpg')); ?>">
                             </div>
                         </div>
                     </div>
@@ -166,7 +163,6 @@
         <!-- Reservation Start -->
 
         <!-- Reservation Start -->
-
 
         <!-- Team Start -->
         <div class="container-xxl pt-5 pb-3">
@@ -269,11 +265,9 @@
                 </div>
                 <!-- Testimonial End -->
 
-
         <!-- Footer Start -->
        <?php echo $__env->make('layouts.footer', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
         <!-- Footer End -->
-
 
         <!-- Back to Top -->
         <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>

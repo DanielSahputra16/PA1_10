@@ -6,6 +6,7 @@ use App\Models\Lapangan;
 use App\Models\Reservasi;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use Carbon\Carbon;
@@ -165,6 +166,26 @@ class ReservasiController extends Controller
         return redirect()->route('reservasi.index')->with('error', 'Reservasi tidak ditemukan.');
     }
     }
+
+    public function updateStatus(Request $request, Reservasi $reservasi)
+    {
+        // Validasi input
+        $validator = Validator::make($request->all(), [
+            'status' => 'required|in:pending,confirmed,cancelled,completed', // Sesuaikan dengan nilai enum di migration
+        ]);
+
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->withInput(); // Kembali dengan error jika validasi gagal
+        }
+
+        // Update status reservasi
+        $reservasi->status = $request->status;
+        $reservasi->save();
+
+        // Redirect atau kembalikan response sesuai kebutuhan
+        return redirect()->back()->with('success', 'Status reservasi berhasil diperbarui.');
+    }
+
 
     public function destroy(Reservasi $reservasi)
     {
