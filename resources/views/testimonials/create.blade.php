@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="utf-8">
-    <title>Testimonial - Badminton Ramos Center</title>
+    <title>Create - Badminton Ramos Center</title>
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <meta content="" name="keywords">
     <meta content="" name="description">
@@ -55,12 +55,12 @@
         @include('layouts.navbar')
         <div class="container-xxl py-5 bg-dark hero-header mb-5">
             <div class="container text-center my-5 pt-5 pb-4">
-                <h1 class="display-3 text-white mb-3 animated slideInDown">Create Testimonial</h1>
+                <h1 class="display-3 text-white mb-3 animated slideInDown">Buat Testimonial</h1>
                 <nav aria-label="breadcrumb">
                     <ol class="breadcrumb justify-content-center text-uppercase">
                         <li class="breadcrumb-item"><a href="#">Home</a></li>
                         <li class="breadcrumb-item"><a href="#">Pages</a></li>
-                        <li class="breadcrumb-item text-white active" aria-current="page">Create Testimonial</li>
+                        <li class="breadcrumb-item text-white active" aria-current="page">Testimonial</li>
                     </ol>
                 </nav>
             </div>
@@ -89,49 +89,49 @@
                     <div class="col-md-8 col-lg-6">
                         <div class="wow fadeInUp" data-wow-delay="0.2s">
                             <form method="POST" action="{{ route('testimonials.store') }}">
-                                @csrf
-                                <div class="row g-3">
-                                    <div class="col-md-6">
-                                        <div class="form-floating">
-                                            <input type="text" class="form-control @error('your_name') is-invalid @enderror" id="your_name" name="your_name" placeholder="Your Name" value="{{ old('your_name') }}">
-                                            <label for="your_name">Your Name</label>
-                                            @error('your_name')
-                                                <div class="invalid-feedback">{{ $message }}</div>
-                                            @enderror
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-floating">
-                                            <input type="email" class="form-control @error('your_email') is-invalid @enderror" id="your_email" name="your_email" placeholder="Your Email" value="{{ old('your_email') }}">
-                                            <label for="your_email">Your Email</label>
-                                            @error('your_email')
-                                                <div class="invalid-feedback">{{ $message }}</div>
-                                            @enderror
-                                        </div>
-                                    </div>
-                                    <div class="col-12">
-                                        <div class="form-floating">
-                                            <input type="text" class="form-control @error('subject') is-invalid @enderror" id="subject" name="subject" placeholder="Subject" value="{{ old('subject') }}">
-                                            <label for="subject">Subject</label>
-                                            @error('subject')
-                                                <div class="invalid-feedback">{{ $message }}</div>
-                                            @enderror
-                                        </div>
-                                    </div>
-                                    <div class="col-12">
-                                        <div class="form-floating">
-                                            <textarea class="form-control @error('message') is-invalid @enderror" placeholder="Leave a message here" id="message" name="message" style="height: 150px">{{ old('message') }}</textarea>
-                                            <label for="message">Message</label>
-                                            @error('message')
-                                                <div class="invalid-feedback">{{ $message }}</div>
-                                            @enderror
-                                        </div>
-                                    </div>
-                                    <div class="col-12">
-                                        <button class="btn btn-primary w-100 py-3" type="submit">Send Message</button>
-                                    </div>
-                                </div>
-                            </form>
+    @csrf
+    <div class="row g-3">
+        <div class="col-md-6">
+            <div class="form-floating">
+                <input type="text" class="form-control @error('name') is-invalid @enderror" id="name" name="name" placeholder="Your Name" value="{{ old('name') }}" required>
+                <label for="name">Your Name</label>
+                @error('name')
+                    <div class="invalid-feedback">{{ $message }}</div>
+                @enderror
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-floating">
+                <input type="email" class="form-control @error('email') is-invalid @enderror" id="email" name="email" placeholder="Your Email" value="{{ old('email') }}" required>
+                <label for="email">Your Email</label>
+                @error('email')
+                    <div class="invalid-feedback">{{ $message }}</div>
+                @enderror
+            </div>
+        </div>
+        <div class="col-12">
+            <div class="form-floating">
+                <input type="text" class="form-control @error('subject') is-invalid @enderror" id="subject" name="subject" placeholder="Subject" value="{{ old('subject') }}">
+                <label for="subject">Subject</label>
+                @error('subject')
+                    <div class="invalid-feedback">{{ $message }}</div>
+                @enderror
+            </div>
+        </div>
+        <div class="col-12">
+            <div class="form-floating">
+                <textarea class="form-control @error('message') is-invalid @enderror" placeholder="Leave a message here" id="message" name="message" style="height: 150px">{{ old('message') }}</textarea>
+                <label for="message">Message</label>
+                @error('message')
+                    <div class="invalid-feedback">{{ $message }}</div>
+                @enderror
+            </div>
+        </div>
+        <div class="col-12">
+            <button class="btn btn-primary w-100 py-3" type="submit">Send Message</button>
+        </div>
+    </div>
+</form>
                         </div>
                     </div>
                 </div>

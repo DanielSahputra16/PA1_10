@@ -80,112 +80,99 @@
                     <!-- Kolom dibuat lebih sempit (lg-8) agar form tidak terlalu lebar -->
                     <div class="col-lg-8 wow fadeInUp" data-wow-delay="0.2s">
 
-                        <!-- Menampilkan Error Validasi (dengan styling alert dari halaman tabel) -->
                         @if ($errors->any())
-                            <div class="alert alert-danger alert-dismissible fade show mb-4" role="alert">
-                                <h4 class="alert-heading"><i class="fas fa-exclamation-triangle me-2"></i>Oops! Ada
-                                    Kesalahan:</h4>
-                                <ul class="list-unstyled mb-0">
-                                    <!-- list-unstyled & mb-0 untuk kerapian -->
+                            <div class="alert alert-danger">
+                                <ul>
                                     @foreach ($errors->all() as $error)
                                         <li>{{ $error }}</li>
                                     @endforeach
                                 </ul>
-                                <button type="button" class="btn-close" data-bs-dismiss="alert"
-                                    aria-label="Close"></button>
                             </div>
                         @endif
 
-                        <!-- Card untuk membungkus form agar terlihat lebih rapi (opsional) -->
-                        <div class="card shadow-sm">
-                            <div class="card-body p-4 p-md-5">
-                                <form action="{{ route('reservasi.store') }}" method="POST">
-                                    @csrf
+                        <form action="{{ route('reservasi.store') }}" method="POST">
+                            @csrf
 
-                                     <!-- Field Nama -->
-                                    <div class="mb-3">
-                                        <label for="nama" class="form-label fw-bold">Nama:</label>
-                                        <input type="text" name="nama" id="nama"
-                                            class="form-control @error('nama') is-invalid @enderror" required
-                                            value="{{ old('nama') }}">
-                                        @error('nama')
-                                            <div class="invalid-feedback">{{ $message }}</div>
-                                        @enderror
-                                    </div>
-
-                                    <!-- Field No. HP -->
-                                    <div class="mb-3">
-                                        <label for="no_hp" class="form-label fw-bold">Nomor HP:</label>
-                                        <input type="text" name="no_hp" id="no_hp"
-                                            class="form-control @error('no_hp') is-invalid @enderror" required
-                                            value="{{ old('no_hp') }}">
-                                        @error('no_hp')
-                                            <div class="invalid-feedback">{{ $message }}</div>
-                                        @enderror
-                                    </div>
-
-                                    <!-- Field Lapangan -->
-                                    <div class="mb-3">
-                                        <label for="lapangan_id" class="form-label fw-bold">Pilih Lapangan:</label>
-                                        <select name="lapangan_id" id="lapangan_id"
-                                            class="form-select @error('lapangan_id') is-invalid @enderror" required>
-                                            {{-- Opsi placeholder --}}
-                                            <option value="" selected disabled>-- Silakan Pilih Lapangan --</option>
-
-                                            {{-- Loop data lapangan dari database --}}
-                                            @foreach ($lapangans as $lapangan)
-                                                <option value="{{ $lapangan->id }}"
-                                                    {{ old('lapangan_id') == $lapangan->id ? 'selected' : '' }}>
-                                                    {{-- Tampilkan hanya nama lapangan sebagai teks opsi --}}
-                                                    {{ $lapangan->nama }}
-                                                </option>
-                                            @endforeach
-                                        </select>
-
-                                        {{-- Tampilkan pesan error validasi jika ada --}}
-                                        @error('lapangan_id')
-                                            <div class="invalid-feedback">{{ $message }}</div>
-                                        @enderror
-                                    </div>
-
-                                    <!-- Field Tanggal Mulai -->
-                                    <div class="mb-3">
-                                        <label for="tanggal_mulai" class="form-label fw-bold">Tanggal & Waktu
-                                            Mulai:</label>
-                                        <input type="datetime-local" name="tanggal_mulai" id="tanggal_mulai"
-                                            class="form-control @error('tanggal_mulai') is-invalid @enderror" required
-                                            value="{{ old('tanggal_mulai') }}">
-                                        @error('tanggal_mulai')
-                                            <div class="invalid-feedback">{{ $message }}</div>
-                                        @enderror
-                                    </div>
-
-                                    <!-- Field Tanggal Selesai -->
-                                    <div class="mb-3">
-                                        <label for="tanggal_selesai" class="form-label fw-bold">Tanggal & Waktu
-                                            Selesai:</label>
-                                        <input type="datetime-local" name="tanggal_selesai" id="tanggal_selesai"
-                                            class="form-control @error('tanggal_selesai') is-invalid @enderror"
-                                            required value="{{ old('tanggal_selesai') }}">
-                                        @error('tanggal_selesai')
-                                            <div class="invalid-feedback">{{ $message }}</div>
-                                        @enderror
-                                    </div>
-
-                                    <!-- Tombol Submit (dengan styling dari halaman tabel) -->
-                                    <div class="text-center mt-4">
-                                        <button type="submit" class="btn btn-primary py-2 px-4">
-                                            <i class="fas fa-calendar-check me-2"></i>Buat Reservasi
-                                        </button>
-                                        <a href="{{ route('reservasi.index') }}"
-                                            class="btn btn-secondary py-2 px-4 ms-2">
-                                            <i class="fas fa-times me-2"></i>Batal
-                                        </a>
-                                    </div>
-                                </form>
+                            <!-- Field Nama -->
+                            <div class="mb-3">
+                                <label for="nama" class="form-label">Nama:</label>
+                                <input type="text" name="nama" id="nama" class="form-control"
+                                    value="{{ old('nama') }}" required>
                             </div>
-                        </div>
 
+                            <!-- Field No. HP -->
+                            <div class="mb-3">
+                                <label for="no_hp" class="form-label">Nomor HP:</label>
+                                <input type="text" name="no_hp" id="no_hp" class="form-control"
+                                    value="{{ old('no_hp') }}" required>
+                            </div>
+
+                            <!-- Field Lapangan -->
+                            <div class="mb-3">
+                                <label for="lapangan_id" class="form-label">Lapangan:</label>
+                                <select name="lapangan_id" id="lapangan_id" class="form-select" required>
+                                    <option value="" selected disabled>-- Pilih Lapangan --</option>
+                                    @foreach ($lapangans as $lapangan)
+                                        <option value="{{ $lapangan->id }}"
+                                            {{ old('lapangan_id') == $lapangan->id ? 'selected' : '' }}>
+                                            {{ $lapangan->nama }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </div>
+
+                            <!-- Field Tanggal Mulai -->
+                            <div class="mb-3">
+                                <label for="tanggal_mulai" class="form-label">Tanggal Mulai:</label>
+                                <input type="date" name="tanggal_mulai" id="tanggal_mulai" class="form-control"
+                                    value="{{ old('tanggal_mulai') }}" required>
+                            </div>
+
+                            <!-- Field Jam Mulai -->
+                            <div class="mb-3">
+                                <label for="jam_mulai" class="form-label">Jam Mulai:</label>
+                                <select name="jam_mulai" id="jam_mulai" class="form-select" required>
+                                    <option value="" selected disabled>-- Pilih Jam Mulai --</option>
+                                    @for ($i = 8; $i <= 22; $i++)
+                                        <option value="{{ str_pad($i, 2, '0', STR_PAD_LEFT) }}:00"
+                                            {{ old('jam_mulai') == str_pad($i, 2, '0', STR_PAD_LEFT) . ':00' ? 'selected' : '' }}>
+                                            {{ str_pad($i, 2, '0', STR_PAD_LEFT) }}:00
+                                        </option>
+                                    @endfor
+                                </select>
+                            </div>
+
+                            <!-- Field Tanggal Selesai -->
+                            <div class="mb-3">
+                                <label for="tanggal_selesai" class="form-label">Tanggal Selesai:</label>
+                                <input type="date" name="tanggal_selesai" id="tanggal_selesai" class="form-control"
+                                    value="{{ old('tanggal_selesai') }}" required>
+                            </div>
+
+                            <!-- Field Jam Selesai -->
+                            <div class="mb-3">
+                                <label for="jam_selesai" class="form-label">Jam Selesai:</label>
+                                <select name="jam_selesai" id="jam_selesai" class="form-select" required>
+                                    <option value="" selected disabled>-- Pilih Jam Selesai --</option>
+                                    @for ($i = 8; $i <= 22; $i++)
+                                        <option value="{{ str_pad($i, 2, '0', STR_PAD_LEFT) }}:00"
+                                            {{ old('jam_selesai') == str_pad($i, 2, '0', STR_PAD_LEFT) . ':00' ? 'selected' : '' }}>
+                                            {{ str_pad($i, 2, '0', STR_PAD_LEFT) }}:00
+                                        </option>
+                                    @endfor
+                                </select>
+                            </div>
+
+                            <!-- Tombol Submit (dengan styling dari halaman tabel) -->
+                            <div class="text-center mt-4">
+                                <button type="submit" class="btn btn-primary py-2 px-4">
+                                    <i class="fas fa-calendar-check me-2"></i>Buat Reservasi
+                                </button>
+                                <a href="{{ route('reservasi.index') }}" class="btn btn-secondary py-2 px-4 ms-2">
+                                    <i class="fas fa-times me-2"></i>Batal
+                                </a>
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div>
@@ -215,41 +202,56 @@
 
     <!-- Template Javascript -->
     <script src="{{ URL::asset('js/main.js') }}"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const tanggalMulaiInput = document.getElementById('tanggal_mulai');
+            const tanggalSelesaiInput = document.getElementById('tanggal_selesai');
+
+            // Set tanggal minimum (hari ini)
+            const today = new Date();
+            const todayFormatted = today.toISOString().split('T')[0]; // Format: YYYY-MM-DD
+            tanggalMulaiInput.min = todayFormatted;
+            tanggalSelesaiInput.min = todayFormatted;
+
+            // Set tanggal maksimum (2 bulan ke depan)
+            const maxDate = new Date();
+            maxDate.setMonth(maxDate.getMonth() + 2); // Tambah 2 bulan
+            const maxDateFormatted = maxDate.toISOString().split('T')[0];
+            tanggalMulaiInput.max = maxDateFormatted;
+            tanggalSelesaiInput.max = maxDateFormatted;
+
+            // Fungsi untuk memvalidasi
+            function validateWaktu() {
+                const jamMulaiSelect = document.getElementById('jam_mulai');
+                const jamSelesaiSelect = document.getElementById('jam_selesai');
+                const tanggalMulai = tanggalMulaiInput.value;
+                const jamMulai = jamMulaiSelect.value;
+                const tanggalSelesai = tanggalSelesaiInput.value;
+                const jamSelesai = jamSelesaiSelect.value;
+
+                if (tanggalMulai && jamMulai && tanggalSelesai && jamSelesai) {
+                    const mulai = new Date(`${tanggalMulai} ${jamMulai}`);
+                    const selesai = new Date(`${tanggalSelesai} ${jamSelesai}`);
+
+                    if (mulai >= selesai) {
+                        alert('Waktu selesai harus setelah waktu mulai.');
+                        tanggalSelesaiInput.value = tanggalMulai;
+                        jamSelesaiSelect.value = jamMulai;
+                    }
+                }
+            }
+
+            const jamMulaiSelect = document.getElementById('jam_mulai');
+            const jamSelesaiSelect = document.getElementById('jam_selesai');
+
+            // Tambahkan event listener ke setiap elemen
+            tanggalMulaiInput.addEventListener('change', validateWaktu);
+            jamMulaiSelect.addEventListener('change', validateWaktu);
+            tanggalSelesaiInput.addEventListener('change', validateWaktu);
+            jamSelesaiSelect.addEventListener('change', validateWaktu);
+        });
+    </script>
 </body>
 
 </html>
-
-<!-- Script validasi tanggal sisi klien) -->
-<script>
-    // Set tanggal minimum untuk datetime-local
-    document.addEventListener('DOMContentLoaded', (event) => {
-        const now = new Date();
-        now.setMinutes(now.getMinutes() - now.getTimezoneOffset());
-        const yyyy = now.getFullYear();
-        const mm = String(now.getMonth() + 1).padStart(2, '0');
-        const dd = String(now.getDate()).padStart(2, '0');
-        const hh = String(now.getHours()).padStart(2, '0');
-        const mi = String(now.getMinutes()).padStart(2, '0');
-        const minDateTime = `${yyyy}-${mm}-${dd}T${hh}:${mi}`;
-
-        const startDateInput = document.getElementById('tanggal_mulai');
-        const endDateInput = document.getElementById('tanggal_selesai');
-
-        if (startDateInput) startDateInput.min = minDateTime;
-        if (endDateInput) endDateInput.min = minDateTime;
-
-        // Optional: Validasi Tanggal Selesai >= Tanggal Mulai
-        if (startDateInput && endDateInput) {
-            startDateInput.addEventListener('change', function() {
-                if (this.value) {
-                    endDateInput.min = this.value;
-                    if (endDateInput.value && endDateInput.value < this.value) {
-                        endDateInput.value = ''; // Reset jika tidak valid
-                    }
-                } else {
-                    endDateInput.min = minDateTime;
-                }
-            });
-        }
-    });
-</script>

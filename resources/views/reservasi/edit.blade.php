@@ -103,13 +103,14 @@
                             @enderror
                         </div>
 
+                        <!-- Field Lapangan -->
                         <div class="mb-3">
                             <label for="lapangan_id" class="form-label">Lapangan:</label>
-                            <select class="form-control @error('lapangan_id') is-invalid @enderror" id="lapangan_id"
-                                name="lapangan_id" required>
+                            <select name="lapangan_id" id="lapangan_id" class="form-select" required>
+                                <option value="" selected disabled>-- Pilih Lapangan --</option>
                                 @foreach ($lapangans as $lapangan)
                                     <option value="{{ $lapangan->id }}"
-                                        {{ (old('lapangan_id') == $lapangan->id) || ($reservasi->lapangan_id == $lapangan->id) ? 'selected' : '' }}>
+                                        {{ old('lapangan_id', $reservasi->lapangan_id) == $lapangan->id ? 'selected' : '' }}>
                                         {{ $lapangan->nama }}
                                     </option>
                                 @endforeach
@@ -119,26 +120,48 @@
                             @enderror
                         </div>
 
+                        <!-- Field Tanggal Mulai -->
                         <div class="mb-3">
-                            <label class="form-label" for="tanggal_mulai">Tanggal Mulai:</label>
-                            <input class="form-control @error('tanggal_mulai') is-invalid @enderror" id="tanggal_mulai"
-                                name="tanggal_mulai" type="datetime-local"
-                                value="{{ old('tanggal_mulai', \Carbon\Carbon::parse($reservasi->tanggal_mulai)->format('Y-m-d\TH:i')) }}"
+                            <label for="tanggal_mulai" class="form-label">Tanggal Mulai:</label>
+                            <input type="date" name="tanggal_mulai" id="tanggal_mulai" class="form-control"
+                                value="{{ old('tanggal_mulai', \Carbon\Carbon::parse($reservasi->tanggal_mulai)->format('Y-m-d')) }}"
                                 required>
-                            @error('tanggal_mulai')
-                                <div class="invalid-feedback">{{ $message }}</div>
-                            @enderror
                         </div>
 
+                        <!-- Field Jam Mulai -->
                         <div class="mb-3">
-                            <label class="form-label" for="tanggal_selesai">Tanggal Selesai:</label>
-                            <input class="form-control @error('tanggal_selesai') is-invalid @enderror" id="tanggal_selesai"
-                                name="tanggal_selesai" type="datetime-local"
-                                value="{{ old('tanggal_selesai', \Carbon\Carbon::parse($reservasi->tanggal_selesai)->format('Y-m-d\TH:i')) }}"
+                            <label for="jam_mulai" class="form-label">Jam Mulai:</label>
+                            <select name="jam_mulai" id="jam_mulai" class="form-select" required>
+                                <option value="" selected disabled>-- Pilih Jam Mulai --</option>
+                                @for ($i = 8; $i <= 22; $i++)
+                                    <option value="{{ str_pad($i, 2, '0', STR_PAD_LEFT) }}:00"
+                                        {{ old('jam_mulai', \Carbon\Carbon::parse($reservasi->tanggal_mulai)->format('H:i')) == str_pad($i, 2, '0', STR_PAD_LEFT) . ':00' ? 'selected' : '' }}>
+                                        {{ str_pad($i, 2, '0', STR_PAD_LEFT) }}:00
+                                    </option>
+                                @endfor
+                            </select>
+                        </div>
+
+                        <!-- Field Tanggal Selesai -->
+                        <div class="mb-3">
+                            <label for="tanggal_selesai" class="form-label">Tanggal Selesai:</label>
+                            <input type="date" name="tanggal_selesai" id="tanggal_selesai" class="form-control"
+                                value="{{ old('tanggal_selesai', \Carbon\Carbon::parse($reservasi->tanggal_selesai)->format('Y-m-d')) }}"
                                 required>
-                            @error('tanggal_selesai')
-                                <div class="invalid-feedback">{{ $message }}</div>
-                            @enderror
+                        </div>
+
+                        <!-- Field Jam Selesai -->
+                        <div class="mb-3">
+                            <label for="jam_selesai" class="form-label">Jam Selesai:</label>
+                            <select name="jam_selesai" id="jam_selesai" class="form-select" required>
+                                <option value="" selected disabled>-- Pilih Jam Selesai --</option>
+                                @for ($i = 8; $i <= 22; $i++)
+                                    <option value="{{ str_pad($i, 2, '0', STR_PAD_LEFT) }}:00"
+                                        {{ old('jam_selesai', \Carbon\Carbon::parse($reservasi->tanggal_selesai)->format('H:i')) == str_pad($i, 2, '0', STR_PAD_LEFT) . ':00' ? 'selected' : '' }}>
+                                        {{ str_pad($i, 2, '0', STR_PAD_LEFT) }}:00
+                                    </option>
+                                @endfor
+                            </select>
                         </div>
 
                         <button class="btn btn-primary" type="submit">Edit Reservasi</button>
@@ -172,41 +195,67 @@
 
     <!-- Template Javascript -->
     <script src="{{ URL::asset('js/main.js') }}"></script>
+
+    <!-- Script validasi tanggal sisi klien) -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const tanggalMulaiInput = document.getElementById('tanggal_mulai');
+            const tanggalSelesaiInput = document.getElementById('tanggal_selesai');
+
+            // Mendapatkan tahun saat ini
+            const currentYear = new Date().getFullYear();
+
+            // Set tanggal minimum (hari ini)
+            const today = new Date();
+            const todayFormatted = today.toISOString().split('T')[0]; // Format: YYYY-MM-DD
+            tanggalMulaiInput.min = todayFormatted;
+            tanggalSelesaiInput.min = todayFormatted;
+
+            // Set tanggal maksimum (2 bulan ke depan, tetapi batasi tahun)
+            const maxDate = new Date();
+            maxDate.setMonth(maxDate.getMonth() + 2); // Tambah 2 bulan
+
+            // Batasi tahun
+            if (maxDate.getFullYear() > currentYear) {
+                maxDate.setFullYear(currentYear, 11, 31); // Set ke 31 Desember tahun ini
+            }
+
+            const maxDateFormatted = maxDate.toISOString().split('T')[0];
+            tanggalMulaiInput.max = maxDateFormatted;
+            tanggalSelesaiInput.max = maxDateFormatted;
+
+             // Fungsi untuk memvalidasi
+            function validateWaktu() {
+                const jamMulaiSelect = document.getElementById('jam_mulai');
+                const jamSelesaiSelect = document.getElementById('jam_selesai');
+                const tanggalMulai = tanggalMulaiInput.value;
+                const jamMulai = jamMulaiSelect.value;
+                const tanggalSelesai = tanggalSelesaiInput.value;
+                const jamSelesai = jamSelesaiSelect.value;
+
+                if (tanggalMulai && jamMulai && tanggalSelesai && jamSelesai) {
+                    const mulai = new Date(`${tanggalMulai} ${jamMulai}`);
+                    const selesai = new Date(`${tanggalSelesai} ${jamSelesai}`);
+
+                    if (mulai >= selesai) {
+                        alert('Waktu selesai harus setelah waktu mulai.');
+                        tanggalSelesaiInput.value = tanggalMulai;
+                        jamSelesaiSelect.value = jamMulai;
+                    }
+                }
+            }
+
+            const jamMulaiSelect = document.getElementById('jam_mulai');
+            const jamSelesaiSelect = document.getElementById('jam_selesai');
+
+            // Tambahkan event listener ke setiap elemen
+            tanggalMulaiInput.addEventListener('change', validateWaktu);
+            jamMulaiSelect.addEventListener('change', validateWaktu);
+            tanggalSelesaiInput.addEventListener('change', validateWaktu);
+            jamSelesaiSelect.addEventListener('change', validateWaktu);
+
+        });
+    </script>
 </body>
 
 </html>
-
-<!-- Script validasi tanggal sisi klien) -->
-<script>
-    // Set tanggal minimum untuk datetime-local
-    document.addEventListener('DOMContentLoaded', (event) => {
-        const now = new Date();
-        now.setMinutes(now.getMinutes() - now.getTimezoneOffset());
-        const yyyy = now.getFullYear();
-        const mm = String(now.getMonth() + 1).padStart(2, '0');
-        const dd = String(now.getDate()).padStart(2, '0');
-        const hh = String(now.getHours()).padStart(2, '0');
-        const mi = String(now.getMinutes()).padStart(2, '0');
-        const minDateTime = `${yyyy}-${mm}-${dd}T${hh}:${mi}`;
-
-        const startDateInput = document.getElementById('tanggal_mulai');
-        const endDateInput = document.getElementById('tanggal_selesai');
-
-        if (startDateInput) startDateInput.min = minDateTime;
-        if (endDateInput) endDateInput.min = minDateTime;
-
-        // Optional: Validasi Tanggal Selesai >= Tanggal Mulai
-        if (startDateInput && endDateInput) {
-            startDateInput.addEventListener('change', function() {
-                if (this.value) {
-                    endDateInput.min = this.value;
-                    if (endDateInput.value && endDateInput.value < this.value) {
-                        endDateInput.value = ''; // Reset jika tidak valid
-                    }
-                } else {
-                    endDateInput.min = minDateTime;
-                }
-            });
-        }
-    });
-</script>

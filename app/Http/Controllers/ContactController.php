@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Contact;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class ContactController extends Controller
 {
@@ -43,7 +44,10 @@ class ContactController extends Controller
             'embed_code' => 'nullable|string',
         ]);
 
-        Contact::create($request->all());
+        $data = $request->all();
+        $data['user_id'] = Auth::id(); // Menambahkan user_id
+
+        Contact::create($data);
 
         return redirect()->route('admin.contact.index')
                          ->with('success','Contact created successfully.');
@@ -72,7 +76,10 @@ class ContactController extends Controller
             'embed_code' => 'nullable|string',
         ]);
 
-        $contact->update($request->all());
+        $data = $request->all();
+        $data['user_id'] = Auth::id(); // Menambahkan user_id
+
+        $contact->update($data);
 
         return redirect()->route('admin.contact.index')
                          ->with('success','Contact updated successfully.');

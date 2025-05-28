@@ -10,9 +10,15 @@ class Menu extends Model
     use HasFactory;
 
     protected $fillable = [
-        'jenis',  // Tambahkan 'jenis' ke daftar fillable
+        'user_id', // Tambahkan user_id ke daftar fillable
         'judul',
         'deskripsi',
         'gambar',
+        'jenis', // jenis
     ];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }

@@ -142,34 +142,39 @@
                                     @forelse ($reservasis as $reservasi)
                                         <tr>
                                             <th scope="row">{{ $reservasi->id }}</th>
-                                            <td>{{ $reservasi->nama }}</td>  <!-- Tampilkan nama -->
-                                            <td>{{ $reservasi->no_hp }}</td> <!-- Tampilkan no_hp -->
-                                            <td>{{ $reservasi->lapangan->nama ?? 'N/A' }}</td>  <!-- Handle jika relasi lapangan null -->
-                                            <td>{{ \Carbon\Carbon::parse($reservasi->tanggal_mulai)->isoFormat('D MMM YYYY, HH:mm') }}</td>  <!-- Format tanggal lokal -->
-                                            <td>{{ \Carbon\Carbon::parse($reservasi->tanggal_selesai)->isoFormat('D MMM YYYY, HH:mm') }}</td>  <!-- Format tanggal lokal -->
+                                            <td>{{ $reservasi->nama }}</td>
+                                            <td>{{ $reservasi->no_hp }}</td>
+                                            <td>{{ $reservasi->lapangan->nama ?? 'N/A' }}</td>
+                                            <td>{{ \Carbon\Carbon::parse($reservasi->tanggal_mulai)->isoFormat('D MMM YYYY, HH:mm') }}</td>
+                                            <td>{{ \Carbon\Carbon::parse($reservasi->tanggal_selesai)->isoFormat('D MMM YYYY, HH:mm') }}</td>
                                             <td>
                                                 <span class="badge {{ getStatusBadgeClass($reservasi->status) }}">{{ $reservasi->status }}</span>
                                             </td>
                                             <td class="text-center">
-                                                 <!-- Tombol Aksi -->
+                                                <!-- Tombol Aksi -->
                                                 <a href="{{ route('reservasi.show', $reservasi->id) }}" class="btn btn-sm btn-info me-1" title="Detail">
                                                     <i class="fas fa-eye"></i>
                                                 </a>
-                                                <a href="{{ route('reservasi.edit', $reservasi->id) }}" class="btn btn-sm btn-warning me-1" title="Edit">
-                                                    <i class="fas fa-edit"></i>
-                                                </a>
-                                                <form action="{{ route('reservasi.destroy', $reservasi->id) }}" method="POST" class="d-inline" onsubmit="return confirm('Apakah Anda yakin ingin membatalkan reservasi ini?');">
-                                                    @csrf
-                                                    @method('DELETE')
-                                                    <button type="submit" class="btn btn-sm btn-danger" title="Batalkan">
-                                                        <i class="fas fa-trash-alt"></i>
-                                                    </button>
-                                                </form>
+
+                                                <!-- Tampilkan tombol Edit dan Delete hanya jika user adalah pemilik atau admin -->
+                                                @auth
+                                                    @if (auth()->user()->id === $reservasi->user_id || auth()->user()->isAdmin())
+                                                        <a href="{{ route('reservasi.edit', $reservasi->id) }}" class="btn btn-sm btn-warning me-1" title="Edit">
+                                                            <i class="fas fa-edit"></i>
+                                                        </a>
+                                                        <form action="{{ route('reservasi.destroy', $reservasi->id) }}" method="POST" class="d-inline" onsubmit="return confirm('Apakah Anda yakin ingin membatalkan reservasi ini?');">
+                                                            @csrf
+                                                            @method('DELETE')
+                                                            <button type="submit" class="btn btn-sm btn-danger" title="Batalkan">
+                                                                <i class="fas fa-trash-alt"></i>
+                                                            </button>
+                                                        </form>
+                                                    @endif
+                                                @endauth
                                             </td>
                                         </tr>
                                     @empty
                                         <tr>
-                                             <!-- Pesan jika tabel kosong -->
                                             <td colspan="8" class="text-center py-4">
                                                 <i class="fas fa-info-circle me-2"></i> Tidak ada data reservasi ditemukan.
                                             </td>

@@ -13,10 +13,14 @@ return new class extends Migration
     {
         Schema::create('menus', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('user_id')->nullable(); // Foreign key ke tabel users
             $table->string('judul');
             $table->text('deskripsi');
-            $table->string('gambar')->nullable(); // `nullable()` karena gambar mungkin tidak selalu diunggah
+            $table->string('gambar')->nullable();
+            $table->enum('jenis', ['lapangan', 'alat', 'fasilitas']); // Tambahkan kolom jenis
             $table->timestamps();
+
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('set null'); // Jika user dihapus, user_id jadi null
         });
     }
 

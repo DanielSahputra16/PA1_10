@@ -28,8 +28,16 @@ Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
 Route::post('/login', [AuthController::class, 'login'])->name('login.process');
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
-// Resource route untuk frontend testimonials
-Route::resource('testimonials', TestimonialController::class)->only(['create', 'store', 'destroy']);
+Route::middleware('auth')->group(function () {
+    Route::get('/testimonials/create', [TestimonialController::class, 'create'])->name('testimonials.create');
+    Route::post('/testimonials', [TestimonialController::class, 'store'])->name('testimonials.store');
+    Route::get('/testimonials/{testimonial}', [TestimonialController::class, 'show'])->name('testimonials.show');
+    Route::delete('/testimonials/{testimonial}', [TestimonialController::class, 'destroy'])->name('testimonials.destroy');
+});
+
+Route::group(['middleware' => ['auth', 'admin'], 'prefix' => 'admin'], function () {
+    Route::resource('testimonials', App\Http\Controllers\TestimonialController::class, ['names' => 'admin.testimonials']);
+});
 
 // **Reservasi Routes (User - Requires Authentication)**
 Route::group(['middleware' => 'auth'], function () {
@@ -46,7 +54,6 @@ Route::group(['middleware' => 'auth'], function () {
 Route::group(['middleware' => ['auth', 'admin'], 'prefix' => 'admin'], function () {
     Route::get('/dashboard', [AdminController::class, 'index'])->name('admin.dashboard');
     Route::get('/users', [AdminController::class, 'manageUsers'])->name('admin.manageUsers');
-    Route::get('/bookings', [AdminController::class, 'manageBookings'])->name('admin.manageBookings');
 
     // Galeri Routes (Manual)
     Route::get('/Galeri', [GaleriController::class, 'index'])->name('admin.Galeri.index');
@@ -72,14 +79,6 @@ Route::group(['middleware' => ['auth', 'admin'], 'prefix' => 'admin'], function 
     Route::get('/Menu/{menu}/edit', [MenuController::class, 'edit'])->name('admin.Menu.edit');
     Route::put('/admin/Menu/{menu}', [MenuController::class, 'update'])->name('admin.Menu.update');
     Route::delete('/admin/Menu/{menu}', [MenuController::class, 'destroy'])->name('admin.Menu.destroy');
-
-    Route::get('/testimonials', [TestimonialController::class, 'index'])->name('admin.testimonials.index');
-    Route::get('/testimonials/create', [TestimonialController::class, 'create'])->name('admin.testimonials.create');
-    Route::post('/testimonials', [TestimonialController::class, 'store'])->name('admin.testimonials.store');
-    Route::get('/testimonials/{testimonial}', [TestimonialController::class, 'show'])->name('admin.testimonials.show');
-    Route::get('/testimonials/{testimonial}/edit', [TestimonialController::class, 'edit'])->name('admin.testimonials.edit');
-    Route::put('/testimonials/{testimonial}', [TestimonialController::class, 'update'])->name('admin.testimonials.update');
-    Route::delete('/testimonials/{testimonial}', [TestimonialController::class, 'destroy'])->name('admin.testimonials.destroy');
 
     Route::get('/contact', [ContactController::class, 'index'])->name('admin.contact.index');
     Route::get('/contact/create', [ContactController::class, 'create'])->name('admin.contact.create');

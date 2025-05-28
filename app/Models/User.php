@@ -45,7 +45,12 @@ class User extends Authenticatable
 
     // Di dalam model User.php
     public function isAdmin()
+{
+    return $this->is_admin === 1; // Atau true, tergantung bagaimana Anda menyimpan nilai boolean
+}
+
+    public function testimonials()
     {
-        return $this->role === 'admin'; // Asumsikan kolom 'role' menyimpan peran user
+        return $this->hasMany(Testimonial::class);
     }
 }

@@ -13,12 +13,15 @@ return new class extends Migration
     {
         Schema::create('jadwal_lapangans', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('user_id')->nullable(); // Foreign key ke tabel users
             $table->string('nama');
-            $table->time('waktu_mulai'); // waktu mulai
-            $table->time('waktu_selesai'); // waktu selesai
-            $table->boolean('lapangan_1')->default(false); // Menandakan apakah lapangan 1 dipesan atau tidak
-            $table->boolean('lapangan_2')->default(false); // Menandakan apakah lapangan 2 dipesan atau tidak
+            $table->time('waktu_mulai');
+            $table->time('waktu_selesai');
+            $table->boolean('lapangan_1')->default(false);
+            $table->boolean('lapangan_2')->default(false);
             $table->timestamps();
+
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('set null');
         });
     }
 

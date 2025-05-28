@@ -9,12 +9,17 @@ class Galeri extends Model
 {
     use HasFactory;
 
-    protected $table = 'galeri'; // Pastikan nama tabel ini benar!
+    protected $table = 'galeri';
 
     protected $fillable = [
+        'user_id',
         'title',
         'description',
         'image_path',
     ];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }
-    

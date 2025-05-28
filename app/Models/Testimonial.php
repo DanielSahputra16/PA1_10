@@ -15,9 +15,15 @@ class Testimonial extends Model
      * @var array<int, string>
      */
     protected $fillable = [
+        'user_id',
         'name',
         'email',
         'subject',
         'message',
     ];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }

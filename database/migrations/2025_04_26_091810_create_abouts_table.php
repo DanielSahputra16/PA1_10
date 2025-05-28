@@ -13,10 +13,13 @@ return new class extends Migration
     {
         Schema::create('abouts', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('user_id')->nullable(); // Foreign key ke tabel users
             $table->string('judul');
             $table->text('deskripsi');
-            $table->string('gambar')->nullable(); // Menyimpan nama file gambar (nullable karena mungkin tidak selalu ada)
+            $table->string('gambar')->nullable();
             $table->timestamps();
+
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('set null');
         });
     }
 

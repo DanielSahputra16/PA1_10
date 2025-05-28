@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="utf-8">
-    <title>Lapangan - Ramos Badminton Center</title>
+    <title>Galeri - Ramos Badminton Center</title>
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <meta content="" name="keywords">
     <meta content="" name="description">
@@ -101,7 +101,7 @@
                                             </form>
                                         </td>
                                     </tr>
-                                @empty  <!-- Tambahkan bagian empty -->
+                                @empty
                                     <tr>
                                         <td colspan="5" class="text-center py-4">
                                             <i class="fas fa-info-circle me-2"></i> Tidak ada data galeri ditemukan.</i>
@@ -118,7 +118,6 @@
   <!-- Footer Start -->
   @include('layouts.footer')
   <!-- Footer End -->
-
 
   <!-- Back to Top -->
   <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>

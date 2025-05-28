@@ -10,7 +10,8 @@ use Illuminate\Support\Facades\Redirect;
 use Illuminate\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Database\QueryException;
-use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Validation\ValidationException;
+use Illuminate\Support\Facades\Auth; // Impor facade Auth
 
 class TestimonialController extends Controller
 {
@@ -19,11 +20,16 @@ class TestimonialController extends Controller
      *
      * @return View
      */
-    public function index()
-{
-    $testimonials = Testimonial::latest()->paginate(6);
-    return view('testimonials.index', compact('testimonials'));
-}
+    public function index(Request $request): View
+    {
+        $testimonials = Testimonial::latest()->paginate(6);
+        // Periksa apakah request berasal dari admin
+        if ($request->is('admin/*')) {
+            return view('admin.testimonials.index', compact('testimonials'));
+        } else {
+            return view('testimonials.index', compact('testimonials'));
+        }
+    }
 
     /**
      * Show the form for creating a new testimonial.
@@ -31,7 +37,9 @@ class TestimonialController extends Controller
      * @return View
      */
     public function create(): View
-    {           
+    {
+        // Hanya user yang login yang bisa mengakses halaman create
+        // Tidak perlu Policy lagi!
         return view('testimonials.create');
     }
 
@@ -41,41 +49,27 @@ class TestimonialController extends Controller
      * @param  Request  $request
      * @return RedirectResponse
      */
-    public function store(Request $request): RedirectResponse
+    public function store(Request $request)
     {
-        $validator = Validator::make($request->all(), [
-            'your_name' => 'required|string|max:255',
-            'your_email' => 'required|email|max:255',
-            'subject' => 'required|string|max:255',
-            'message' => 'required|string',
+        $validatedData = $request->validate([
+            'name' => 'required',
+            'email' => 'required|email',
+            'subject' => 'required',
+            'message' => 'required',
         ]);
 
-        if ($validator->fails()) {
-            return Redirect::route('testimonials.create')
-                ->withErrors($validator)
-                ->withInput();
-        }
-
         try {
-            Testimonial::create([
-                'name' => $request->input('your_name'),
-                'email' => $request->input('your_email'),
-                'subject' => $request->input('subject'),
-                'message' => $request->input('message'),
-            ]);
+            $validatedData['user_id'] = auth()->id();
+            Log::info('Data sebelum disimpan: ' . json_encode($validatedData)); // Tambahkan log ini
+            $testimonial = Testimonial::create($validatedData);
+            Log::info('Testimonial berhasil disimpan dengan ID: ' . $testimonial->id); // Tambahkan log ini
 
-            return Redirect::route('testimonials.index')->with('success', 'Terima kasih! Testimonial Anda telah berhasil dikirim.');
+            return redirect()->route('testimonials.index')->with('success', 'Testimonial berhasil ditambahkan!');
 
-        }  catch (QueryException $e) {
-            Log::error('Gagal menyimpan testimonial (database error): ' . $e->getMessage());
-            return Redirect::route('testimonials.create')
-                ->with('error', 'Terjadi kesalahan database. Silakan coba lagi.')
-                ->withInput();
         } catch (\Exception $e) {
-            Log::error('Gagal menyimpan testimonial (general error): ' . $e->getMessage());
-            return Redirect::route('testimonials.create')
-                ->with('error', 'Terjadi kesalahan. Silakan coba lagi.')
-                ->withInput();
+            Log::error('Gagal menyimpan testimonial: ' . $e->getMessage());
+            Log::error('Stack trace: ' . $e->getTraceAsString()); // Tambahkan log ini
+            return redirect()->route('testimonials.create')->with('error', 'Terjadi kesalahan: ' . $e->getMessage())->withInput();
         }
     }
 
@@ -85,10 +79,14 @@ class TestimonialController extends Controller
      * @param  Testimonial  $testimonial
      * @return View
      */
-    public function show(Testimonial $testimonial): View
+    public function show(Request $request, Testimonial $testimonial): View
     {
-        // Tampilkan detail testimonial
-        return view('testimonials.show', compact('testimonial'));
+        // Periksa apakah request berasal dari admin
+        if ($request->is('admin/*')) {
+            return view('admin.testimonials.show', compact('testimonial'));
+        } else {
+            return view('testimonials.show', compact('testimonial'));
+        }
     }
 
     /**
@@ -97,9 +95,19 @@ class TestimonialController extends Controller
      * @param  Testimonial  $testimonial
      * @return View
      */
-    public function edit(Testimonial $testimonial): View
+    public function edit(Request $request, Testimonial $testimonial): View
     {
-        return view('testimonials.edit', compact('testimonial'));
+        // Otorisasi di sini!
+        if (auth()->user()->id !== $testimonial->user_id && !auth()->user()->isAdmin()) {
+            abort(403, 'Anda tidak memiliki izin untuk mengubah testimonial ini.');
+        }
+
+        // Periksa apakah request berasal dari admin
+        if ($request->is('admin/*')) {
+            return view('admin.testimonials.edit', compact('testimonial'));
+        } else {
+            return view('testimonials.edit', compact('testimonial'));
+        }
     }
 
     /**
@@ -111,9 +119,14 @@ class TestimonialController extends Controller
      */
     public function update(Request $request, Testimonial $testimonial): RedirectResponse
     {
+        // Otorisasi di sini!
+        if (auth()->user()->id !== $testimonial->user_id && !auth()->user()->isAdmin()) {
+            abort(403, 'Anda tidak memiliki izin untuk mengubah testimonial ini.');
+        }
+
         $validator = Validator::make($request->all(), [
-            'your_name' => 'required|string|max:255',
-            'your_email' => 'required|email|max:255',
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|max:255',
             'subject' => 'required|string|max:255',
             'message' => 'required|string',
         ]);
@@ -126,23 +139,32 @@ class TestimonialController extends Controller
 
         try {
             $testimonial->update([
-                'name' => $request->input('your_name'),
-                'email' => $request->input('your_email'),
+                'name' => $request->input('name'),
+                'email' => $request->input('email'),
                 'subject' => $request->input('subject'),
                 'message' => $request->input('message'),
             ]);
 
-            return Redirect::route('testimonials.index')->with('success', 'Testimonial berhasil diperbarui.');
+            if ($request->is('admin/*')) {
+                return Redirect::route('admin.testimonials.index')->with('success', 'Testimonial berhasil diperbarui.');
+            } else {
+                return Redirect::route('testimonials.index')->with('success', 'Testimonial berhasil diperbarui.');
+            }
 
-        }  catch (QueryException $e) {
+        } catch (QueryException $e) {
             Log::error('Gagal menyimpan testimonial (database error): ' . $e->getMessage());
             return Redirect::route('testimonials.create')
                 ->with('error', 'Terjadi kesalahan database. Silakan coba lagi.')
                 ->withInput();
         } catch (\Exception $e) {
             Log::error('Gagal memperbarui testimonial: ' . $e->getMessage());
-            return Redirect::route('testimonials.edit', $testimonial->id)
-                ->with('error', 'Terjadi kesalahan saat memperbarui testimonial. Silakan coba lagi.');
+            if ($request->is('admin/*')) {
+                return Redirect::route('admin.testimonials.edit', $testimonial->id)
+                    ->with('error', 'Terjadi kesalahan saat memperbarui testimonial. Silakan coba lagi.');
+            } else {
+                return Redirect::route('testimonials.edit', $testimonial->id)
+                    ->with('error', 'Terjadi kesalahan saat memperbarui testimonial. Silakan coba lagi.');
+            }
         }
     }
 
@@ -152,14 +174,24 @@ class TestimonialController extends Controller
      * @param  Testimonial  $testimonial
      * @return RedirectResponse
      */
-    public function destroy(Testimonial $testimonial)
+    public function destroy(Testimonial $testimonial): RedirectResponse
     {
+        Log::info('TestimonialController@destroy dijalankan');
+        Log::info('User ID yang login: ' . auth()->user()->id);
+        Log::info('Testimonial ID yang akan dihapus: ' . $testimonial->id);
+        Log::info('Testimonial User ID: ' . $testimonial->user_id);
+
+        // Otorisasi di sini!
+        if (auth()->user()->id !== $testimonial->user_id && !auth()->user()->isAdmin()) {
+            Log::warning('Otorisasi ditolak di TestimonialController@destroy');
+            abort(403, 'Anda tidak memiliki izin untuk menghapus testimonial ini.');
+        }
+
         try {
             $testimonial->delete();
             return redirect()->route('testimonials.index')->with('success', 'Testimonial berhasil dihapus.');
         } catch (\Exception $e) {
-             \Log::error('Gagal menghapus testimonial: ' . $e->getMessage());
-
+            Log::error('Gagal menghapus testimonial: ' . $e->getMessage());
             return Redirect::back()->withErrors(['error' => 'Gagal menghapus testimonial. Silakan coba lagi.']);
         }
     }

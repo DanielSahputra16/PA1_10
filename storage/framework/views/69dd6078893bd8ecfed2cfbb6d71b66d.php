@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="utf-8">
-    <title>Lapangan - Ramos Badminton Center</title>
+    <title>Galeri - Ramos Badminton Center</title>
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <meta content="" name="keywords">
     <meta content="" name="description">
@@ -101,7 +101,7 @@
                                             </form>
                                         </td>
                                     </tr>
-                                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?>  <!-- Tambahkan bagian empty -->
+                                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?>
                                     <tr>
                                         <td colspan="5" class="text-center py-4">
                                             <i class="fas fa-info-circle me-2"></i> Tidak ada data galeri ditemukan.</i>
@@ -118,7 +118,6 @@
   <!-- Footer Start -->
   <?php echo $__env->make('layouts.footer', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
   <!-- Footer End -->
-
 
   <!-- Back to Top -->
   <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>

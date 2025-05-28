@@ -4,22 +4,20 @@
         <div class="row g-5">
             <div class="col-lg-3 col-md-6">
                 <h4 class="section-title ff-secondary text-start text-primary fw-normal mb-4">Company</h4>
-                <a class="btn btn-link" href="">About Us</a>
-                <a class="btn btn-link" href="">Facilities</a>
-                <a class="btn btn-link" href="">Pricing</a>
-                <a class="btn btn-link" href="">Booking</a>
-                <a class="btn btn-link" href="">Gallery</a>
-                <a class="btn btn-link" href="">FAQ</a>
+                <a class="btn btn-link" href="{{ route('About.indexPublic') }}">About</a>
+                <a class="btn btn-link" href="{{ route('menu.indexPublic') }}">Fasilitas</a>
+                <a class="btn btn-link" href="{{ route('reservasi.index') }}">Reservasi</a>
+                <a class="btn btn-link" href="/testimonialspublic">Testimonial</a>
+                <a class="btn btn-link" href="{{ route('galeri.indexPublic') }}">Galeri</a>
+                <a class="btn btn-link" href="{{ route('contact.index') }}">Contact</a>
             </div>
             <div class="col-lg-3 col-md-6">
                 <h4 class="section-title ff-secondary text-start text-primary fw-normal mb-4">Contact</h4>
                 <p class="mb-2"><i class="fa fa-map-marker-alt me-3"></i>Sitoluama, Kec. Sigumpar, Toba, Sumatera Utara 22382</p>
                 <p class="mb-2"><i class="fa fa-phone-alt me-3"></i>wa.me/6282185453381</p>
-                <p class="mb-2"><i class="fa fa-envelope me-3"></i>Danielmanurung100@gmail.com</p>
+                <p class="mb-2"><i class="fa fa-envelope me-3"></i>simatupangaudrey99@gmailcom</p>
                 <div class="d-flex pt-2">
-                    <a class="btn btn-outline-light btn-social" href=""><i class="fab fa-twitter"></i></a>
                     <a class="btn btn-outline-light btn-social" href="https://www.facebook.com/profile.php?id=61572922522102"><i class="fab fa-facebook-f"></i></a>
-                    <a class="btn btn-outline-light btn-social" href=""><i class="fab fa-youtube"></i></a>
                     <a class="btn btn-outline-light btn-social" href="https://www.instagram.com/ramos_badmintoncenter/?utm_source=ig_web_button_share_sheet"><i class="fab fa-instagram"></i>
                     </a>
                 </div>
@@ -32,10 +30,6 @@
             <div class="col-lg-3 col-md-6">
                 <h4 class="section-title ff-secondary text-start text-primary fw-normal mb-4">Newsletter</h4>
                 <p>Tetap update untuk mendapatkan update tentang jadwal dan reservasi lapangan.</p>
-                <div class="position-relative mx-auto" style="max-width: 400px;">
-                    <input class="form-control border-primary w-100 py-3 ps-4 pe-5" type="text" placeholder="Your email">
-                    <button type="button" class="btn btn-primary py-2 position-absolute top-0 end-0 mt-2 me-2">SignUp</button>
-                </div>
             </div>
         </div>
     </div>
@@ -51,11 +45,11 @@
                 </div>
                 <div class="col-md-6 text-center text-md-end">
                     <div class="footer-menu">
-                        <a href="">Home</a>
-                        <a href="">Cookies</a>
-                        <a href="">Help</a>
-                        <a href="">FQAs</a>
-                    </div>
+                    <a href="{{ route('welcome') }}">Home</a>
+                    <a href="{{ route('About.indexPublic') }}">Tentang Kami</a>
+                    <a href="{{ route('menu.indexPublic') }}">Peralatan</a>
+                    <a href="{{ route('contact.index') }}">Kontak</a>
+                </div>
                 </div>
             </div>
         </div>

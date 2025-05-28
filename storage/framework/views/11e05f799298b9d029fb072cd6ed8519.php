@@ -153,78 +153,71 @@
                                 </div>
                             </div>
                         </div>
-                        <a class="btn btn-primary py-3 px-5 mt-2" href="">SEE MORE</a>
+                        <a class="btn btn-primary py-3 px-5 mt-2" href="<?php echo e(route('About.indexPublic')); ?>">SEE MORE</a>
                     </div>
                 </div>
             </div>
         </div>
         <!-- About End -->
 
-        <!-- Reservation Start -->
-
-        <!-- Reservation Start -->
-
         <!-- Team Start -->
         <div class="container-xxl pt-5 pb-3">
             <div class="container">
                 <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
-                    <h5 class="section-title ff-secondary text-center text-primary fw-normal">Team Members</h5>
-                    <h1 class="mb-5">Badminton Ramos Center</h1>
+                    <h5 class="section-title ff-secondary text-center text-primary fw-normal">Team Proyek Akhir1</h5>
+                    <h1 class="mb-5">Our Web Development Team</h1>
                 </div>
                 <div class="row g-4">
+                    <!-- Daniel -->
                     <div class="col-lg-3 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
                         <div class="team-item text-center rounded overflow-hidden">
-                            <div class="rounded-circle overflow-hidden m-4">
-                                <img class="img-fluid" src="<?php echo e(URL::asset('img/download0.jpeg')); ?>" alt="">
+                            <div class="rounded-circle overflow-hidden m-4 d-flex justify-content-center align-items-center" style="width: 200px; height: 200px; margin: auto;">
+                                <img src="<?php echo e(URL::asset('img/yell-3.jpg')); ?>" alt="" style="width: 200px; height: 200px; object-fit: cover;">
                             </div>
-                            <h5 class="mb-0">Full Name</h5>
-                            <small>Manager Lapangan</small>
+                            <h5 class="mb-0">Daniel Manurung</h5>
+                            <small>Full-Stack Developer</small>
                             <div class="d-flex justify-content-center mt-3">
-                                <a class="btn btn-square btn-primary mx-1" href=""><i class="fab fa-facebook-f"></i></a>
-                                <a class="btn btn-square btn-primary mx-1" href=""><i class="fab fa-twitter"></i></a>
-                                <a class="btn btn-square btn-primary mx-1" href=""><i class="fab fa-instagram"></i></a>
+                                <a class="btn btn-square btn-primary mx-1" href="https://wa.me/628992568028" target="_blank"><i class="fab fa-whatsapp"></i></a>
                             </div>
                         </div>
                     </div>
+                    <!-- Tiara -->
                     <div class="col-lg-3 col-md-6 wow fadeInUp" data-wow-delay="0.3s">
                         <div class="team-item text-center rounded overflow-hidden">
-                            <div class="rounded-circle overflow-hidden m-4">
-                                <img class="img-fluid" src="<?php echo e(URL::asset('img/download0.jpeg')); ?>" alt="">
+                            <div class="rounded-circle overflow-hidden m-4 d-flex justify-content-center align-items-center" style="width: 200px; height: 200px; margin: auto;">
+                                <img src="<?php echo e(URL::asset('img/Tiara.jpg')); ?>" alt="" style="width: 200px; height: 200px; object-fit: cover;">
                             </div>
-                            <h5 class="mb-0">Full Name</h5>
-                            <small>Admin Pemesanan</small>
+                            <h5 class="mb-0">Tiara Pardosi</h5>
+                            <small>Project Manager</small>
                             <div class="d-flex justify-content-center mt-3">
-                                <a class="btn btn-square btn-primary mx-1" href=""><i class="fab fa-facebook-f"></i></a>
-                                <a class="btn btn-square btn-primary mx-1" href=""><i class="fab fa-twitter"></i></a>
-                                <a class="btn btn-square btn-primary mx-1" href=""><i class="fab fa-instagram"></i></a>
+                                <a class="btn btn-square btn-primary mx-1" href="https://www.facebook.com/tiara.pardosi.37?mibextid=rS40aB7S9Ucbxw6v"><i class="fab fa-facebook-f"></i></a>
+                                <a class="btn btn-square btn-primary mx-1" href="https://www.instagram.com/tiaraanandaaaa_?igsh=MWlvOGFmZDB1Zm90ag=="><i class="fab fa-instagram"></i></a>
                             </div>
                         </div>
                     </div>
+                    <!-- Anggi -->
                     <div class="col-lg-3 col-md-6 wow fadeInUp" data-wow-delay="0.5s">
                         <div class="team-item text-center rounded overflow-hidden">
-                            <div class="rounded-circle overflow-hidden m-4">
-                                <img class="img-fluid" src="<?php echo e(URL::asset('img/download0.jpeg')); ?>" alt="">
+                            <div class="rounded-circle overflow-hidden m-4 d-flex justify-content-center align-items-center" style="width: 200px; height: 200px; margin: auto;">
+                                <img src="<?php echo e(URL::asset('img/Anggi.jpg')); ?>" alt="" style="width: 200px; height: 200px; object-fit: cover;">
                             </div>
-                            <h5 class="mb-0">Full Name</h5>
-                            <small>Customer Service</small>
+                            <h5 class="mb-0">Anggi Simanjuntak</h5>
+                            <small>Developer</small>
                             <div class="d-flex justify-content-center mt-3">
-                                <a class="btn btn-square btn-primary mx-1" href=""><i class="fab fa-facebook-f"></i></a>
-                                <a class="btn btn-square btn-primary mx-1" href=""><i class="fab fa-twitter"></i></a>
-                                <a class="btn btn-square btn-primary mx-1" href=""><i class="fab fa-instagram"></i></a>
+                                <a class="btn btn-square btn-primary mx-1" href="https://www.instagram.com/nggismjtk/profilecard/?igsh=bnFtb2JyaGFjNmx1"><i class="fab fa-instagram"></i></a>
                             </div>
                         </div>
                     </div>
+                    <!-- Debora -->
                     <div class="col-lg-3 col-md-6 wow fadeInUp" data-wow-delay="0.7s">
                         <div class="team-item text-center rounded overflow-hidden">
-                            <div class="rounded-circle overflow-hidden m-4">
-                                <img class="img-fluid" src="<?php echo e(URL::asset('img/download0.jpeg')); ?>" alt="">
+                            <div class="rounded-circle overflow-hidden m-4 d-flex justify-content-center align-items-center" style="width: 200px; height: 200px; margin: auto;">
+                                <img src="<?php echo e(URL::asset('img/Debora.jpg')); ?>" alt="" style="width: 200px; height: 200px; object-fit: cover;">
                             </div>
-                            <h5 class="mb-0">Full Name</h5>
-                            <small>Teknisi & Perawatan Lapangan</small>
+                            <h5 class="mb-0">Debora Tampubolon</h5>
+                            <small>Developer</small>
                             <div class="d-flex justify-content-center mt-3">
-                                <a class="btn btn-square btn-primary mx-1" href=""><i class="fab fa-facebook-f"></i></a>
-                                <a class="btn btn-square btn-primary mx-1" href=""><i class="fab fa-twitter"></i></a>
-                                <a class="btn btn-square btn-primary mx-1" href=""><i class="fab fa-instagram"></i></a>
+                                <a class="btn btn-square btn-primary mx-1" href="https://www.instagram.com/_deboratampubolon/?utm_source=qr&r=nametag"><i class="fab fa-instagram"></i></a>
                             </div>
                         </div>
                     </div>

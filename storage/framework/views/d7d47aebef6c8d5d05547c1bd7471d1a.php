@@ -3,13 +3,13 @@
 
 <head>
     <meta charset="utf-8">
-    <title>Testimonial - Badminton Ramos Center</title>
+    <title>Reservasi - Ramos Badminton Center</title>
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
-    <meta content="" name="keywords">
-    <meta content="" name="description">
+    <meta content="" name="keywords">  <!-- Sebaiknya diisi untuk SEO -->
+    <meta content="" name="description">  <!-- Sebaiknya diisi untuk SEO -->
 
     <!-- Favicon -->
-    <link href="img/favicon.ico" rel="icon">
+    <link href="<?php echo e(URL::asset('img/favicon.ico')); ?>" rel="icon">
 
     <!-- Google Web Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -21,21 +21,74 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
 
     <!-- Libraries Stylesheet -->
-    <link href="<?php echo e(asset('lib/animate/animate.min.css')); ?>" rel="stylesheet">
-    <link href="<?php echo e(asset('lib/owlcarousel/assets/owl.carousel.min.css')); ?>" rel="stylesheet">
-    <link href="<?php echo e(asset('lib/tempusdominus/css/tempusdominus-bootstrap-4.min.css')); ?>" rel="stylesheet" />
+    <link href="<?php echo e(URL::asset('lib/animate/animate.min.css')); ?>" rel="stylesheet">
+    <link href="<?php echo e(URL::asset('lib/owlcarousel/assets/owl.carousel.min.css')); ?>" rel="stylesheet">
+    <link href="<?php echo e(URL::asset('lib/tempusdominus/css/tempusdominus-bootstrap-4.min.css')); ?>" rel="stylesheet" />
 
     <!-- Customized Bootstrap Stylesheet -->
-    <link href="<?php echo e(asset('css/bootstrap.min.css')); ?>" rel="stylesheet">
+    <link href="<?php echo e(URL::asset('css/bootstrap.min.css')); ?>" rel="stylesheet">
 
     <!-- Template Stylesheet -->
-    <link href="<?php echo e(asset('css/style.css')); ?>" rel="stylesheet">
+    <link href="<?php echo e(URL::asset('css/style.css')); ?>" rel="stylesheet">
+
+    <!-- Internal CSS untuk Pagination -->
+    <style>
+        .custom-pagination {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        .custom-pagination ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+        }
+
+        .custom-pagination li {
+            margin: 0 5px;
+        }
+
+        .custom-pagination a,
+        .custom-pagination span {
+            display: block;
+            padding: 8px 12px;
+            text-decoration: none;
+            color: #333;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        .custom-pagination a:hover {
+            background-color: #f0f0f0;
+        }
+
+        .custom-pagination .active span {
+            background-color: #FEA116;
+            /* Warna Biru Primer */
+            color: white;
+            border-color: #FEA116;
+        }
+
+        .custom-pagination .disabled span {
+            color: #999;
+            border-color: #ccc;
+            cursor: not-allowed;
+        }
+
+        .custom-pagination .disabled span:hover {
+            background-color: transparent;
+        }
+    </style>
 </head>
 
 <body>
     <div class="container-xxl bg-white p-0">
         <!-- Spinner Start -->
-        <div id="spinner" class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
+        <div id="spinner"
+            class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
             <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
                 <span class="sr-only">Loading...</span>
             </div>
@@ -63,7 +116,7 @@
             <div class="container">
                 <div class="text-center">
                     <h5 class="section-title ff-secondary text-center text-primary fw-normal">Testimonials</h5>
-                    <h1 class="mb-5">What Our Clients Say!</h1>
+                    <h1 class="mb-5">Apa Kata Klien Kami!</h1>
                 </div>
                 <div class="row">
                     <?php if(count($testimonials) > 0): ?>
@@ -73,22 +126,28 @@
                                     <i class="fa fa-quote-left fa-2x text-primary mb-3"></i>
                                     <p><?php echo e($testimonial->message); ?></p>
                                     <div class="d-flex align-items-center">
-                                        <img class="img-fluid flex-shrink-0 rounded-circle" src="<?php echo e(asset('img/biodata.PNG')); ?>" style="width: 50px; height: 50px;">
+                                        <img class="img-fluid flex-shrink-0 rounded-circle" src="<?php echo e(asset('img/biodata.PNG')); ?>"
+                                            style="width: 50px; height: 50px;">
                                         <div class="ps-3">
                                             <h5 class="mb-1"><?php echo e($testimonial->name); ?></h5>
                                             <small><?php echo e($testimonial->subject); ?></small>
                                         </div>
                                     </div>
 
-                                    <!-- Tombol hapus hanya muncul jika user sudah login -->
+                                    <!-- Tombol hapus hanya muncul jika user sudah login dan memiliki izin -->
                                     <?php if(auth()->guard()->check()): ?>
-                                        <form action="<?php echo e(route('testimonials.destroy', $testimonial->id)); ?>" method="POST" style="display: inline-block;">
-                                            <?php echo csrf_field(); ?>
-                                            <?php echo method_field('DELETE'); ?>
-                                            <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Apakah Anda yakin ingin menghapus testimonial ini?')">Hapus</button>
-                                        </form>
+                                        <?php if(auth()->user()->id === $testimonial->user_id || auth()->user()->isAdmin()): ?>
+                                            <form action="<?php echo e(route('testimonials.destroy', $testimonial->id)); ?>" method="POST"
+                                                style="display: inline-block;">
+                                                <?php echo csrf_field(); ?>
+                                                <?php echo method_field('DELETE'); ?>
+                                                <button type="submit" class="btn btn-danger btn-sm"
+                                                        onclick="return confirm('Apakah Anda yakin ingin menghapus testimonial ini?')">
+                                                    Hapus
+                                                </button>
+                                            </form>
+                                        <?php endif; ?>
                                     <?php endif; ?>
-
                                 </div>
                             </div>
                         <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
@@ -98,22 +157,102 @@
                         </div>
                     <?php endif; ?>
                 </div>
-                <div class="d-flex justify-content-center mt-4">
-                  <?php if($testimonials instanceof \Illuminate\Pagination\LengthAwarePaginator): ?>
-                    <?php echo e($testimonials->links()); ?>
 
-                  <?php endif; ?>
+                <!-- Custom Pagination Links -->
+                <div class="custom-pagination">
+                    <?php if($testimonials instanceof \Illuminate\Pagination\LengthAwarePaginator): ?>
+                        <ul>
+                            <?php if($testimonials->onFirstPage()): ?>
+                                <li class="disabled"><span>Previous</span></li>
+                            <?php else: ?>
+                                <li><a href="<?php echo e($testimonials->previousPageUrl()); ?>" rel="prev">Previous</a></li>
+                            <?php endif; ?>
+
+                            <?php $__currentLoopData = $testimonials->getUrlRange(max($testimonials->currentPage() - 2, 1), min($testimonials->currentPage() + 2, $testimonials->lastPage())); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $page => $url): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                <?php if($page == $testimonials->currentPage()): ?>
+                                    <li class="active"><span><?php echo e($page); ?></span></li>
+                                <?php else: ?>
+                                    <li><a href="<?php echo e($url); ?>"><?php echo e($page); ?></a></li>
+                                <?php endif; ?>
+                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+
+                            <?php if($testimonials->hasMorePages()): ?>
+                                <li><a href="<?php echo e($testimonials->nextPageUrl()); ?>" rel="next">Next</a></li>
+                            <?php else: ?>
+                                <li class="disabled"><span>Next</span></li>
+                            <?php endif; ?>
+                        </ul>
+                    <?php endif; ?>
                 </div>
-                 <!-- Tautan ke formulir pembuatan -->
-                 <div class="text-center mt-3">
-                    <a href="<?php echo e(route('testimonials.create')); ?>" class="btn btn-primary">Tambahkan Testimonial</a>
+
+                <!-- Tautan ke formulir pembuatan -->
+                <div class="text-center mt-3">
+                    <a href="<?php echo e(route('testimonials.create')); ?>" class="btn btn-primary btn-sm">Tambahkan Testimonial</a>
                 </div>
             </div>
         </div>
         <!-- Testimonial End -->
 
         <!-- Footer Start -->
-        <?php echo $__env->make('layouts.footer', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
+        <!-- Footer Start -->
+<div class="container-fluid bg-dark text-light footer pt-5 mt-5 wow fadeIn" data-wow-delay="0.1s">
+    <div class="container py-5">
+        <div class="row g-5">
+            <div class="col-lg-3 col-md-6">
+                <h4 class="section-title ff-secondary text-start text-primary fw-normal mb-4">Company</h4>
+                <a class="btn btn-link" href="<?php echo e(route('About.indexPublic')); ?>">About</a>
+                <a class="btn btn-link" href="<?php echo e(route('menu.indexPublic')); ?>">Fasilitas</a>
+                <a class="btn btn-link" href="<?php echo e(route('reservasi.index')); ?>">Reservasi</a>
+                <a class="btn btn-link" href="/testimonialspublic">Testimonial</a>
+                <a class="btn btn-link" href="<?php echo e(route('galeri.indexPublic')); ?>">Galeri</a>
+                <a class="btn btn-link" href="<?php echo e(route('contact.index')); ?>">Contact</a>
+            </div>
+            <div class="col-lg-3 col-md-6">
+                <h4 class="section-title ff-secondary text-start text-primary fw-normal mb-4">Contact</h4>
+                <p class="mb-2"><i class="fa fa-map-marker-alt me-3"></i>Sitoluama, Kec. Sigumpar, Toba, Sumatera Utara 22382</p>
+                <p class="mb-2"><i class="fa fa-phone-alt me-3"></i>wa.me/6282185453381</p>
+                <p class="mb-2"><i class="fa fa-envelope me-3"></i>simatupangaudrey99@gmailcom</p>
+                <div class="d-flex pt-2">
+                    <a class="btn btn-outline-light btn-social" href="https://www.facebook.com/profile.php?id=61572922522102"><i class="fab fa-facebook-f"></i></a>
+                    <a class="btn btn-outline-light btn-social" href="https://www.instagram.com/ramos_badmintoncenter/?utm_source=ig_web_button_share_sheet"><i class="fab fa-instagram"></i>
+                    </a>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6">
+                <h4 class="section-title ff-secondary text-start text-primary fw-normal mb-4">Opening</h4>
+                <h5 class="text-light fw-normal">Every Day</h5>
+                <p>08AM - 23PM</p>
+            </div>
+            <div class="col-lg-3 col-md-6">
+                <h4 class="section-title ff-secondary text-start text-primary fw-normal mb-4">Newsletter</h4>
+                <p>Tetap update untuk mendapatkan update tentang jadwal dan reservasi lapangan.</p>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <div class="copyright">
+            <div class="row">
+                <div class="col-md-6 text-center text-md-start mb-3 mb-md-0">
+                    &copy; <a class="border-bottom" href="#">Badminton Ramos Center</a>, All Right Reserved.
+
+                    <!--/*** This template is free as long as you keep the footer author’s credit link/attribution link/backlink. If you'd like to use the template without the footer author’s credit link/attribution link/backlink, you can purchase the Credit Removal License from "https://htmlcodex.com/credit-removal". Thank you for your support. ***/-->
+                    Designed By <a class="border-bottom" href="https://htmlcodex.com">PA_10</a><br><br>
+                    Distributed By <a class="border-bottom" href="https://themewagon.com" target="_blank">PA1_10</a>
+                </div>
+                <div class="col-md-6 text-center text-md-end">
+                    <div class="footer-menu">
+                    <a href="<?php echo e(route('welcome')); ?>">Home</a>
+                    <a href="<?php echo e(route('About.indexPublic')); ?>">Tentang Kami</a>
+                    <a href="<?php echo e(route('menu.indexPublic')); ?>">Peralatan</a>
+                    <a href="<?php echo e(route('contact.index')); ?>">Kontak</a>
+                </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Footer End -->
+
         <!-- Footer End -->
 
         <!-- Back to Top -->

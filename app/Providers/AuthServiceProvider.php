@@ -1,14 +1,14 @@
 <?php
 
-// app/Providers/AuthServiceProvider.php
-
 namespace App\Providers;
 
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Gate;
 use App\Models\Reservasi;
 use App\Models\User;
+use App\Models\Testimonial;
 use App\Policies\ReservasiPolicy;
+use App\Policies\TestimonialPolicy; // Tambahkan use statement untuk TestimonialPolicy
 
 class AuthServiceProvider extends ServiceProvider
 {
@@ -17,13 +17,14 @@ class AuthServiceProvider extends ServiceProvider
      *
      * @var array<class-string, class-string>
      */
-    protected $policies = [
-        Reservasi::class => ReservasiPolicy::class,
-    ];
+    // protected $policies = [
+    //     Reservasi::class => ReservasiPolicy::class,
+    //     Testimonial::class => TestimonialPolicy::class, // Daftarkan TestimonialPolicy
+    // ];
 
     /**
      * Register any authentication / authorization services.
-     */
+     */ 
     public function boot(): void
     {
         $this->registerPolicies();
@@ -73,6 +74,16 @@ class AuthServiceProvider extends ServiceProvider
             return $user->hasPermission('confirm-reservations');
         });
 
-        // Tambahkan Gate lain sesuai kebutuhan (misalnya, untuk cancel, restore, forceDelete, dll.)
+        // Tidak perlu Gate::define untuk Testimonial jika menggunakan Policy
+
+        // Gate::define('update-testimonial', function (User $user, Testimonial $testimonial) {
+        //     // User bisa update testimonial jika dia pembuatnya
+        //     return $testimonial->user_id === $user->id;
+        // });
+
+        // Gate::define('delete-testimonial', function (User $user, Testimonial $testimonial) {
+        //     // User bisa delete testimonial jika dia pembuatnya
+        //     return $testimonial->user_id === $user->id;
+        // });
     }
 }

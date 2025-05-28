@@ -3,6 +3,7 @@
     --primary: #FEA116;
     --light: #F1F8FF;
     --dark: #0F172B;
+    --blue:
 }
 
 .ff-secondary {
@@ -25,7 +26,6 @@
     z-index: 99;
 }
 
-
 /*** Spinner ***/
 #spinner {
     opacity: 0;
@@ -39,7 +39,6 @@
     visibility: visible;
     opacity: 1;
 }
-
 
 /*** Button ***/
 .btn {
@@ -80,7 +79,6 @@
     border-radius: 2px;
 }
 
-
 /*** Navbar ***/
 .navbar-dark .navbar-nav .nav-link {
     position: relative;
@@ -94,12 +92,11 @@
     transition: .5s;
 }
 
-    h1 {
-    font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+h1 {
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
     font-weight: 900;
     color: #FEA116;
 }
-
 
 .sticky-top.navbar-dark .navbar-nav .nav-link {
     padding: 20px 0;
@@ -126,7 +123,7 @@
 
     .navbar-dark .navbar-collapse {
         margin-top: 15px;
-        border-top: 1px solid rgba(255, 255, 255, .1)
+        border-top: 1px solid rgba(255, 255, 255, .1);
     }
 
     .navbar-dark .navbar-nav .nav-link,
@@ -156,7 +153,6 @@
     }
 }
 
-
 /*** Hero Header ***/
 .hero-header {
     background: linear-gradient(rgba(10, 23, 43, 1), rgba(10, 23, 43, 0)), url('../img/IMG-20250512-WA0009.jpg');
@@ -178,7 +174,6 @@
 .breadcrumb-item + .breadcrumb-item::before {
     color: rgba(255, 255, 255, .5);
 }
-
 
 /*** Section Title ***/
 .section-title {
@@ -213,7 +208,6 @@
     display: none;
 }
 
-
 /*** Service ***/
 .service-item {
     box-shadow: 0 0 45px rgba(0, 0, 0, .08);
@@ -232,12 +226,10 @@
     color: var(--light) !important;
 }
 
-
 /*** Menu ***/
 .nav-pills .nav-item .active {
     border-bottom: 2px solid var(--primary);
 }
-
 
 /*** Youtube Video ***/
 .video {
@@ -266,7 +258,8 @@
     padding: 18px 20px 18px 28px;
 }
 
-.video .btn-play:before {
+.video .btn-play:before,
+.video .btn-play:after {
     content: "";
     position: absolute;
     z-index: 0;
@@ -278,21 +271,14 @@
     height: 100px;
     background: var(--primary);
     border-radius: 50%;
+}
+
+.video .btn-play:before {
     animation: pulse-border 1500ms ease-out infinite;
 }
 
 .video .btn-play:after {
-    content: "";
-    position: absolute;
     z-index: 1;
-    left: 50%;
-    top: 50%;
-    transform: translateX(-50%) translateY(-50%);
-    display: block;
-    width: 100px;
-    height: 100px;
-    background: var(--primary);
-    border-radius: 50%;
     transition: all 200ms;
 }
 
@@ -317,12 +303,11 @@
 
 @keyframes pulse-border {
     0% {
-        transform: translateX(-50%) translateY(-50%) translateZ(0) scale(1);
+        transform: translateX(-50%) translateY(-50%) scale(1);
         opacity: 1;
     }
-
     100% {
-        transform: translateX(-50%) translateY(-50%) translateZ(0) scale(1.5);
+        transform: translateX(-50%) translateY(-50%) scale(1.5);
         opacity: 0;
     }
 }
@@ -356,7 +341,6 @@
     opacity: 1;
 }
 
-
 /*** Team ***/
 .team-item {
     box-shadow: 0 0 45px rgba(0, 0, 0, .08);
@@ -379,7 +363,6 @@
 .team-item .btn {
     border-radius: 38px 38px 0 0;
 }
-
 
 /*** Testimonial ***/
 .testimonial-carousel .owl-item .testimonial-item,
@@ -418,7 +401,6 @@
     background: var(--primary);
     border-color: var(--primary);
 }
-
 
 /*** Footer ***/
 .footer .btn.btn-social {
@@ -485,493 +467,3 @@
     border-right: none;
 }
 
-.login-container {
-    height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-#sidebar {
-    background-color: #343a40; /* Warna latar belakang sidebar */
-    color: white;
-    min-height: 100vh; /* Set tinggi minimum agar selalu memenuhi layar */
-}
-
-#sidebar .nav-link {
-    color: white;
-}
-
-#sidebar .nav-link:hover {
-    background-color: #495057;
-}
-
-.content {
-    padding: 20px;
-    .gallery-item {
-        margin-bottom: 20px;
-        overflow: hidden;
-        border-radius: 8px;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        position: relative; /* Untuk positioning overlay */
-    }
-
-    .gallery-item img {
-        width: 100%;
-        height: auto;
-        object-fit: cover;
-        max-height: 250px;
-        transition: transform 0.3s ease;
-        cursor: pointer;
-    }
-
-    .gallery-item:hover img {
-        transform: scale(1.1);
-    }
-
-    /* Overlay Styling */
-    .gallery-item .overlay {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background-color: rgba(0, 0, 0, 0.6); /* Lebih gelap sedikit */
-        color: white;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        opacity: 0;
-        transition: opacity 0.3s ease;
-        padding: 10px; /* Agar teks tidak terlalu mepet tepi */
-        text-align: center; /* Rata tengah teks */
-    }
-
-    .gallery-item:hover .overlay {
-        opacity: 1;
-    }
-
-    .gallery-item .overlay h5 {
-        margin-bottom: 0.5rem;
-        font-size: 1.2rem;
-    }
-
-    .gallery-item .overlay p {
-        font-size: 0.9rem;
-    }
-
-    /* Modal Styling */
-    .modal {
-        display: none;
-        position: fixed;
-        z-index: 1;
-        left: 0;
-        top: 0;
-        width: 100%;
-        height: 100%;
-        overflow: auto;
-        background-color: rgba(0, 0, 0, 0.9);
-    }
-
-    .modal-content {
-        margin: auto;
-        display: block;
-        width: 80%;
-        max-width: 700px;
-        animation-name: zoom;
-        animation-duration: 0.6s;
-    }
-
-    .modal-content img {
-        max-height: 70vh; /* Batasi tinggi gambar modal */
-        object-fit: contain; /* Agar gambar tidak terpotong */
-    }
-
-    #modalCaption {
-        color: #fff;
-        padding: 10px;
-        text-align: center;
-    }
-
-    #modalCaption h5 {
-        margin-bottom: 0.5rem;
-    }
-
-    @keyframes zoom {
-        from {
-            transform: scale(0)
-        }
-
-        to {
-            transform: scale(1)
-        }
-    }
-
-    .close {
-        position: absolute;
-        top: 15px;
-        right: 35px;
-        color: #f1f1f1;
-        font-size: 40px;
-        font-weight: bold;
-        transition: 0.3s;
-        cursor: pointer;
-    }
-
-    .close:hover,
-    .close:focus {
-        color: #bbb;
-        text-decoration: none;
-        cursor: pointer;
-    }.gallery-item {
-        margin-bottom: 20px;
-        overflow: hidden;
-        border-radius: 8px;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        position: relative; /* Untuk positioning overlay */
-    }
-
-    .gallery-item img {
-        width: 100%;
-        height: auto;
-        object-fit: cover;
-        max-height: 250px;
-        transition: transform 0.3s ease;
-        cursor: pointer;
-    }
-
-    .gallery-item:hover img {
-        transform: scale(1.1);
-    }
-
-    /* Overlay Styling */
-    .gallery-item .overlay {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background-color: rgba(0, 0, 0, 0.6); /* Lebih gelap sedikit */
-        color: white;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        opacity: 0;
-        transition: opacity 0.3s ease;
-        padding: 10px; /* Agar teks tidak terlalu mepet tepi */
-        text-align: center; /* Rata tengah teks */
-    }
-
-    .gallery-item:hover .overlay {
-        opacity: 1;
-    }
-
-    .gallery-item .overlay h5 {
-        margin-bottom: 0.5rem;
-        font-size: 1.2rem;
-    }
-
-    .gallery-item .overlay p {
-        font-size: 0.9rem;
-    }
-
-    /* Modal Styling */
-    .modal {
-        display: none;
-        position: fixed;
-        z-index: 1;
-        left: 0;
-        top: 0;
-        width: 100%;
-        height: 100%;
-        overflow: auto;
-        background-color: rgba(0, 0, 0, 0.9);
-    }
-
-    .modal-content {
-        margin: auto;
-        display: block;
-        width: 80%;
-        max-width: 700px;
-        animation-name: zoom;
-        animation-duration: 0.6s;
-    }
-
-    .modal-content img {
-        max-height: 70vh; /* Batasi tinggi gambar modal */
-        object-fit: contain; /* Agar gambar tidak terpotong */
-    }
-
-    #modalCaption {
-        color: #fff;
-        padding: 10px;
-        text-align: center;
-    }
-
-    #modalCaption h5 {
-        margin-bottom: 0.5rem;
-    }
-
-    @keyframes zoom {
-        from {
-            transform: scale(0)
-        }
-
-        to {
-            transform: scale(1)
-        }
-    }
-
-    .close {
-        position: absolute;
-        top: 15px;
-        right: 35px;
-        color: #f1f1f1;
-        font-size: 40px;
-        font-weight: bold;
-        transition: 0.3s;
-        cursor: pointer;
-    }
-
-    .close:hover,
-    .close:focus {
-        color: #bbb;
-        text-decoration: none;
-        cursor: pointer;
-    }.gallery-item {
-        margin-bottom: 20px;
-        overflow: hidden;
-        border-radius: 8px;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        position: relative; /* Untuk positioning overlay */
-    }
-
-    .gallery-item img {
-        width: 100%;
-        height: auto;
-        object-fit: cover;
-        max-height: 250px;
-        transition: transform 0.3s ease;
-        cursor: pointer;
-    }
-
-    .gallery-item:hover img {
-        transform: scale(1.1);
-    }
-
-    /* Overlay Styling */
-    .gallery-item .overlay {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background-color: rgba(0, 0, 0, 0.6); /* Lebih gelap sedikit */
-        color: white;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        opacity: 0;
-        transition: opacity 0.3s ease;
-        padding: 10px; /* Agar teks tidak terlalu mepet tepi */
-        text-align: center; /* Rata tengah teks */
-    }
-
-    .gallery-item:hover .overlay {
-        opacity: 1;
-    }
-
-    .gallery-item .overlay h5 {
-        margin-bottom: 0.5rem;
-        font-size: 1.2rem;
-    }
-
-    .gallery-item .overlay p {
-        font-size: 0.9rem;
-    }
-
-    /* Modal Styling */
-    .modal {
-        display: none;
-        position: fixed;
-        z-index: 1;
-        left: 0;
-        top: 0;
-        width: 100%;
-        height: 100%;
-        overflow: auto;
-        background-color: rgba(0, 0, 0, 0.9);
-    }
-
-    .modal-content {
-        margin: auto;
-        display: block;
-        width: 80%;
-        max-width: 700px;
-        animation-name: zoom;
-        animation-duration: 0.6s;
-    }
-
-    .modal-content img {
-        max-height: 70vh; /* Batasi tinggi gambar modal */
-        object-fit: contain; /* Agar gambar tidak terpotong */
-    }
-
-    #modalCaption {
-        color: #fff;
-        padding: 10px;
-        text-align: center;
-    }
-
-    #modalCaption h5 {
-        margin-bottom: 0.5rem;
-    }
-
-    @keyframes zoom {
-        from {
-            transform: scale(0)
-        }
-
-        to {
-            transform: scale(1)
-        }
-    }
-
-    .close {
-        position: absolute;
-        top: 15px;
-        right: 35px;
-        color: #f1f1f1;
-        font-size: 40px;
-        font-weight: bold;
-        transition: 0.3s;
-        cursor: pointer;
-    }
-
-    .close:hover,
-    .close:focus {
-        color: #bbb;
-        text-decoration: none;
-        cursor: pointer;
-    }
-}
-.gallery-item {
-    margin-bottom: 20px;
-    overflow: hidden;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    position: relative; /* Untuk positioning overlay */
-}
-
-.gallery-item img {
-    width: 100%;
-    height: auto;
-    object-fit: cover;
-    max-height: 250px;
-    transition: transform 0.3s ease;
-    cursor: pointer;
-}
-
-.gallery-item:hover img {
-    transform: scale(1.1);
-}
-
-/* Overlay Styling */
-.gallery-item .overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.6); /* Lebih gelap sedikit */
-    color: white;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    opacity: 0;
-    transition: opacity 0.3s ease;
-    padding: 10px; /* Agar teks tidak terlalu mepet tepi */
-    text-align: center; /* Rata tengah teks */
-}
-
-.gallery-item:hover .overlay {
-    opacity: 1;
-}
-
-.gallery-item .overlay h5 {
-    margin-bottom: 0.5rem;
-    font-size: 1.2rem;
-}
-
-.gallery-item .overlay p {
-    font-size: 0.9rem;
-}
-
-/* Modal Styling */
-.modal {
-    display: none;
-    position: fixed;
-    z-index: 1;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    overflow: auto;
-    background-color: rgba(0, 0, 0, 0.9);
-}
-
-.modal-content {
-    margin: auto;
-    display: block;
-    width: 80%;
-    max-width: 700px;
-    animation-name: zoom;
-    animation-duration: 0.6s;
-}
-
-.modal-content img {
-    max-height: 70vh; /* Batasi tinggi gambar modal */
-    object-fit: contain; /* Agar gambar tidak terpotong */
-}
-
-#modalCaption {
-    color: #fff;
-    padding: 10px;
-    text-align: center;
-}
-
-#modalCaption h5 {
-    margin-bottom: 0.5rem;
-}
-
-@keyframes zoom {
-    from {
-        transform: scale(0)
-    }
-
-    to {
-        transform: scale(1)
-    }
-}
-
-.close {
-    position: absolute;
-    top: 15px;
-    right: 35px;
-    color: #f1f1f1;
-    font-size: 40px;
-    font-weight: bold;
-    transition: 0.3s;
-    cursor: pointer;
-}
-
-.close:hover,
-.close:focus {
-    color: #bbb;
-    text-decoration: none;
-    cursor: pointer;
-}

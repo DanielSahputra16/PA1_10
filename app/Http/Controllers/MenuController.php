@@ -43,6 +43,9 @@ class MenuController extends Controller
             $data['gambar'] = $nama_gambar;
         }
 
+        // Set user_id ke user yang sedang login
+        $data['user_id'] = Auth::id();
+
         Menu::create($data);
 
         return redirect()->route('admin.Menu.index')
@@ -73,7 +76,7 @@ class MenuController extends Controller
         if ($request->hasFile('gambar')) {
             // Hapus gambar lama (jika ada)
             if ($menu->gambar) {
-                Storage::delete('public/menus/' . $menu->gambar); // Path konsisten
+                Storage::delete('public/menus/' . $menu->gambar);
             }
 
             $gambar = $request->file('gambar');
@@ -81,6 +84,9 @@ class MenuController extends Controller
             $path = $gambar->storeAs('public/menus', $nama_gambar);
             $data['gambar'] = $nama_gambar;
         }
+
+         // Set user_id ke user yang sedang login
+        $data['user_id'] = Auth::id(); //Ini akan mengupdate user_id ketika menu di update
 
         $menu->update($data);
 

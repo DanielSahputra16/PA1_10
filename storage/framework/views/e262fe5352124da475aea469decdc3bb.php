@@ -15,8 +15,8 @@
                     <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">About</a>
                     <div class="dropdown-menu">
                         <a href="<?php echo e(route('admin.About.index')); ?>" class="dropdown-item">Informasi Lapangan</a>
-                        <a href="<?php echo e(route('admin.Menu.index')); ?>" class="dropdown-item">Daftar Peralatan</a>
-                        <a href="<?php echo e(route('admin.jadwal_lapangan.index')); ?>" class="dropdown-item">Ketersediaan Lapangan</a>
+                        <a href="<?php echo e(route('admin.Menu.index')); ?>" class="dropdown-item">Menu</a>
+                        <a href="<?php echo e(route('admin.jadwal_lapangan.index')); ?>" class="dropdown-item">Lapangan</a>
                     </div>
                 </div>
                 <a href="<?php echo e(route('admin.Galeri.index')); ?>" class="nav-item nav-link">Galeri</a>

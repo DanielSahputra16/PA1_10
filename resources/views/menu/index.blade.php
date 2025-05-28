@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="utf-8">
-    <title>Lapangan - Ramos Badminton Center</title>
+    <title>Menu - Ramos Badminton Center</title>
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <meta content="" name="keywords">
     <meta content="" name="description">
@@ -65,8 +65,8 @@
         <!-- Menu Start -->
             <div class="container-fluid">
                 <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
-                    <h5 class="section-title ff-secondary text-center text-primary fw-normal">Field Service</h5>
-                    <h1 class="mb-5">Popular Rental Packages</h1>
+                    <h5 class="section-title ff-secondary text-center text-primary fw-normal">Pelayanan Lapangan</h5>
+                    <h1 class="mb-5">Paket Sewa Populer</h1>
                 </div>
                 <div class="tab-class text-center wow fadeInUp" data-wow-delay="0.1s">
                     <ul class="nav nav-pills d-inline-flex justify-content-center border-bottom mb-5">
@@ -74,8 +74,8 @@
                             <a class="d-flex align-items-center text-start mx-3 ms-0 pb-3" data-bs-toggle="pill" href="#tab-lapangan">
                                 <i class="fa fa-table-tennis fa-2x text-primary"></i>
                                 <div class="ps-3">
-                                    <small class="text-body">List of</small>
-                                    <h6 class="mt-n1 mb-0">Badminton Court Types</h6>
+                                    <small class="text-body">Daftar</small>
+                                    <h6 class="mt-n1 mb-0">Lapangan Bulu Tangkis</h6>
                                 </div>
                             </a>
                         </li>
@@ -83,8 +83,8 @@
                             <a class="d-flex align-items-center text-start mx-3 pb-3" data-bs-toggle="pill" href="#tab-alat">
                                 <i class="fa fa-calendar-alt fa-2x text-primary"></i>
                                 <div class="ps-3">
-                                    <small class="text-body">Field Rental</small>
-                                    <h6 class="mt-n1 mb-0">Packages</h6>
+                                    <small class="text-body">Penyewaan Lapangan</small>
+                                    <h6 class="mt-n1 mb-0">Paket</h6>
                                 </div>
                             </a>
                         </li>
@@ -92,8 +92,8 @@
                             <a class="d-flex align-items-center text-start mx-3 me-0 pb-3" data-bs-toggle="pill" href="#tab-fasilitas">
                                 <i class="fa fa-plus-square fa-2x text-primary"></i>
                                 <div class="ps-3">
-                                    <small class="text-body">List of</small>
-                                    <h6 class="mt-n1 mb-0">Additional Facilities</h6>
+                                    <small class="text-body">Daftar</small>
+                                    <h6 class="mt-n1 mb-0">Fasilitas Tambahan</h6>
                                 </div>
                             </a>
                         </li>
@@ -110,9 +110,8 @@
                                             <div class="w-100 d-flex flex-column text-start ps-4">
                                                 <h5 class="d-flex justify-content-between border-bottom pb-2">
                                                     <span>{{ $lapangan->judul }}</span>
-                                                    <span class="text-primary">Harga</span>
+                                                    <span class="text-primary">{{ $lapangan->deskripsi }}</span>
                                                 </h5>
-                                                <small class="fst-italic">{{ $lapangan->deskripsi }}</small>
                                             </div>
                                         </div>
                                     </div>
@@ -130,9 +129,8 @@
                                             <div class="w-100 d-flex flex-column text-start ps-4">
                                                 <h5 class="d-flex justify-content-between border-bottom pb-2">
                                                     <span>{{ $alat->judul }}</span>
-                                                    <span class="text-primary">Harga</span>
+                                                    <span class="text-primary">{{ $alat->deskripsi }}</span>
                                                 </h5>
-                                                <small class="fst-italic">{{ $alat->deskripsi }}</small>
                                             </div>
                                         </div>
                                     </div>
@@ -150,9 +148,8 @@
                                             <div class="w-100 d-flex flex-column text-start ps-4">
                                                 <h5 class="d-flex justify-content-between border-bottom pb-2">
                                                     <span>{{ $fasilitas->judul }}</span>
-                                                    <span class="text-primary">Harga</span>
+                                                    <span class="text-primary">{{ $fasilitas->deskripsi }}</span>
                                                 </h5>
-                                                <small class="fst-italic">{{ $fasilitas->deskripsi }}</small>
                                             </div>
                                         </div>
                                     </div>

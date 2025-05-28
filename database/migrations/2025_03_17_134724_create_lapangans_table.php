@@ -14,7 +14,6 @@ return new class extends Migration
         Schema::create('lapangans', function (Blueprint $table) {
             $table->id();
             $table->string('nama');
-            $table->integer('harga_per_jam');
             $table->timestamps();
         });
     }

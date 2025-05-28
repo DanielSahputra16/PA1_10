@@ -89,8 +89,6 @@
                                         <form
                                             action="{{ route('admin.jadwal_lapangan.destroy', $jadwalLapangan->id) }}"
                                             method="POST" style="display: inline-block;">
-                                            <a class="btn btn-info btn-sm"
-                                                href="{{ route('admin.jadwal_lapangan.show', $jadwalLapangan->id) }}">Show</a>
                                             <a class="btn btn-primary btn-sm"
                                                 href="{{ route('admin.jadwal_lapangan.edit', $jadwalLapangan->id) }}">Edit</a>
                                             @csrf

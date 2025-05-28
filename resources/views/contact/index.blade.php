@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="utf-8">
-    <title>Lapangan - Ramos Badminton Center</title>
+    <title>Contact - Ramos Badminton Center</title>
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <meta content="" name="keywords">
     <meta content="" name="description">
@@ -64,8 +64,8 @@
         <div class="container-xxl py-5">
             <div class="container">
                 <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
-                    <h5 class="section-title ff-secondary text-center text-primary fw-normal">Contact Us</h5>
-                    <h1 class="mb-5">Contact For Any Query</h1>
+                    <h5 class="section-title ff-secondary text-center text-primary fw-normal">Hubungi kami</h5>
+                    <h1 class="mb-5">Hubungi Untuk Pertanyaan Apa Pun</h1>
                 </div>
 
                 <!-- START: Corrected Structure -->
@@ -73,15 +73,15 @@
                     <!-- Column for Contact Details -->
                     <div class="col-lg-6">
                         <div class="wow fadeInUp" data-wow-delay="0.1s"> <!-- Added wow wrapper -->
-                            <h5 class="section-title ff-secondary fw-normal text-start text-primary mb-3">Get In Touch</h5> <!-- Optional Subtitle -->
+                            <h5 class="section-title ff-secondary fw-normal text-start text-primary mb-3">Hubungi Kami</h5> <!-- Optional Subtitle -->
                             <div class="row gy-4">
                                 @if($contacts->isNotEmpty())
                                     <div class="col-12"> <!-- Phone -->
-                                        <h6 class="text-primary">Phone</h6>
+                                        <h6 class="text-primary">Telepon</h6>
                                         <p class="mb-2"><i class="fa fa-phone-alt text-primary me-2"></i><a href="tel:{{ $contacts->first()->phone_number }}">{{ $contacts->first()->phone_number }}</a></p>
                                     </div>
                                     <div class="col-12"> <!-- Operating Hours -->
-                                        <h6 class="text-primary">Operating Hours</h6>
+                                        <h6 class="text-primary">Jam Operasional</h6>
                                         <p class="mb-2"><i class="fa fa-clock text-primary me-2"></i>{{ $contacts->first()->operating_hours }}</p>
                                     </div>
                                     <div class="col-12"> <!-- WhatsApp -->
@@ -104,7 +104,7 @@
                     <!-- Column for Map -->
                     <div class="col-lg-6"> <!-- Use col-lg-6 to match the details column -->
                         <div class="wow fadeIn" data-wow-delay="0.3s"> <!-- Adjusted delay -->
-                            <h5 class="section-title ff-secondary fw-normal text-start text-primary mb-3">Our Location</h5> <!-- Optional Subtitle -->
+                            <h5 class="section-title ff-secondary fw-normal text-start text-primary mb-3">Lokasi Kami</h5> <!-- Optional Subtitle -->
                             @if($contacts->isNotEmpty())
                                 <iframe class="position-relative rounded w-100 h-100"
                                     src="{{ htmlspecialchars($contacts->first()->embed_code) }}"

@@ -12,6 +12,7 @@ class JadwalLapangan extends Model
     protected $table = 'jadwal_lapangans';
 
     protected $fillable = [
+        'user_id', // Tambahkan user_id ke daftar fillable
         'nama',
         'waktu_mulai',
         'waktu_selesai',
@@ -25,4 +26,9 @@ class JadwalLapangan extends Model
         'lapangan_1' => 'boolean',
         'lapangan_2' => 'boolean',
     ];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }

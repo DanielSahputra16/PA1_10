@@ -3,13 +3,13 @@
 
 <head>
     <meta charset="utf-8">
-    <title>Reservasi - Ramos Badminton Center</title>
+    <title>About - Ramos Badminton Center</title>
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <meta content="" name="keywords">
     <meta content="" name="description">
 
     <!-- Favicon -->
-    <link href="{{ URL::asset('img/favicon.ico') }}" rel="icon">
+    <link href="img/favicon.ico" rel="icon">
 
     <!-- Google Web Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -45,102 +45,108 @@
         </div>
         <!-- Spinner End -->
 
-        <!-- Navbar -->
+        <!-- Navbar & Hero Start -->
         @include('admin.navbar')
-        <!-- End Navbar -->
-
-        @section('content')
-            <!-- Hero Header Start -->
-            <div class="container-xxl py-5 bg-dark hero-header mb-5">
-                <div class="container text-center my-5 pt-5 pb-4">
-                    <h1 class="display-3 text-white mb-3 animated slideInDown">Informasi lapangan</h1>
-                    <nav aria-label="breadcrumb">
-                        <ol class="breadcrumb justify-content-center text-uppercase">
-                            <li class="breadcrumb-item"><a href="/">Home</a></li>
-                            <li class="breadcrumb-item text-white active" aria-current="page">About</li>
-                        </ol>
-                    </nav>
-                </div>
+        <div class="container-xxl py-5 bg-dark hero-header mb-5">
+            <div class="container text-center my-5 pt-5 pb-4">
+                <h1 class="display-3 text-white mb-3 animated slideInDown">Galeri</h1>
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb justify-content-center text-uppercase">
+                        <li class="breadcrumb-item"><a href="#">Home</a></li>
+                        <li class="breadcrumb-item"><a href="#">Pages</a></li>
+                        <li class="breadcrumb-item text-white active" aria-current="page">Galeri</li>
+                    </ol>
+                </nav>
             </div>
-            <!-- Reservation List Start -->
-            <div class="container-xxl py-7 wow fadeInUp" data-wow-delay="0.1s">
-                <div class="container">
-                    <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
-                        <h4 class="section-title ff-secondary text-center text-primary fw-normal">Informasi Lapangan</h4>
-                    </div>
-                    <div>
-                        <a href="{{ route('admin.About.create') }}" class="btn btn-primary mb-3">Tambah About</a>
-                    </div>
-                    @if ($message = Session::get('success'))
-                        <div class="alert alert-success">
-                            <p>{{ $message }}</p>
-                        </div>
-                    @endif
+        </div>
+    </div>
+    <!-- Navbar & Hero End -->
 
-                    <table class="table">
-                        <thead>
+    @section('content')
+    <div class="container-fluid pt-4 px-4">
+        <div class="row g-4">
+            <div class="col-sm-12 col-xl-12">
+                <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
+                    <h4 class="section-title ff-secondary text-center text-primary fw-normal">Informasi Lapangan</h4>
+                </div>
+                <a href="{{ route('admin.About.create') }}" class="btn btn-primary mb-3">Tambah Informasi</a>
+                <div class="table-responsive">
+                    <table class="table table-striped table-bordered table-hover align-middle">
+                        <!-- Tambahkan class align-middle -->
+                        <thead class="table-dark">
+                            <!-- Tambahkan class table-dark -->
                             <tr>
-                                <th>Judul</th>
-                                <th>Deskripsi</th>
-                                <th>Gambar</th>
-                                <th>Aksi</th>
+                                <th scope="col">Judul</th>
+                                <th scope="col">Deskripsi</th>
+                                <th scope="col">Gambar</th>
+                                <th scope="col" class="text-center">Aksi</th>
+                                <!-- Tambahkan class text-center -->
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($abouts as $about)
-                                <tr>
-                                    <td>{{ $about->judul }}</td>
-                                    <td>{{ $about->deskripsi }}</td>
-                                    <td>
-                                        @if($about->gambar)
-                                            <img src="{{ asset('storage/' . $about->gambar) }}" alt="{{ $about->judul }}"
-                                                width="100">
-                                        @else
-                                            Tidak Ada Gambar
-                                        @endif
-                                    </td>
-                                    <td>
-                                        <a href="{{ route('admin.About.show', ['about' => $about->id]) }}"
-                                            class="btn btn-info btn-sm">Lihat</a>
-                                        <a href="{{ route('admin.About.edit', ['about' => $about->id]) }}"
-                                            class="btn btn-primary btn-sm">Edit</a>
-                                        <form action="{{ route('admin.About.destroy', ['about' => $about->id]) }}" method="POST"
-                                            style="display: inline;">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button type="submit" class="btn btn-danger btn-sm"
-                                                onclick="return confirm('Apakah Anda yakin ingin menghapus?')">Hapus</button>
-                                        </form>
-                                    </td>
-                                </tr>
-                            @endforeach
+                            @forelse ($abouts as $about)
+                            <tr>
+                                <td>{{ $about->judul }}</td>
+                                <td>{{ $about->deskripsi }}</td>
+                                <td>
+                                    @if($about->gambar)
+                                    <img src="{{ asset('storage/' . $about->gambar) }}" alt="{{ $about->judul }}"
+                                        width="100">
+                                    @else
+                                    Tidak Ada Gambar
+                                    @endif
+                                </td>
+                                <td class="text-center">
+                                    <a href="{{ route('admin.About.edit', ['about' => $about->id]) }}"
+                                        class="btn btn-primary btn-sm" title="Edit"><i class="fas fa-edit"></i></a>
+                                    <form action="{{ route('admin.About.destroy', ['about' => $about->id]) }}"
+                                        method="POST" style="display: inline;">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="btn btn-sm btn-danger" title="Hapus"
+                                            onclick="return confirm('Apakah Anda yakin ingin menghapus?')">
+                                            <i class="fas fa-trash-alt"></i>
+                                        </button>
+                                    </form>
+                                </td>
+                            </tr>
+                            @empty
+                            <tr>
+                                <td colspan="4" class="text-center">Tidak ada data</td>
+                            </tr>
+                            @endforelse
+                            <!-- Ubah endforeach menjadi endforelse -->
                         </tbody>
                     </table>
                 </div>
-
-                <!-- Footer -->
-                @include('layouts.footer')
-                <!-- End Footer -->
-
-                <!-- Back to Top -->
-                <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top" aria-label="Kembali ke atas"><i
-                        class="bi bi-arrow-up"></i></a>
             </div>
+        </div>
+    </div>
+    </div>
 
-            <!-- JavaScript Libraries -->
-            <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-            <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
-            <script src="{{ URL::asset('lib/wow/wow.min.js') }}"></script>
-            <script src="{{ URL::asset('lib/easing/easing.min.js') }}"></script>
-            <script src="{{ URL::asset('lib/waypoints/waypoints.min.js') }}"></script>
-            <script src="{{ URL::asset('lib/counterup/counterup.min.js') }}"></script>
-            <script src="{{ URL::asset('lib/owlcarousel/owl.carousel.min.js') }}"></script>
-            <script src="{{ URL::asset('lib/tempusdominus/js/moment.min.js') }}"></script>
-            <script src="{{ URL::asset('lib/tempusdominus/js/moment-timezone.min.js') }}"></script>
-            <script src="{{ URL::asset('lib/tempusdominus/js/tempusdominus-bootstrap-4.min.js') }}"></script>
+    <!-- Footer -->
+    @include('layouts.footer')
+    <!-- End Footer -->
 
-            <!-- Template Javascript -->
-            <script src="{{ URL::asset('js/main.js') }}"></script>
+    <!-- Back to Top -->
+    <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top" aria-label="Kembali ke atas"><i
+            class="bi bi-arrow-up"></i></a>
+    </div>
+
+    <!-- JavaScript Libraries -->
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="{{ URL::asset('lib/wow/wow.min.js') }}"></script>
+    <script src="{{ URL::asset('lib/easing/easing.min.js') }}"></script>
+    <script src="{{ URL::asset('lib/waypoints/waypoints.min.js') }}"></script>
+    <script src="{{ URL::asset('lib/counterup/counterup.min.js') }}"></script>
+    <script src="{{ URL::asset('lib/owlcarousel/owl.carousel.min.js') }}"></script>
+    <script src="{{ URL::asset('lib/tempusdominus/js/moment.min.js') }}"></script>
+    <script src="{{ URL::asset('lib/tempusdominus/js/moment-timezone.min.js') }}"></script>
+    <script src="{{ URL::asset('lib/tempusdominus/js/tempusdominus-bootstrap-4.min.js') }}"></script>
+
+    <!-- Template Javascript -->
+    <script src="{{ URL::asset('js/main.js') }}"></script>
 </body>
 
 </html>

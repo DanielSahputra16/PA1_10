@@ -6,9 +6,20 @@ use App\Models\JadwalLapangan;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Auth; // Import Auth
+use Carbon\Carbon;
 
 class JadwalLapanganController extends Controller
 {
+
+    // Menerapkan middleware auth ke seluruh controller
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
+
     public function indexPublic()
     {
         $jadwalLapangans = JadwalLapangan::all();
@@ -37,29 +48,7 @@ class JadwalLapanganController extends Controller
      */
     public function store(Request $request)
     {
-        try {
-            $request->validate([
-                'nama' => 'required|string|max:255',
-                'waktu_mulai' => 'required|date_format:H:i',
-                'waktu_selesai' => 'required|date_format:H:i',
-                'lapangan_1' => 'required|boolean',
-                'lapangan_2' => 'required|boolean',
-            ]);
-
-            JadwalLapangan::create($request->all());
-            return redirect()->route('admin.jadwal_lapangan.index')
-                ->with('success', 'Jadwal Lapangan berhasil ditambahkan.');
-
-        } catch (\Illuminate\Validation\ValidationException $e) {
-            return redirect()->back()
-                ->withErrors($e->errors())
-                ->withInput();
-        } catch (\Exception $e) {
-            Log::error("Error creating jadwal lapangan: " . $e->getMessage());
-            return redirect()->back()
-                ->with('error', 'Terjadi kesalahan saat menambahkan jadwal.')
-                ->withInput();
-        }
+       return $this->saveJadwalLapangan($request);
     }
 
     /**
@@ -83,45 +72,7 @@ class JadwalLapanganController extends Controller
      */
     public function update(Request $request, JadwalLapangan $jadwalLapangan)
     {
-        DB::beginTransaction(); // Mulai transaksi
-
-        try {
-            \Log::info("Attempting to update jadwal lapangan with ID: " . $jadwalLapangan->id);
-            \Log::info("Request data: " . json_encode($request->all()));
-
-            $request->validate([
-                'nama' => 'required|string|max:255',
-                'waktu_mulai' => 'required|date_format:H:i',
-                'waktu_selesai' => 'required|date_format:H:i',
-                'lapangan_1' => 'required|boolean',
-                'lapangan_2' => 'required|boolean',
-            ]);
-
-            // Menggunakan array untuk memastikan hanya field yang valid yang diperbarui
-            $data = $request->only(['nama', 'waktu_mulai', 'waktu_selesai', 'lapangan_1', 'lapangan_2']);
-            $jadwalLapangan->update($data);
-
-            DB::commit(); // Commit transaksi
-            Log::info("Jadwal Lapangan updated successfully. Jadwal ID: " . $jadwalLapangan->id);
-
-            return redirect()->route('admin.jadwal_lapangan.index')
-                ->with('success', 'Jadwal Lapangan berhasil diperbarui.');
-
-        } catch (\Illuminate\Validation\ValidationException $e) {
-            DB::rollback(); // Rollback transaksi
-            Log::error("Validation error updating jadwal lapangan: " . $e->getMessage());
-            \Log::info("Data yang diterima di update: " . json_encode($request->all()));
-            return redirect()->back()
-                ->withErrors($e->errors())
-                ->withInput();
-
-        } catch (\Exception $e) {
-            DB::rollback(); // Rollback transaksi
-            Log::error("Error updating jadwal lapangan: " . $e->getMessage());
-            return redirect()->back()
-                ->with('error', 'Terjadi kesalahan: ' . $e->getMessage())
-                ->withInput();
-        }
+        return $this->saveJadwalLapangan($request, $jadwalLapangan);
     }
 
     /**
@@ -139,5 +90,68 @@ class JadwalLapanganController extends Controller
             return redirect()->back()
                 ->with('error', 'Terjadi kesalahan saat menghapus jadwal.');
         }
+    }
+
+    private function saveJadwalLapangan(Request $request, JadwalLapangan $jadwalLapangan = null)
+    {
+        // Validasi input
+        $currentYear = now()->year;
+
+        $validator = Validator::make($request->all(), [
+            'nama' => 'required|string|max:255',
+            'tanggal' => 'required|date|after_or_equal:today|before_or_equal:' . now()->addMonths(2)->format('Y-m-d'),
+            'jam_mulai' => 'required',
+            'jam_selesai' => 'required',
+            'lapangan_1' => 'required|boolean',
+            'lapangan_2' => 'required|boolean',
+        ]);
+
+        if ($validator->fails()) {
+            return redirect()->back()
+                ->withErrors($validator)
+                ->withInput();
+        }
+
+        // Gabungkan tanggal dan jam menjadi format datetime
+        $waktu_mulai = Carbon::parse($request->tanggal . ' ' . $request->jam_mulai);
+        $waktu_selesai = Carbon::parse($request->tanggal . ' ' . $request->jam_selesai);
+
+        if($waktu_mulai->greaterThanOrEqualTo($waktu_selesai)) {
+                return redirect()->back()
+                    ->withErrors(['jam_mulai' => 'Jam mulai harus lebih kecil dari jam selesai.'])
+                    ->withInput();
+        }
+
+        //Cek Overlapping
+          $overlapping = JadwalLapangan::where(function($q) use($waktu_mulai, $waktu_selesai){
+                                        $q->whereBetween('waktu_mulai', [$waktu_mulai, $waktu_selesai])
+                                          ->orWhereBetween('waktu_selesai', [$waktu_mulai, $waktu_selesai]);
+                                        })
+                                        ->when($jadwalLapangan, function($q) use($jadwalLapangan){
+                                            $q->where('id','!=', $jadwalLapangan->id);
+                                        })
+                                        ->count();
+
+          if($overlapping > 0){
+                return redirect()->back()
+                    ->withErrors(['jam_mulai' => 'Sudah ada jadwal lain pada jam tersebut.'])
+                    ->withInput();
+          }
+
+        //Buat instance baru atau gunakan yang sudah ada
+        if($jadwalLapangan){
+             $jadwalLapangan->fill($request->only(['nama', 'lapangan_1', 'lapangan_2']));
+        }else {
+            $jadwalLapangan = new JadwalLapangan($request->only(['nama', 'lapangan_1', 'lapangan_2']));
+        }
+
+       $jadwalLapangan->waktu_mulai = $waktu_mulai;
+       $jadwalLapangan->waktu_selesai = $waktu_selesai;
+       $jadwalLapangan->user_id = Auth::id();
+       $jadwalLapangan->save();
+
+
+        return redirect()->route('admin.jadwal_lapangan.index')
+            ->with('success', 'Jadwal Lapangan berhasil disimpan.');
     }
 }
