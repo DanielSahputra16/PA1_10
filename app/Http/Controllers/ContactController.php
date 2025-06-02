@@ -50,7 +50,7 @@ class ContactController extends Controller
         Contact::create($data);
 
         return redirect()->route('admin.contact.index')
-                         ->with('success','Contact created successfully.');
+                         ->with('success','Kontak berhasil dibuat.');
     }
 
     // Menampilkan detail kontak di admin
@@ -82,7 +82,7 @@ class ContactController extends Controller
         $contact->update($data);
 
         return redirect()->route('admin.contact.index')
-                         ->with('success','Contact updated successfully.');
+                         ->with('success','Kontak berhasil diperbarui.');
     }
 
     // Menghapus kontak di admin
@@ -91,6 +91,6 @@ class ContactController extends Controller
         $contact->delete();
 
         return redirect()->route('admin.contact.index')
-                         ->with('success','Contact deleted successfully.');
+                         ->with('success','Kontak berhasil dihapus.');
     }
 }

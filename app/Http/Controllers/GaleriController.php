@@ -49,7 +49,7 @@ class GaleriController extends Controller
             'user_id' => Auth::id(), // Set user_id
         ]);
 
-        return redirect()->route('admin.Galeri.index')->with('success', 'Image added successfully.');
+        return redirect()->route('admin.Galeri.index')->with('success', 'Gambar berhasil ditambahkan.');
     }
 
     public function edit(Galeri $galeri)
@@ -79,7 +79,7 @@ class GaleriController extends Controller
         $data['user_id'] = Auth::id(); //Update user_id jika gambar di update
         $galeri->update($data);
 
-        return redirect()->route('admin.Galeri.index')->with('success', 'Image updated successfully.');
+        return redirect()->route('admin.Galeri.index')->with('success', 'Gambar berhasil diperbarui.');
     }
 
     public function destroy(Galeri $galeri)
@@ -87,6 +87,6 @@ class GaleriController extends Controller
         Storage::disk('public')->delete('images/galeri/' . $galeri->image_path);
         $galeri->delete();
 
-        return redirect()->route('admin.Galeri.index')->with('success', 'Image deleted successfully.');
+        return redirect()->route('admin.Galeri.index')->with('success', 'Gambar berhasil dihapus.');
     }
 }

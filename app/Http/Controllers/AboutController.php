@@ -62,7 +62,7 @@ class AboutController extends Controller
         About::create($input);
 
         return redirect()->route('admin.About.index')
-            ->with('success', 'About created successfully.');
+            ->with('success', 'Tentang kami berhasil dibuat.');
     }
 
     /**
@@ -116,7 +116,7 @@ class AboutController extends Controller
         $about->update($input);
 
         return redirect()->route('admin.About.index')
-            ->with('success', 'About updated successfully');
+            ->with('success', 'Tentang kami berhasil diperbarui');
     }
 
     /**
@@ -142,12 +142,12 @@ class AboutController extends Controller
             \Log::info('Transaction committed.');
 
             return redirect()->route('admin.About.index')
-                ->with('success', 'About deleted successfully.');
+                ->with('success', 'Tentang kami berhasil dihapus.');
         } catch (\Exception $e) {
             \DB::rollback();
             \Log::error('Error deleting About: ' . $e->getMessage());
             return redirect()->route('admin.About.index')
-                ->with('error', 'Error deleting About: ' . $e->getMessage());
+                ->with('error', 'Gagal menghapus tentang kami: ' . $e->getMessage());
         }
     }
 }

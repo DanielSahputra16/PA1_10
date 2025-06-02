@@ -152,6 +152,6 @@ class JadwalLapanganController extends Controller
 
 
         return redirect()->route('admin.jadwal_lapangan.index')
-            ->with('success', 'Jadwal Lapangan berhasil disimpan.');
+            ->with('success', 'Jadwal Lapangan berhasil diperbarui.');
     }
 }

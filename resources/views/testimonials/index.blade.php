@@ -112,6 +112,18 @@
         <!-- Navbar & Hero End -->
 
         <!-- Testimonial Start (Approved Testimonials) -->
+        <div class="container-fluid pt-4 px-4">
+        @if (session('success'))
+            <div class="alert alert-success">
+                {{ session('success') }}
+            </div>
+        @endif
+
+        @if (session('error'))
+            <div class="alert alert-danger">
+                {{ session('error') }}
+            </div>
+        @endif
         <div class="container-xxl py-5 wow fadeInUp" data-wow-delay="0.1s">
             <div class="container">
                 <div class="text-center">
