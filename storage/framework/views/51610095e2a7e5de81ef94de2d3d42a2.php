@@ -3,215 +3,207 @@
 
 <head>
     <meta charset="utf-8">
-    <title>Reservasi - Ramos Badminton Center</title>
-    <meta content="width=device-width, initial-scale=1.0" name="viewport">
-    <meta content="" name="keywords">  <!-- Sebaiknya diisi untuk SEO -->
-    <meta content="" name="description">  <!-- Sebaiknya diisi untuk SEO -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="Responsive Admin & Dashboard Template based on Bootstrap 5">
+    <meta name="author" content="AdminKit">
+    <meta name="keywords" content="adminkit, bootstrap, bootstrap 5, admin, dashboard, template, responsive, css, sass, html, theme, front-end, ui kit, web">
 
-    <!-- Favicon -->
-    <link href="<?php echo e(URL::asset('img/favicon.ico')); ?>" rel="icon">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link rel="shortcut icon" href="img/icons/icon-48x48.png" />
 
-    <!-- Google Web Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600&family=Nunito:wght@600;700;800&family=Pacifico&display=swap" rel="stylesheet">
+    <link rel="canonical" href="https://demo-basic.adminkit.io/" />
 
-    <!-- Icon Font Stylesheet -->
+    <title>Daftar Reservasi - Admin</title>
+
+    <link href="<?php echo e(URL::asset('css/app.css')); ?>" rel="stylesheet">
+    <link href="<?php echo e(URL::asset('css/style.css')); ?>" rel="stylesheet">
+    <link href="<?php echo e(URL::asset('css/yss.css')); ?>" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
-
-    <!-- Libraries Stylesheet -->
-    <link href="<?php echo e(URL::asset('lib/animate/animate.min.css')); ?>" rel="stylesheet">
-    <link href="<?php echo e(URL::asset('lib/owlcarousel/assets/owl.carousel.min.css')); ?>" rel="stylesheet">
-    <link href="<?php echo e(URL::asset('lib/tempusdominus/css/tempusdominus-bootstrap-4.min.css')); ?>" rel="stylesheet" />
-
-    <!-- Customized Bootstrap Stylesheet -->
-    <link href="<?php echo e(URL::asset('css/bootstrap.min.css')); ?>" rel="stylesheet">
-
-    <!-- Template Stylesheet -->
-    <link href="<?php echo e(URL::asset('css/style.css')); ?>" rel="stylesheet">
 </head>
 
 <body>
-    <div class="container-xxl bg-white p-0">
-        <!-- Spinner Start -->
-        <div id="spinner" class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
-            <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
-                <span class="sr-only">Loading...</span>
-            </div>
-        </div>
-        <!-- Spinner End -->
+    <div class="wrapper">
+        <?php echo $__env->make('admin.layouts.sidebar', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
 
-        <!-- Navbar -->
-        <?php echo $__env->make('layouts.navbar', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
-        <!-- End Navbar -->
+        <div class="main">
+         <?php echo $__env->make('admin.layouts.navbar', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
+            <main class="content">
+                <div class="container-fluid p-0">
+                    <div class="container-fluid pt-4 px-4">
+                        <div class="row g-4">
+                            <div class="col-sm-12 col-xl-12">
+                                <div class="bg-white rounded-3 shadow-sm p-4">
+                                    <div class="d-flex justify-content-between align-items-center mb-4">
+                                        <h4 class="mb-0 fw-bold text-primary">Daftar Reservasi Lapangan</h4>
+                                        <div class="d-flex gap-2">
+                                        </div>
+                                    </div>
 
-        <!-- Hero Header Start -->
-        <div class="container-xxl py-5 bg-dark hero-header mb-5">
-            <div class="container text-center my-5 pt-5 pb-4">
-                <h1 class="display-3 text-white mb-3 animated slideInDown">Daftar Reservasi</h1>
-                <nav aria-label="breadcrumb">
-                    <ol class="breadcrumb justify-content-center text-uppercase">
-                        <li class="breadcrumb-item"><a href="/">Home</a></li>
-                        <li class="breadcrumb-item text-white active" aria-current="page">Reservasi</li>
-                    </ol>
-                </nav>
-            </div>
-        </div>
-        <!-- Hero Header End -->
+                                    <?php if($message = Session::get('success')): ?>
+                                        <div class="alert alert-success alert-dismissible fade show" role="alert">
+                                            <i class="fas fa-check-circle me-2"></i>
+                                            <?php echo e($message); ?>
 
-        <!-- Helper function untuk warna badge status -->
-        <?php
-        // 1. Pengecekan Keberadaan Fungsi
-        if (!function_exists('getStatusBadgeClass')) { // Cek jika fungsi belum ada
-
-            // 2. Definisi Fungsi
-            function getStatusBadgeClass($status) {
-
-                // 3. Logika Inti (Switch Statement)
-                switch (strtolower($status)) { // 3a. Ubah status jadi huruf kecil
-
-                    // 4. Kasus-kasus Status
-                    case 'dikonfirmasi': // Jika status 'dikonfirmasi' ATAU 'confirmed'
-                    case 'confirmed':
-                        return 'bg-success'; // Kembalikan kelas Bootstrap 'bg-success' (hijau)
-
-                    case 'pending':          // Jika status 'pending' ATAU 'menunggu pembayaran'
-                    case 'menunggu pembayaran':
-                        return 'bg-warning text-dark'; // Kembalikan 'bg-warning' (kuning) dan 'text-dark' (teks hitam)
-
-                    case 'dibatalkan':      // Jika status 'dibatalkan' ATAU 'cancelled'
-                    case 'cancelled':
-                        return 'bg-danger';  // Kembalikan 'bg-danger' (merah)
-
-                    case 'selesai':         // Jika status 'selesai' ATAU 'completed'
-                    case 'completed':
-                        return 'bg-info';    // Kembalikan 'bg-info' (biru muda)
-
-                    // 5. Kasus Default (Jika tidak cocok sama sekali)
-                    default:
-                        return 'bg-secondary'; // Kembalikan 'bg-secondary' (abu-abu)
-                } // Akhir dari switch
-            } // Akhir dari definisi fungsi
-        } // Akhir dari if (!function_exists(...))
-        ?>
-
-        <!-- Reservation List Start -->
-        <div class="container-xxl py-7 wow fadeInUp" data-wow-delay="0.1s">
-            <div class="container">
-                <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
-                    <h4 class="section-title ff-secondary text-center text-primary fw-normal">Reservations</h4>
-                    <h1 class="mb-5">Daftar Reservasi Lapangan</h1>
-                </div>
-
-                <div class="container-fluid px-0"> <!-- Gunakan container-fluid agar benar-benar full width -->
-                    <div class="row g-4 justify-content-center">
-                        <div class="col-12 px-0">
-
-                         <!-- Pesan Sukses dari Session -->
-                        <?php if(session('success')): ?>
-                            <div class="alert alert-success alert-dismissible fade show wow fadeInUp" data-wow-delay="0.2s" role="alert">
-                                <i class="fas fa-check-circle me-2"></i> <?php echo e(session('success')); ?>
-
-                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                            </div>
-                        <?php endif; ?>
-                         </div>
-
-                         <!-- Tabel Daftar Reservasi -->
-                        <div class="table-responsive wow fadeInUp" data-wow-delay="0.4s">
-                            <table class="table table-striped table-bordered table-hover align-middle">
-                                <thead class="table-dark">
-                                    <tr>
-                                        <th scope="col">ID</th>
-                                        <th scope="col">Nama</th>  <!-- Tambahkan kolom nama -->
-                                        <th scope="col">No. HP</th> <!-- Tambahkan kolom no_hp -->
-                                        <th scope="col">Lapangan</th>
-                                        <th scope="col">Tanggal Mulai</th>
-                                        <th scope="col">Tanggal Selesai</th>
-                                        <th scope="col">Status</th>
-                                        <th scope="col" class="text-center">Aksi</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <?php $__empty_1 = true; $__currentLoopData = $reservasis; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $reservasi): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
-                                        <tr>
-                                            <th scope="row"><?php echo e($reservasi->id); ?></th>
-                                            <td><?php echo e($reservasi->nama); ?></td>  <!-- Tampilkan nama -->
-                                            <td><?php echo e($reservasi->no_hp); ?></td> <!-- Tampilkan no_hp -->
-                                            <td><?php echo e($reservasi->lapangan->nama ?? 'N/A'); ?></td>  <!-- Handle jika relasi lapangan null -->
-                                            <td><?php echo e(\Carbon\Carbon::parse($reservasi->tanggal_mulai)->isoFormat('D MMM YYYY, HH:mm')); ?></td>  <!-- Format tanggal lokal -->
-                                            <td><?php echo e(\Carbon\Carbon::parse($reservasi->tanggal_selesai)->isoFormat('D MMM YYYY, HH:mm')); ?></td>  <!-- Format tanggal lokal -->
-                                            <td>
-                                                <span class="badge <?php echo e(getStatusBadgeClass($reservasi->status)); ?>"><?php echo e($reservasi->status); ?></span>
-                                            </td>
-                                            <td class="text-center">
-                                                 <!-- Tombol Aksi -->
-                                                <a href="<?php echo e(route('admin.reservasi.show', $reservasi->id)); ?>" class="btn btn-sm btn-info me-1" title="Detail">
-                                                    <i class="fas fa-eye"></i>
-                                                </a>
-
-                                                <!-- Form Edit Status -->
-                                                <form action="<?php echo e(route('admin.reservasi.updateStatus', $reservasi->id)); ?>" method="POST" class="d-inline">
-                                                    <?php echo csrf_field(); ?>
-                                                    <?php echo method_field('PATCH'); ?>  <!-- Penting: Gunakan method PATCH -->
-                                                    <select name="status" class="form-select form-select-sm" onchange="this.form.submit()">
-                                                        <option value="pending" <?php if($reservasi->status == 'pending'): ?> selected <?php endif; ?>>Pending</option>
-                                                        <option value="confirmed" <?php if($reservasi->status == 'confirmed'): ?> selected <?php endif; ?>>Dikonfirmasi</option>
-                                                        <option value="cancelled" <?php if($reservasi->status == 'cancelled'): ?> selected <?php endif; ?>>Dibatalkan</option>
-                                                    </select>
-                                                </form>
-
-                                                <form action="<?php echo e(route('admin.reservasi.destroy', $reservasi->id)); ?>" method="POST" class="d-inline" onsubmit="return confirm('Apakah Anda yakin ingin membatalkan reservasi ini?');">
-                                                    <?php echo csrf_field(); ?>
-                                                    <?php echo method_field('DELETE'); ?>
-                                                    <button type="submit" class="btn btn-sm btn-danger" title="Batalkan">
-                                                        <i class="fas fa-trash-alt"></i>
-                                                    </button>
-                                                </form>
-                                            </td>
-                                        </tr>
-                                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?>
-                                        <tr>
-                                             <!-- Pesan jika tabel kosong -->
-                                            <td colspan="8" class="text-center py-4">
-                                                <i class="fas fa-info-circle me-2"></i> Tidak ada data reservasi ditemukan.
-                                            </td>
-                                        </tr>
+                                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                        </div>
                                     <?php endif; ?>
-                                </tbody>
-                            </table>
-                        </div>
 
+                                    <?php if($message = Session::get('error')): ?>
+                                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                            <i class="fas fa-exclamation-circle me-2"></i>
+                                            <?php echo e($message); ?>
+
+                                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                        </div>
+                                    <?php endif; ?>
+
+                                    <!-- Helper function untuk warna badge status -->
+                                    <?php
+                                    if (!function_exists('getStatusBadgeClass')) {
+                                        function getStatusBadgeClass($status) {
+                                            switch (strtolower($status)) {
+                                                case 'dikonfirmasi':
+                                                case 'confirmed':
+                                                    return 'bg-success bg-opacity-10 text-success';
+                                                case 'pending':
+                                                case 'menunggu pembayaran':
+                                                    return 'bg-warning bg-opacity-10 text-warning';
+                                                case 'dibatalkan':
+                                                case 'cancelled':
+                                                    return 'bg-danger bg-opacity-10 text-danger';
+                                                case 'selesai':
+                                                case 'completed':
+                                                    return 'bg-info bg-opacity-10 text-info';
+                                                default:
+                                                    return 'bg-secondary bg-opacity-10 text-secondary';
+                                            }
+                                        }
+                                    }
+                                    ?>
+
+                                    <div class="table-responsive">
+                                        <table class="table table-hover align-middle">
+                                            <thead class="table-light">
+                                                <tr>
+                                                    <th scope="col" class="py-3 px-4 text-center">No</th>
+                                                    <th scope="col" class="py-3 px-4">Nama</th>
+                                                    <th scope="col" class="py-3 px-4">No. HP</th>
+                                                    <th scope="col" class="py-3 px-4">Lapangan</th>
+                                                    <th scope="col" class="py-3 px-4">Tanggal Mulai</th>
+                                                    <th scope="col" class="py-3 px-4">Tanggal Selesai</th>
+                                                    <th scope="col" class="py-3 px-4 text-center">Status</th>
+                                                    <th scope="col" class="py-3 px-4 text-end">Aksi</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <?php $__empty_1 = true; $__currentLoopData = $reservasis; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $reservasi): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
+                                                    <tr class="border-bottom">
+                                                        <td class="px-4 py-3 text-center fw-semibold"><?php echo e($loop->iteration); ?></td>
+                                                        <td class="px-4 py-3 fw-semibold"><?php echo e($reservasi->nama); ?></td>
+                                                        <td class="px-4 py-3"><?php echo e($reservasi->no_hp); ?></td>
+                                                        <td class="px-4 py-3"><?php echo e($reservasi->lapangan->nama ?? 'N/A'); ?></td>
+                                                        <td class="px-4 py-3">
+                                                            <i class="far fa-calendar-alt me-2 text-primary"></i>
+                                                            <?php echo e(\Carbon\Carbon::parse($reservasi->tanggal_mulai)->isoFormat('D MMM YYYY, HH:mm')); ?>
+
+                                                        </td>
+                                                        <td class="px-4 py-3">
+                                                            <i class="far fa-calendar-alt me-2 text-primary"></i>
+                                                            <?php echo e(\Carbon\Carbon::parse($reservasi->tanggal_selesai)->isoFormat('D MMM YYYY, HH:mm')); ?>
+
+                                                        </td>
+                                                        <td class="px-4 py-3 text-center">
+                                                            <span class="badge <?php echo e(getStatusBadgeClass($reservasi->status)); ?>"><?php echo e($reservasi->status); ?></span>
+                                                        </td>
+                                                        <td class="px-4 py-3 text-end">
+                                                            <div class="d-flex justify-content-end gap-2">
+                                                                <a href="<?php echo e(route('admin.reservasi.show', $reservasi->id)); ?>"
+                                                                   class="btn btn-sm btn-outline-info rounded-circle p-2"
+                                                                   title="Detail" data-bs-toggle="tooltip">
+                                                                    <i class="fas fa-eye fa-sm"></i>
+                                                                </a>
+                                                                <div class="dropdown">
+                                                                    <button class="btn btn-sm btn-outline-primary rounded-circle p-2 dropdown-toggle"
+                                                                            type="button" data-bs-toggle="dropdown" aria-expanded="false"
+                                                                            title="Ubah Status" data-bs-toggle="tooltip">
+                                                                        <i class="fas fa-exchange-alt fa-sm"></i>
+                                                                    </button>
+                                                                    <ul class="dropdown-menu dropdown-menu-end">
+                                                                        <form action="<?php echo e(route('admin.reservasi.updateStatus', $reservasi->id)); ?>" method="POST">
+                                                                            <?php echo csrf_field(); ?>
+                                                                            <?php echo method_field('PATCH'); ?>
+                                                                            <li>
+                                                                                <button type="submit" name="status" value="pending"
+                                                                                        class="dropdown-item <?php if($reservasi->status == 'pending'): ?> active <?php endif; ?>">
+                                                                                    <i class="fas fa-clock me-2 text-warning"></i>Pending
+                                                                                </button>
+                                                                            </li>
+                                                                            <li>
+                                                                                <button type="submit" name="status" value="confirmed"
+                                                                                        class="dropdown-item <?php if($reservasi->status == 'confirmed'): ?> active <?php endif; ?>">
+                                                                                    <i class="fas fa-check me-2 text-success"></i>Dikonfirmasi
+                                                                                </button>
+                                                                            </li>
+                                                                            <li>
+                                                                                <button type="submit" name="status" value="cancelled"
+                                                                                        class="dropdown-item <?php if($reservasi->status == 'cancelled'): ?> active <?php endif; ?>">
+                                                                                    <i class="fas fa-times me-2 text-danger"></i>Dibatalkan
+                                                                                </button>
+                                                                            </li>
+                                                                        </form>
+                                                                    </ul>
+                                                                </div>
+                                                                <form action="<?php echo e(route('admin.reservasi.destroy', $reservasi->id)); ?>" method="POST"
+                                                                      onsubmit="return confirm('Apakah Anda yakin ingin menghapus reservasi ini?')">
+                                                                    <?php echo csrf_field(); ?>
+                                                                    <?php echo method_field('DELETE'); ?>
+                                                                    <button type="submit"
+                                                                            class="btn btn-sm btn-outline-danger rounded-circle p-2"
+                                                                            title="Hapus" data-bs-toggle="tooltip">
+                                                                        <i class="fas fa-trash-alt fa-sm"></i>
+                                                                    </button>
+                                                                </form>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?>
+                                                    <tr>
+                                                        <td colspan="8" class="text-center py-4 text-muted">
+                                                            <i class="fas fa-calendar-times me-2"></i>Tidak ada data reservasi ditemukan
+                                                        </td>
+                                                    </tr>
+                                                <?php endif; ?>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
-            </div>
+            </main>
+
+            <?php echo $__env->make('admin.layouts.footer', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
         </div>
-        <!-- Reservation List End -->
-
-        <!-- Footer -->
-        <?php echo $__env->make('layouts.footer', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
-        <!-- End Footer -->
-
-        <!-- Back to Top -->
-        <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top" aria-label="Kembali ke atas"><i class="bi bi-arrow-up"></i></a>
     </div>
 
-    <!-- JavaScript Libraries -->
-    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="<?php echo e(URL::asset('lib/wow/wow.min.js')); ?>"></script>
-    <script src="<?php echo e(URL::asset('lib/easing/easing.min.js')); ?>"></script>
-    <script src="<?php echo e(URL::asset('lib/waypoints/waypoints.min.js')); ?>"></script>
-    <script src="<?php echo e(URL::asset('lib/counterup/counterup.min.js')); ?>"></script>
-    <script src="<?php echo e(URL::asset('lib/owlcarousel/owl.carousel.min.js')); ?>"></script>
-    <script src="<?php echo e(URL::asset('lib/tempusdominus/js/moment.min.js')); ?>"></script>
-    <script src="<?php echo e(URL::asset('lib/tempusdominus/js/moment-timezone.min.js')); ?>"></script>
-    <script src="<?php echo e(URL::asset('lib/tempusdominus/js/tempusdominus-bootstrap-4.min.js')); ?>"></script>
+    <script src="<?php echo e(URL::asset('js/app.js')); ?>"></script>
+    <script>
+        document.getElementById('current-year').textContent = new Date().getFullYear();
 
-    <!-- Template Javascript -->
-    <script src="<?php echo e(URL::asset('js/main.js')); ?>"></script>
+        // Enable tooltips
+        var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+        var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+            return new bootstrap.Tooltip(tooltipTriggerEl)
+        })
+    </script>
+    <script src="https://unpkg.com/feather-icons"></script>
+    <script>
+        feather.replace()
+    </script>
 </body>
-
 </html>
 <?php /**PATH C:\xampp\htdocs\PA_10\resources\views/admin/reservasi/index.blade.php ENDPATH**/ ?>

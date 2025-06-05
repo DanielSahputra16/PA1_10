@@ -3,148 +3,111 @@
 
 <head>
     <meta charset="utf-8">
-    <title>Edit Informasi Kontak - Ramos Badminton Center</title>
-    <meta content="width=device-width, initial-scale=1.0" name="viewport">
-    <meta content="" name="keywords">
-    <meta content="" name="description">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="Responsive Admin & Dashboard Template based on Bootstrap 5">
+    <meta name="author" content="AdminKit">
+    <meta name="keywords" content="adminkit, bootstrap, bootstrap 5, admin, dashboard, template, responsive, css, sass, html, theme, front-end, ui kit, web">
 
-    <!-- Favicon -->
-    <link href="img/favicon.ico" rel="icon">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link rel="shortcut icon" href="img/icons/icon-48x48.png" />
 
-    <!-- Google Web Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600&family=Nunito:wght@600;700;800&family=Pacifico&display=swap" rel="stylesheet">
+    <link rel="canonical" href="https://demo-basic.adminkit.io/" />
 
-    <!-- Icon Font Stylesheet -->
+    <title>Edit Informasi Kontak - Admin</title>
+
+    <link href="{{ URL::asset('css/app.css')}}" rel="stylesheet">
+    <link href="{{ URL::asset('css/yss.css')}}" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
-
-    <!-- Libraries Stylesheet -->
-    <link href="{{URL::asset('lib/animate/animate.min.css')}}" rel="stylesheet">
-    <link href="{{URL::asset('lib/owlcarousel/assets/owl.carousel.min.css')}}" rel="stylesheet">
-    <link href="{{URL::asset('lib/tempusdominus/css/tempusdominus-bootstrap-4.min.css')}}" rel="stylesheet" />
-
-    <!-- Customized Bootstrap Stylesheet -->
-    <link href="{{URL::asset('css/bootstrap.min.css')}}" rel="stylesheet">
-
-    <!-- Template Stylesheet -->
-    <link href="{{URL::asset('css/style.css')}}" rel="stylesheet">
 </head>
 
 <body>
-    <div class="container-xxl bg-white p-0">
-        <!-- Spinner Start -->
-        <div id="spinner" class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
-            <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
-                <span class="sr-only">Loading...</span>
-            </div>
-        </div>
-        <!-- Spinner End -->
+    <div class="wrapper">
+        @include('admin.layouts.sidebar')
 
+        <div class="main">
+         @include('admin.layouts.navbar')
+            <main class="content">
+                 <div class="container-fluid p-0">
+                     <div class="container-fluid pt-4 px-4">
+                        @if (session('success'))
+                            <div class="alert alert-success">
+                                {{ session('success') }}
+                            </div>
+                        @endif
 
-        <!-- Navbar & Hero Start -->
-        @include('layouts.navbar')
-        <div class="container-xxl py-5 bg-dark hero-header mb-5">
-            <div class="container text-center my-5 pt-5 pb-4">
-                <h1 class="display-3 text-white mb-3 animated slideInDown">Edit Informasi Kontak</h1>
-                <nav aria-label="breadcrumb">
-                    <ol class="breadcrumb justify-content-center text-uppercase">
-                        <li class="breadcrumb-item"><a href="#">Home</a></li>
-                        <li class="breadcrumb-item"><a href="#">Pages</a></li>
-                        <li class="breadcrumb-item text-white active" aria-current="page">Edit Kontak</li>
-                    </ol>
-                </nav>
-            </div>
-        </div>
-    </div>
-        <!-- Navbar & Hero End -->
+                        @if (session('error'))
+                            <div class="alert alert-danger">
+                                {{ session('error') }}
+                            </div>
+                        @endif
+                        <div class="container-fluid pt-4 px-4">
+                            <div class="row g-4">
+                                <div class="col-sm-12 col-xl-12">
+                                    <div class="bg-light rounded h-100 p-4">
+                                        <h6 class="mb-4">Edit Informasi Kontak</h6>
 
-@section('content')
-<div class="container-fluid pt-4 px-4">
-        @if (session('success'))
-            <div class="alert alert-success">
-                {{ session('success') }}
-            </div>
-        @endif
+                                        @if ($errors->any())
+                                            <div class="alert alert-danger">
+                                                <strong>Whoops!</strong> Ada beberapa masalah dengan input Anda.<br><br>
+                                                <ul>
+                                                    @foreach ($errors->all() as $error)
+                                                        <li>{{ $error }}</li>
+                                                    @endforeach
+                                                </ul>
+                                            </div>
+                                        @endif
 
-        @if (session('error'))
-            <div class="alert alert-danger">
-                {{ session('error') }}
-            </div>
-        @endif
-<div class="container-fluid pt-4 px-4">
-    <div class="row g-4">
-        <div class="col-sm-12 col-xl-12">
-            <div class="bg-light rounded h-100 p-4">
-                <h6 class="mb-4">Edit Informasi Kontak</h6>
+                                        <form action="{{ route('admin.contact.update', $contact->id) }}" method="POST">
+                                            @csrf
+                                            @method('PUT')
 
-                @if ($errors->any())
-                    <div class="alert alert-danger">
-                        <strong>Whoops!</strong> Ada beberapa masalah dengan input Anda.<br><br>
-                        <ul>
-                            @foreach ($errors->all() as $error)
-                                <li>{{ $error }}</li>
-                            @endforeach
-                        </ul>
+                                            <div class="mb-3">
+                                                <label for="phone_number" class="form-label">Nomor Telepon</label>
+                                                <input type="text" class="form-control" id="phone_number" name="phone_number" placeholder="Nomor Telepon" value="{{ $contact->phone_number }}">
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="operating_hours" class="form-label">Jam Operasi</label>
+                                                <input type="text" class="form-control" id="operating_hours" name="operating_hours" placeholder="Jam Operasi" value="{{ $contact->operating_hours }}">
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="whatsapp_link" class="form-label">Link WhatsApp</label>
+                                                <input type="text" class="form-control" id="whatsapp_link" name="whatsapp_link" placeholder="Link WhatsApp" value="{{ $contact->whatsapp_link }}">
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="instagram_username" class="form-label">Username Instagram</label>
+                                                <input type="text" class="form-control" id="instagram_username" name="instagram_username" placeholder="Username Instagram" value="{{ $contact->instagram_username }}">
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="embed_code" class="form-label">Embed Code</label>
+                                                <textarea class="form-control" id="embed_code" name="embed_code" rows="3" placeholder="Embed Code">{{ $contact->embed_code }}</textarea>
+                                            </div>
+
+                                            <button type="submit" class="btn btn-primary">Update</button>
+                                            <a href="{{ route('admin.contact.index') }}" class="btn btn-secondary">Batal</a>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                @endif
+                </div>
+            </main>
 
-                <form action="{{ route('admin.contact.update', $contact->id) }}" method="POST">
-                    @csrf
-                    @method('PUT')
-
-                    <div class="mb-3">
-                        <label for="phone_number" class="form-label">Nomor Telepon</label>
-                        <input type="text" class="form-control" id="phone_number" name="phone_number" placeholder="Nomor Telepon" value="{{ $contact->phone_number }}">
-                    </div>
-                    <div class="mb-3">
-                        <label for="operating_hours" class="form-label">Jam Operasi</label>
-                        <input type="text" class="form-control" id="operating_hours" name="operating_hours" placeholder="Jam Operasi" value="{{ $contact->operating_hours }}">
-                    </div>
-                    <div class="mb-3">
-                        <label for="whatsapp_link" class="form-label">Link WhatsApp</label>
-                        <input type="text" class="form-control" id="whatsapp_link" name="whatsapp_link" placeholder="Link WhatsApp" value="{{ $contact->whatsapp_link }}">
-                    </div>
-                    <div class="mb-3">
-                        <label for="instagram_username" class="form-label">Username Instagram</label>
-                        <input type="text" class="form-control" id="instagram_username" name="instagram_username" placeholder="Username Instagram" value="{{ $contact->instagram_username }}">
-                    </div>
-                    <div class="mb-3">
-                        <label for="embed_code" class="form-label">Embed Code</label>
-                        <textarea class="form-control" id="embed_code" name="embed_code" rows="3" placeholder="Embed Code">{{ $contact->embed_code }}</textarea>
-                    </div>
-
-                    <button type="submit" class="btn btn-primary">Update</button>
-                    <a href="{{ route('admin.contact.index') }}" class="btn btn-secondary">Batal</a>
-                </form>
-            </div>
+            @include('admin.layouts.footer')
         </div>
     </div>
-</div>
-  <!-- Footer Start -->
-  @include('layouts.footer')
-  <!-- Footer End -->
 
-
-  <!-- Back to Top -->
-  <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
-</div>
-
-<!-- JavaScript Libraries -->
-<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
-<script src="{{URL::asset('lib/wow/wow.min.js')}}"></script>
-<script src="{{URL::asset('lib/easing/easing.min.js')}}"></script>
-<script src="{{URL::asset('lib/waypoints/waypoints.min.js')}}"></script>
-<script src="{{URL::asset('lib/counterup/counterup.min.js')}}"></script>
-<script src="{{URL::asset('lib/owlcarousel/owl.carousel.min.js')}}"></script>
-<script src="{{URL::asset('lib/tempusdominus/js/moment.min.js')}}"></script>
-<script src="{{URL::asset('lib/tempusdominus/js/moment-timezone.min.js')}}"></script>
-<script src="{{URL::asset('lib/tempusdominus/js/tempusdominus-bootstrap-4.min.js')}}"></script>
-
-<!-- Template Javascript -->
-<script src="{{URL::asset('js/main.js')}}"></script>
+    <script src="{{URL::asset('js/app.js')}}"></script>
+    <script>
+        document.getElementById('current-year').textContent = new Date().getFullYear();
+    </script>
+    <script src="https://unpkg.com/feather-icons"></script>
+    <script>
+      feather.replace()
+    </script>
 </body>
 
 </html>

@@ -5,8 +5,8 @@
     <meta charset="utf-8">
     <title>Reservasi - Ramos Badminton Center</title>
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
-    <meta content="" name="keywords">  <!-- Sebaiknya diisi untuk SEO -->
-    <meta content="" name="description">  <!-- Sebaiknya diisi untuk SEO -->
+    <meta content="Ramos Badminton Center, testimonial, reviews, badminton court" name="keywords">
+    <meta content="Read what our clients say about Ramos Badminton Center" name="description">
 
     <!-- Favicon -->
     <link href="{{ URL::asset('img/favicon.ico') }}" rel="icon">
@@ -31,12 +31,152 @@
     <!-- Template Stylesheet -->
     <link href="{{ URL::asset('css/style.css') }}" rel="stylesheet">
 
-    <!-- Internal CSS untuk Pagination -->
+    <!-- Internal CSS untuk Pagination dan Testimonial Cards -->
     <style>
+        /* Enhanced Testimonial Cards */
+        .testimonial-card {
+            border: none;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s ease;
+            background: white;
+            height: 100%;
+            position: relative;
+            overflow: hidden;
+            margin-bottom: 30px;
+        }
+
+        .testimonial-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.12);
+        }
+
+        .testimonial-card::before {
+            content: """;
+            font-family: "Font Awesome 5 Free";
+            font-weight: 900;
+            position: absolute;
+            top: 20px;
+            left: 25px;
+            font-size: 70px;
+            color: rgba(254, 161, 22, 0.08);
+            z-index: 0;
+            line-height: 1;
+        }
+
+        .testimonial-content {
+            position: relative;
+            z-index: 1;
+            padding: 30px;
+        }
+
+        .testimonial-text {
+            font-size: 16px;
+            line-height: 1.7;
+            color: #555;
+            margin-bottom: 25px;
+            font-style: italic;
+            position: relative;
+        }
+
+        .testimonial-author {
+            display: flex;
+            align-items: center;
+            margin-top: 20px;
+        }
+
+        .author-img {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid #FEA116;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .author-info {
+            margin-left: 15px;
+        }
+
+        .author-name {
+            font-weight: 600;
+            margin-bottom: 0;
+            color: #333;
+            font-size: 18px;
+        }
+
+        .author-title {
+            color: #6c757d;
+            font-size: 14px;
+        }
+
+        .testimonial-rating {
+            color: #FEA116;
+            margin-bottom: 15px;
+            font-size: 16px;
+        }
+
+        .btn-delete {
+            margin-top: 15px;
+            transition: all 0.3s;
+            border-radius: 5px;
+        }
+
+        .btn-delete:hover {
+            transform: scale(1.05);
+            background-color: #dc3545;
+        }
+
+        .btn-add-testimonial {
+            background-color: #FEA116;
+            border-color: #FEA116;
+            padding: 10px 25px;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .btn-add-testimonial:hover {
+            background-color: #e68a00;
+            border-color: #e68a00;
+            transform: translateY(-2px);
+        }
+
+        /* Section Header */
+        .section-header {
+            position: relative;
+            margin-bottom: 50px;
+        }
+
+        .section-header h5 {
+            color: #FEA116;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 15px;
+        }
+
+        .section-header h1 {
+            font-weight: 700;
+            position: relative;
+            display: inline-block;
+        }
+
+        .section-header h1::after {
+            content: "";
+            position: absolute;
+            width: 80px;
+            height: 3px;
+            background: #FEA116;
+            bottom: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        /* Pagination */
         .custom-pagination {
             display: flex;
             justify-content: center;
-            margin-top: 20px;
+            margin-top: 40px;
         }
 
         .custom-pagination ul {
@@ -53,33 +193,44 @@
         .custom-pagination a,
         .custom-pagination span {
             display: block;
-            padding: 8px 12px;
+            padding: 8px 15px;
             text-decoration: none;
             color: #333;
-            border: 1px solid #ccc;
+            border: 1px solid #ddd;
             border-radius: 5px;
-            transition: background-color 0.3s, color 0.3s;
+            transition: all 0.3s;
         }
 
         .custom-pagination a:hover {
-            background-color: #f0f0f0;
+            background-color: #f8f9fa;
+            color: #FEA116;
+            border-color: #FEA116;
         }
 
         .custom-pagination .active span {
             background-color: #FEA116;
-            /* Warna Biru Primer */
             color: white;
             border-color: #FEA116;
         }
 
         .custom-pagination .disabled span {
             color: #999;
-            border-color: #ccc;
+            border-color: #ddd;
             cursor: not-allowed;
         }
 
         .custom-pagination .disabled span:hover {
             background-color: transparent;
+        }
+
+        /* Alert Messages */
+        .alert {
+            border-radius: 8px;
+            padding: 15px 20px;
+        }
+
+        .alert i {
+            margin-right: 10px;
         }
     </style>
 </head>
@@ -102,7 +253,7 @@
                 <h1 class="display-3 text-white mb-3 animated slideInDown">Testimonial</h1>
                 <nav aria-label="breadcrumb">
                     <ol class="breadcrumb justify-content-center text-uppercase">
-                        <li class="breadcrumb-item"><a href="#">Home</a></li>
+                        <li class="breadcrumb-item"><a href="{{ route('welcome') }}">Home</a></li>
                         <li class="breadcrumb-item"><a href="#">Pages</a></li>
                         <li class="breadcrumb-item text-white active" aria-current="page">Testimonial</li>
                     </ol>
@@ -113,158 +264,109 @@
 
         <!-- Testimonial Start (Approved Testimonials) -->
         <div class="container-fluid pt-4 px-4">
-        @if (session('success'))
-            <div class="alert alert-success">
-                {{ session('success') }}
-            </div>
-        @endif
-
-        @if (session('error'))
-            <div class="alert alert-danger">
-                {{ session('error') }}
-            </div>
-        @endif
-        <div class="container-xxl py-5 wow fadeInUp" data-wow-delay="0.1s">
-            <div class="container">
-                <div class="text-center">
-                    <h5 class="section-title ff-secondary text-center text-primary fw-normal">Testimonials</h5>
-                    <h1 class="mb-5">Apa Kata Klien Kami!</h1>
+            @if (session('success'))
+                <div class="alert alert-success alert-dismissible fade show">
+                    <i class="fas fa-check-circle me-2"></i>
+                    {{ session('success') }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>
-                <div class="row">
-                    @if(count($testimonials) > 0)
-                        @foreach($testimonials as $testimonial)
-                            <div class="col-lg-6 wow fadeInUp" data-wow-delay="0.3s">
-                                <div class="testimonial-item bg-transparent border rounded p-4">
-                                    <i class="fa fa-quote-left fa-2x text-primary mb-3"></i>
-                                    <p>{{ $testimonial->message }}</p>
-                                    <div class="d-flex align-items-center">
-                                        <img class="img-fluid flex-shrink-0 rounded-circle" src="{{ asset('img/biodata.PNG') }}"
-                                            style="width: 50px; height: 50px;">
-                                        <div class="ps-3">
-                                            <h5 class="mb-1">{{ $testimonial->name }}</h5>
-                                            <small>{{ $testimonial->subject }}</small>
+            @endif
+
+            @if (session('error'))
+                <div class="alert alert-danger alert-dismissible fade show">
+                    <i class="fas fa-exclamation-circle me-2"></i>
+                    {{ session('error') }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            @endif
+
+            <div class="container-xxl py-5 wow fadeInUp" data-wow-delay="0.1s">
+                <div class="container">
+                    <div class="section-header text-center">
+                        <h1 class="mb-5">Apa Kata Klien Kami!</h1>
+                    </div>
+                    <div class="row g-4">
+                        @if(count($testimonials) > 0)
+                            @foreach($testimonials as $testimonial)
+                                <div class="col-lg-6 col-md-6 wow fadeInUp" data-wow-delay="0.3s">
+                                    <div class="testimonial-card">
+                                        <div class="testimonial-content">
+                                            <p class="testimonial-text">{{ $testimonial->message }}</p>
+                                            <div class="testimonial-author">
+                                                <img class="author-img" src="{{ asset('img/biodata.PNG') }}" alt="{{ $testimonial->name }}">
+                                                <div class="author-info">
+                                                    <h5 class="author-name">{{ $testimonial->name }}</h5>
+                                                    <span class="author-title">{{ $testimonial->subject }}</span>
+                                                </div>
+                                            </div>
+
+                                            <!-- Tombol hapus hanya muncul jika user sudah login dan memiliki izin -->
+                                            @auth
+                                                @if (auth()->user()->id === $testimonial->user_id || auth()->user()->isAdmin())
+                                                    <form action="{{ route('testimonials.destroy', $testimonial->id) }}" method="POST"
+                                                        style="display: inline-block;">
+                                                        @csrf
+                                                        @method('DELETE')
+                                                        <button type="submit" class="btn btn-danger btn-sm btn-delete"
+                                                                onclick="return confirm('Apakah Anda yakin ingin menghapus testimonial ini?')">
+                                                            <i class="fas fa-trash-alt me-1"></i> Hapus
+                                                        </button>
+                                                    </form>
+                                                @endif
+                                            @endauth
                                         </div>
                                     </div>
-
-                                    <!-- Tombol hapus hanya muncul jika user sudah login dan memiliki izin -->
-                                    @auth
-                                        @if (auth()->user()->id === $testimonial->user_id || auth()->user()->isAdmin())
-                                            <form action="{{ route('testimonials.destroy', $testimonial->id) }}" method="POST"
-                                                style="display: inline-block;">
-                                                @csrf
-                                                @method('DELETE')
-                                                <button type="submit" class="btn btn-danger btn-sm"
-                                                        onclick="return confirm('Apakah Anda yakin ingin menghapus testimonial ini?')">
-                                                    Hapus
-                                                </button>
-                                            </form>
-                                        @endif
-                                    @endauth
+                                </div>
+                            @endforeach
+                        @else
+                            <div class="col-12 text-center">
+                                <div class="alert alert-info">
+                                    <i class="fas fa-info-circle me-2"></i> Belum ada testimonial yang disetujui.
                                 </div>
                             </div>
-                        @endforeach
-                    @else
-                        <div class="col-12 text-center">
-                            <p>No approved testimonials yet.</p>
-                        </div>
-                    @endif
-                </div>
+                        @endif
+                    </div>
 
-                <!-- Custom Pagination Links -->
-                <div class="custom-pagination">
-                    @if($testimonials instanceof \Illuminate\Pagination\LengthAwarePaginator)
-                        <ul>
-                            @if ($testimonials->onFirstPage())
-                                <li class="disabled"><span>Previous</span></li>
-                            @else
-                                <li><a href="{{ $testimonials->previousPageUrl() }}" rel="prev">Previous</a></li>
-                            @endif
-
-                            @foreach ($testimonials->getUrlRange(max($testimonials->currentPage() - 2, 1), min($testimonials->currentPage() + 2, $testimonials->lastPage())) as $page => $url)
-                                @if ($page == $testimonials->currentPage())
-                                    <li class="active"><span>{{ $page }}</span></li>
+                    <!-- Custom Pagination Links -->
+                    <div class="custom-pagination">
+                        @if($testimonials instanceof \Illuminate\Pagination\LengthAwarePaginator)
+                            <ul>
+                                @if ($testimonials->onFirstPage())
+                                    <li class="disabled"><span><i class="fas fa-chevron-left me-1"></i> Previous</span></li>
                                 @else
-                                    <li><a href="{{ $url }}">{{ $page }}</a></li>
+                                    <li><a href="{{ $testimonials->previousPageUrl() }}" rel="prev"><i class="fas fa-chevron-left me-1"></i> Previous</a></li>
                                 @endif
-                            @endforeach
 
-                            @if ($testimonials->hasMorePages())
-                                <li><a href="{{ $testimonials->nextPageUrl() }}" rel="next">Next</a></li>
-                            @else
-                                <li class="disabled"><span>Next</span></li>
-                            @endif
-                        </ul>
-                    @endif
-                </div>
+                                @foreach ($testimonials->getUrlRange(max($testimonials->currentPage() - 2, 1), min($testimonials->currentPage() + 2, $testimonials->lastPage())) as $page => $url)
+                                    @if ($page == $testimonials->currentPage())
+                                        <li class="active"><span>{{ $page }}</span></li>
+                                    @else
+                                        <li><a href="{{ $url }}">{{ $page }}</a></li>
+                                    @endif
+                                @endforeach
 
-                <!-- Tautan ke formulir pembuatan -->
-                <div class="text-center mt-3">
-                    <a href="{{ route('testimonials.create') }}" class="btn btn-primary btn-sm">Tambahkan Testimonial</a>
+                                @if ($testimonials->hasMorePages())
+                                    <li><a href="{{ $testimonials->nextPageUrl() }}" rel="next">Next <i class="fas fa-chevron-right ms-1"></i></a></li>
+                                @else
+                                    <li class="disabled"><span>Next <i class="fas fa-chevron-right ms-1"></i></span></li>
+                                @endif
+                            </ul>
+                        @endif
+                    </div>
+
+                    <!-- Tautan ke formulir pembuatan -->
+                    <div class="text-center mt-5">
+                        <a href="{{ route('testimonials.create') }}" class="btn btn-primary btn-add-testimonial">
+                            <i class="fas fa-plus-circle me-2"></i> Tambahkan Testimonial
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>
         <!-- Testimonial End -->
 
         <!-- Footer Start -->
-        <!-- Footer Start -->
-<div class="container-fluid bg-dark text-light footer pt-5 mt-5 wow fadeIn" data-wow-delay="0.1s">
-    <div class="container py-5">
-        <div class="row g-5">
-            <div class="col-lg-3 col-md-6">
-                <h4 class="section-title ff-secondary text-start text-primary fw-normal mb-4">Company</h4>
-                <a class="btn btn-link" href="{{ route('About.indexPublic') }}">About</a>
-                <a class="btn btn-link" href="{{ route('menu.indexPublic') }}">Fasilitas</a>
-                <a class="btn btn-link" href="{{ route('reservasi.index') }}">Reservasi</a>
-                <a class="btn btn-link" href="/testimonialspublic">Testimonial</a>
-                <a class="btn btn-link" href="{{ route('galeri.indexPublic') }}">Galeri</a>
-                <a class="btn btn-link" href="{{ route('contact.index') }}">Contact</a>
-            </div>
-            <div class="col-lg-3 col-md-6">
-                <h4 class="section-title ff-secondary text-start text-primary fw-normal mb-4">Contact</h4>
-                <p class="mb-2"><i class="fa fa-map-marker-alt me-3"></i>Sitoluama, Kec. Sigumpar, Toba, Sumatera Utara 22382</p>
-                <p class="mb-2"><i class="fa fa-phone-alt me-3"></i>wa.me/6282185453381</p>
-                <p class="mb-2"><i class="fa fa-envelope me-3"></i>simatupangaudrey99@gmailcom</p>
-                <div class="d-flex pt-2">
-                    <a class="btn btn-outline-light btn-social" href="https://www.facebook.com/profile.php?id=61572922522102"><i class="fab fa-facebook-f"></i></a>
-                    <a class="btn btn-outline-light btn-social" href="https://www.instagram.com/ramos_badmintoncenter/?utm_source=ig_web_button_share_sheet"><i class="fab fa-instagram"></i>
-                    </a>
-                </div>
-            </div>
-            <div class="col-lg-3 col-md-6">
-                <h4 class="section-title ff-secondary text-start text-primary fw-normal mb-4">Opening</h4>
-                <h5 class="text-light fw-normal">Every Day</h5>
-                <p>08AM - 23PM</p>
-            </div>
-            <div class="col-lg-3 col-md-6">
-                <h4 class="section-title ff-secondary text-start text-primary fw-normal mb-4">Newsletter</h4>
-                <p>Tetap update untuk mendapatkan update tentang jadwal dan reservasi lapangan.</p>
-            </div>
-        </div>
-    </div>
-    <div class="container">
-        <div class="copyright">
-            <div class="row">
-                <div class="col-md-6 text-center text-md-start mb-3 mb-md-0">
-                    &copy; <a class="border-bottom" href="#">Badminton Ramos Center</a>, All Right Reserved.
-
-                    <!--/*** This template is free as long as you keep the footer author’s credit link/attribution link/backlink. If you'd like to use the template without the footer author’s credit link/attribution link/backlink, you can purchase the Credit Removal License from "https://htmlcodex.com/credit-removal". Thank you for your support. ***/-->
-                    Designed By <a class="border-bottom" href="https://htmlcodex.com">PA_10</a><br><br>
-                    Distributed By <a class="border-bottom" href="https://themewagon.com" target="_blank">PA1_10</a>
-                </div>
-                <div class="col-md-6 text-center text-md-end">
-                    <div class="footer-menu">
-                    <a href="{{ route('welcome') }}">Home</a>
-                    <a href="{{ route('About.indexPublic') }}">Tentang Kami</a>
-                    <a href="{{ route('menu.indexPublic') }}">Peralatan</a>
-                    <a href="{{ route('contact.index') }}">Kontak</a>
-                </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-<!-- Footer End -->
-
+        @include('layouts.footer')
         <!-- Footer End -->
 
         <!-- Back to Top -->

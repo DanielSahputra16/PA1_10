@@ -115,113 +115,48 @@
         </div>
     </div>
 
-    <!-- About Start -->
+        <!-- About Start -->
     <div class="container-xxl py-5">
         <div class="container">
             <div class="row g-5 align-items-center">
                 <div class="col-lg-6">
-                    <div class="row g-3">
-                        <div class="row g-4">
-                            <div class="col-6 text-start">
-                                <img class="img-fluid rounded w-90 wow zoomIn" data-wow-delay="0.1s"
-                                    src="{{ URL::asset('img/IMG-20250512-WA0010.jpg') }}" alt="">
-                            </div>
-                            <div class="col-6 text-start">
-                                <img class="img-fluid rounded w-7 wow zoomIn" data-wow-delay="0.3s"
-                                    src="{{ URL::asset('img/IMG-20250512-WA0008.jpg') }}" style="margin-top: 25%;"
-                                    alt="">
-                            </div>
-                            <div class="col-6 text-end">
-                                <img class="img-fluid rounded w-75 wow zoomIn" data-wow-delay="0.5s"
-                                    src="{{ URL::asset('img/IMG-20250512-WA0021.jpg') }}" alt="">
-                            </div>
-                            <div class="col-6 text-end">
-                                <img class="img-fluid rounded w-90 wow zoomIn" data-wow-delay="0.7s"
-                                    src="{{ URL::asset('img/IMG-20250512-WA0020.jpg') }}" alt="">
-                            </div>
-                            <div class="col-6 text-end">
-                                <img class="img-fluid rounded w-90 wow zoomIn" data-wow-delay="0.7s"
-                                    src="{{ URL::asset('img/IMG-20250512-WA0006.jpg') }}" alt="">
-                            </div>
-                            <div class="col-6 text-end">
-                                <img class="img-fluid rounded w-75 wow zoomIn" data-wow-delay="0.5s"
-                                    src="{{ URL::asset('img/IMG-20250512-WA0023.jpg') }}" alt="">
-                            </div>
-                        </div>
-                    </div>
+                    <!-- Bagian Gambar -->
+                    @if(count($abouts) > 0)
+                        @foreach($abouts as $about)
+                            @if($about->gambar)
+                                <img src="{{ asset('storage/' . $about->gambar) }}" alt="{{ $about->judul }}"
+                                     class="img-fluid rounded wow zoomIn about-image" data-wow-delay="0.5s">
+                            @else
+                                <img src="{{ URL::asset('/img/default-image.jpg') }}" alt="Default Image"
+                                     class="img-fluid rounded wow zoomIn about-image" data-wow-delay="0.5s">
+                            @endif
+                        @endforeach
+                    @else
+                        <img src="{{ URL::asset('/img/default-image.jpg') }}" alt="Default Image"
+                             class="img-fluid rounded wow zoomIn about-image" data-wow-delay="0.5s">
+                    @endif
                 </div>
                 <div class="col-lg-6">
                     <h5 class="section-title ff-secondary text-start text-primary fw-normal">About Us</h5>
-                    <h1 class="mb-4">Welcome to Badminton Ramos Center</h1>
-                    <p>
-                        <strong>Badminton Ramos Center</strong> resmi berdiri pada <strong>26 Januari 2025</strong> dengan
-                        tujuan utama:
-                    </p>
-                    <ul>
-                        <li>Mengembangkan bakat dan keterampilan dalam olahraga badminton.</li>
-                        <li>Membangun komunitas yang aktif dan solid.</li>
-                        <li>Menyediakan sarana rekreasi dan hiburan bagi masyarakat.</li>
-                    </ul>
 
-                    <h2 class="mt-4">Visi & Misi</h2>
-                    <h3>Visi:</h3>
-                    <p>
-                        Menjadi pusat kegiatan olahraga badminton terkemuka dan berkontribusi dalam meningkatkan kualitas
-                        olahraga di masyarakat.
-                    </p>
+                    <!-- Menampilkan data dari tabel 'abouts' -->
+                    @if(count($abouts) > 0)
+                        @foreach($abouts as $about)
+                            <h1 class="mb-4">{{ $about->judul }}</h1>
+                            <p>{{ $about->deskripsi }}</p>
+                        @endforeach
+                    @else
+                        <h1 class="mb-4">Welcome to Badminton Ramos Center</h1>
+                        <p>Tidak ada informasi tentang kami saat ini.</p>
+                    @endif
+                    <!-- Sisanya dari konten "About Us" Anda (Visi, Misi, Fasilitas, dll.) -->
+                    <!-- Anda bisa menyimpan ini statis atau membuatnya dinamis dari database -->
 
-                    <h3>Misi:</h3>
-                    <ul>
-                        <li>Meningkatkan kualitas dan kesadaran masyarakat terhadap olahraga.</li>
-                        <li>Menjadi pusat kegiatan olahraga yang unggul di daerah ini.</li>
-                        <li>Menyediakan fasilitas lapangan bagi individu yang ingin mengembangkan bakatnya dalam badminton.
-                        </li>
-                    </ul>
-
-                    <h2 class="mt-4">Fasilitas</h2>
-                    <ul>
-                        <li>Jumlah lapangan: <strong>2</strong> (outdoor, lantai semen).</li>
-                        <li>Kantin mini yang menjual makanan ringan, minuman, baju olahraga, shuttlecock, dan kaos kaki.
-                        </li>
-                        <li>Penyewaan raket tersedia.</li>
-                        <li>Area parkir luas.</li>
-                        <li>Kamar ganti tersedia di toilet.</li>
-                        <li>Ventilasi dan penerangan yang baik.</li>
-                    </ul>
-
-                    <h2 class="mt-4">Layanan</h2>
-                    <ul>
-                        <li>Sewa lapangan bisa dilakukan oleh individu maupun tim.</li>
-                        <li>Saat ini belum tersedia pelatihan dan kursus badminton.</li>
-                        <li>Turnamen atau kompetisi belum tersedia.</li>
-                    </ul>
-
-                    <h2 class="mt-4">Kenapa Memilih Kami?</h2>
-                    <ul>
-                        <li>📍 <strong>Lokasi Strategis</strong> – Mudah dijangkau dan dikelilingi lingkungan asri.</li>
-                        <li>🅿️ <strong>Parkir Luas</strong> – Nyaman dan cukup untuk banyak pengunjung.</li>
-                        <li>💰 <strong>Harga Terjangkau</strong> – Cocok untuk remaja dan dewasa.</li>
-                        <li>🧹 <strong>Tempat Bersih</strong> – Kebersihan dan kenyamanan terjaga.</li>
-                        <li>📹 <strong>Keamanan Terjamin</strong> – Dilengkapi dengan CCTV untuk keamanan pelanggan.</li>
-                        <li>☕ <strong>Kantin Mini</strong> – Menyediakan makanan ringan, minuman, dan perlengkapan
-                            olahraga.</li>
-                    </ul>
-
-                    <h2 class="mt-4">Member & Pelanggan</h2>
-                    <ul>
-                        <li>Jumlah member: <strong>7</strong> orang.</li>
-                        <li>Jumlah pelanggan: <strong>348</strong> orang.</li>
-                        <li>Masih dalam tahap awal, belum memiliki prestasi.</li>
-                    </ul>
-
-                    <p class="mt-4">
-                        <strong>Ramos Badminton Center</strong> siap menjadi tempat terbaik bagi Anda, baik untuk latihan
-                        santai, bermain bersama teman, atau persiapan kompetisi!
-                    </p>
                     <div class="row g-4 mb-4">
                         <div class="col-sm-6">
                             <div class="d-flex align-items-center border-start border-5 border-primary px-3">
-                                <h1 class="flex-shrink-0 display-5 text-primary mb-0" data-toggle="counter-up">5</h1>
+                                <h1 class="flex-shrink-0 display-5 text-primary mb-0"
+                                    data-toggle="counter-up">5</h1>
                                 <div class="ps-4">
                                     <p class="mb-0">Month of Experience</p>
                                     <h6 class="text-uppercase mb-0">Experience</h6>
@@ -230,7 +165,8 @@
                         </div>
                         <div class="col-sm-6">
                             <div class="d-flex align-items-center border-start border-5 border-primary px-3">
-                                <h1 class="flex-shrink-0 display-5 text-primary mb-0" data-toggle="counter-up">50</h1>
+                                <h1 class="flex-shrink-0 display-5 text-primary mb-0"
+                                    data-toggle="counter-up">50</h1>
                                 <div class="ps-4">
                                     <p class="mb-0">REGISTERED</p>
                                     <h6 class="text-uppercase mb-0">Players</h6>
@@ -246,7 +182,7 @@
     </div>
     <!-- About End -->
 
-    <!-- Team Start -->
+          <!-- Team Start -->
     <div class="container-xxl py-5">
         <div class="container">
             <div class="text-center wow fadeInUp" data-wow-delay="0.1s">

@@ -3,141 +3,101 @@
 
 <head>
     <meta charset="utf-8">
-    <title>Buat Galeri - Ramos Badminton Center</title>
-    <meta content="width=device-width, initial-scale=1.0" name="viewport">
-    <meta content="" name="keywords">
-    <meta content="" name="description">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="Responsive Admin & Dashboard Template based on Bootstrap 5">
+    <meta name="author" content="AdminKit">
+    <meta name="keywords" content="adminkit, bootstrap, bootstrap 5, admin, dashboard, template, responsive, css, sass, html, theme, front-end, ui kit, web">
 
-    <!-- Favicon -->
-    <link href="img/favicon.ico" rel="icon">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link rel="shortcut icon" href="img/icons/icon-48x48.png" />
 
-    <!-- Google Web Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600&family=Nunito:wght@600;700;800&family=Pacifico&display=swap" rel="stylesheet">
+    <link rel="canonical" href="https://demo-basic.adminkit.io/" />
 
-    <!-- Icon Font Stylesheet -->
+    <title>Tambah Galeri Baru - Admin</title>
+
+    <link href="{{ URL::asset('css/app.css')}}" rel="stylesheet">
+    <link href="{{ URL::asset('css/yss.css')}}" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
-
-    <!-- Libraries Stylesheet -->
-    <link href="{{URL::asset('lib/animate/animate.min.css')}}" rel="stylesheet">
-    <link href="{{URL::asset('lib/owlcarousel/assets/owl.carousel.min.css')}}" rel="stylesheet">
-    <link href="{{URL::asset('lib/tempusdominus/css/tempusdominus-bootstrap-4.min.css')}}" rel="stylesheet" />
-
-    <!-- Customized Bootstrap Stylesheet -->
-    <link href="{{URL::asset('css/bootstrap.min.css')}}" rel="stylesheet">
-
-    <!-- Template Stylesheet -->
-    <link href="{{URL::asset('css/style.css')}}" rel="stylesheet">
 </head>
 
 <body>
-    <div class="container-xxl bg-white p-0">
-        <!-- Spinner Start -->
-        <div id="spinner" class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
-            <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
-                <span class="sr-only">Loading...</span>
-            </div>
-        </div>
-        <!-- Spinner End -->
+    <div class="wrapper">
+        @include('admin.layouts.sidebar')
 
+        <div class="main">
+         @include('admin.layouts.navbar')
+            <main class="content">
+                <div class="container-fluid p-0">
+                   <div class="container-fluid pt-4 px-4">
+                        @if (session('success'))
+                            <div class="alert alert-success">
+                                {{ session('success') }}
+                            </div>
+                        @endif
 
-        <!-- Navbar & Hero Start -->
-        @include('layouts.navbar')
-        <div class="container-xxl py-5 bg-dark hero-header mb-5">
-            <div class="container text-center my-5 pt-5 pb-4">
-                <h1 class="display-3 text-white mb-3 animated slideInDown">Gallery</h1>
-                <nav aria-label="breadcrumb">
-                    <ol class="breadcrumb justify-content-center text-uppercase">
-                        <li class="breadcrumb-item"><a href="#">Home</a></li>
-                        <li class="breadcrumb-item"><a href="#">Pages</a></li>
-                        <li class="breadcrumb-item text-white active" aria-current="page">Gallery</li>
-                    </ol>
-                </nav>
-            </div>
-        </div>
-    </div>
-        <!-- Navbar & Hero End -->
+                        @if (session('error'))
+                            <div class="alert alert-danger">
+                                {{ session('error') }}
+                            </div>
+                        @endif
+                        <div class="container-fluid pt-4 px-4">
+                            <div class="row g-4">
+                                <div class="col-sm-12 col-xl-12">
+                                    <div class="bg-light rounded h-100 p-4">
+                                        <h6 class="mb-4">Tambah Gambar Galeri Baru</h6>
+                                        <form action="{{ route('admin.Galeri.store') }}" method="POST" enctype="multipart/form-data">
+                                            @csrf
 
-@section('content')
-<div class="container-fluid pt-4 px-4">
-        @if (session('success'))
-            <div class="alert alert-success">
-                {{ session('success') }}
-            </div>
-        @endif
+                                            <div class="mb-3">
+                                                <label for="title" class="form-label">Judul</label>
+                                                <input type="text" class="form-control @error('title') is-invalid @enderror" id="title" name="title" value="{{ old('title') }}" required>
+                                                @error('title')
+                                                    <div class="invalid-feedback">{{ $message }}</div>
+                                                @enderror
+                                            </div>
 
-        @if (session('error'))
-            <div class="alert alert-danger">
-                {{ session('error') }}
-            </div>
-        @endif
-<div class="container-fluid pt-4 px-4">
-    <div class="row g-4">
-        <div class="col-sm-12 col-xl-12">
-            <div class="bg-light rounded h-100 p-4">
-                <h3 class="section-title ff-secondary text-center text-primary fw-normal">Tambah Gambar Galeri Baru</h3>
-                <form action="{{ route('admin.Galeri.store') }}" method="POST" enctype="multipart/form-data">
-                    @csrf
+                                            <div class="mb-3">
+                                                <label for="description" class="form-label">Deskripsi</label>
+                                                <textarea class="form-control @error('description') is-invalid @enderror" id="description" name="description" rows="3">{{ old('description') }}</textarea>
+                                                @error('description')
+                                                    <div class="invalid-feedback">{{ $message }}</div>
+                                                @enderror
+                                            </div>
 
-                    <div class="mb-3">
-                        <label for="title" class="form-label">Judul</label> <!-- Label Indonesia -->
-                        <input type="text" class="form-control @error('title') is-invalid @enderror" id="title" name="title" value="{{ old('title') }}" required> <!-- Tambahkan class is-invalid -->
-                        @error('title')
-                            <div class="invalid-feedback">{{ $message }}</div> <!-- Ubah text-danger menjadi invalid-feedback -->
-                        @enderror
+                                            <div class="mb-3">
+                                                <label for="image" class="form-label">Gambar</label>
+                                                <input class="form-control @error('image') is-invalid @enderror" type="file" id="image" name="image" required>
+                                                @error('image')
+                                                    <div class="invalid-feedback">{{ $message }}</div>
+                                                @enderror
+                                            </div>
+
+                                            <button type="submit" class="btn btn-primary">Simpan</button>
+                                            <a href="{{ route('admin.Galeri.index') }}" class="btn btn-secondary">Batal</a>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
+                </div>
+            </main>
 
-                    <div class="mb-3">
-                        <label for="description" class="form-label">Deskripsi</label> <!-- Label Indonesia -->
-                        <textarea class="form-control @error('description') is-invalid @enderror" id="description" name="description" rows="3">{{ old('description') }}</textarea> <!-- Tambahkan class is-invalid -->
-                        @error('description')
-                            <div class="invalid-feedback">{{ $message }}</div> <!-- Ubah text-danger menjadi invalid-feedback -->
-                        @enderror
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="image" class="form-label">Gambar</label> <!-- Label Indonesia -->
-                        <input class="form-control @error('image') is-invalid @enderror" type="file" id="image" name="image" required> <!-- Tambahkan class is-invalid -->
-                        @error('image')
-                            <div class="invalid-feedback">{{ $message }}</div> <!-- Ubah text-danger menjadi invalid-feedback -->
-                        @enderror
-                    </div>
-
-                    <button type="submit" class="btn btn-primary">Simpan</button> <!-- Button Indonesia -->
-                    <a href="{{ route('admin.Galeri.index') }}" class="btn btn-secondary">Batal</a> <!-- Button Indonesia -->
-                </form>
-            </div>
+            @include('admin.layouts.footer')
         </div>
     </div>
-</div>
 
- <!-- Footer Start -->
- @include('layouts.footer')
- <!-- Footer End -->
-
-
- <!-- Back to Top -->
- <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
-</div>
-
-<!-- JavaScript Libraries -->
-<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
-<script src="{{URL::asset('lib/wow/wow.min.js')}}"></script>
-<script src="{{URL::asset('lib/easing/easing.min.js')}}"></script>
-<script src="{{URL::asset('lib/waypoints/waypoints.min.js')}}"></script>
-<script src="{{URL::asset('lib/counterup/counterup.min.js')}}"></script>
-<script src="{{URL::asset('lib/owlcarousel/owl.carousel.min.js')}}"></script>
-<script src="{{URL::asset('lib/tempusdominus/js/moment.min.js')}}"></script>
-<script src="{{URL::asset('lib/tempusdominus/js/moment-timezone.min.js')}}"></script>
-<script src="{{URL::asset('lib/tempusdominus/js/tempusdominus-bootstrap-4.min.js')}}"></script>
-
-<!-- Template Javascript -->
-<script src="{{URL::asset('js/main.js')}}"></script>
+    <script src="{{URL::asset('js/app.js')}}"></script>
+    <script>
+        document.getElementById('current-year').textContent = new Date().getFullYear();
+    </script>
+    <script src="https://unpkg.com/feather-icons"></script>
+    <script>
+      feather.replace()
+    </script>
 </body>
 
 </html>
-
-

@@ -3,92 +3,120 @@
 
 <head>
     <meta charset="utf-8">
-    <title>Admin Dashboard - Badminton Ramos Center</title>
-    <meta content="width=device-width, initial-scale=1.0" name="viewport">
-    <meta content="" name="keywords">
-    <meta content="" name="description">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="Admin Dashboard for Ramos Badminton Center">
+    <meta name="author" content="Ramos Badminton">
+    <meta name="keywords" content="badminton, sports, admin, dashboard, management">
 
-    <!-- Favicon -->
-    <link href="img/favicon.ico" rel="icon">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link rel="shortcut icon" href="img/favicon.ico" type="image/x-icon">
 
-    <!-- Google Web Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600&family=Nunito:wght@600;700;800&family=Pacifico&display=swap"
-        rel="stylesheet">
+    <title>Admin Dashboard | Ramos Badminton Center</title>
 
-    <!-- Icon Font Stylesheet -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
-    <!-- Libraries Stylesheet -->
-    <link href="{{ URL::asset('lib/animate/animate.min.css') }}" rel="stylesheet">
-    <link href="{{ URL::asset('lib/owlcarousel/assets/owl.carousel.min.css') }}" rel="stylesheet">
-    <link href="{{ URL::asset('lib/tempusdominus/css/tempusdominus-bootstrap-4.min.css') }}" rel="stylesheet" />
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
-    <!-- Customized Bootstrap Stylesheet -->
-    <link href="{{ URL::asset('css/bootstrap.min.css') }}" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link href="{{ URL::asset('css/app.css') }}" rel="stylesheet">
+    <link href="{{ URL::asset('css/yss.css') }}" rel="stylesheet">
 
-    <!-- Template Stylesheet -->
-    <link href="{{ URL::asset('css/style.css') }}" rel="stylesheet">
-
+    <!-- AOS Animation -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
 </head>
 
 <body>
-    <div class="container-xxl bg-white p-0">
-        <!-- Spinner Start -->
-        <div id="spinner" class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
-            <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
-                <span class="sr-only">Loading...</span>
-            </div>
-        </div>
-        <!-- Spinner End -->
+    <div class="wrapper">
+        @include('admin.layouts.sidebar')
 
+        <div class="main">
+            @include('admin.layouts.navbar')
 
-        <!-- Navbar & Hero Start -->
-        @include('admin.navbar')
+            <main class="content">
+                <div class="container-fluid p-4">
+                    <!-- Hero Greeting -->
+                    <div class="card shadow-sm p-4 mb-4" data-aos="fade-up" style="background: linear-gradient(135deg, #f0f4f8, #ffffff); border-left: 5px solid #2a4365;">
+                        <h2 class="mb-1 fw-bold text-dark">Selamat <span id="time-of-day">Pagi</span>, Admin!</h2>
+                        <p class="text-muted mb-0" id="current-date">Memuat tanggal...</p>
+                    </div>
 
-            <div class="container-xxl py-5 bg-dark hero-header mb-5">
-                <div class="container my-5 py-5">
-                    <div class="row align-items-center g-5">
-                        <div class="col-lg-6 text-center text-lg-start">
-                            <h1 class="display-3 text-white animated slideInLeft">Nikmati Permainan<br>Terbaik di Lapangan Kami</h1>
-                            <p class="text-white animated slideInLeft mb-4 pb-2">Rasakan sensasi smash yang kuat, kelincahan di setiap langkah, dan keseruan tanpa batas. Bermainlah di lapangan terbaik dengan fasilitas yang nyaman dan berkualitas tinggi. Ajak teman-temanmu, tantang lawanmu, dan jadilah juara di setiap pertandingan.</p>
-                            <a href="{{ route('reservasi.index') }}" class="btn btn-primary py-sm-3 px-sm-5 me-3 animated slideInLeft">Pesan Lapangan</a>
+                    <!-- Quick Summary -->
+                    <div class="row g-4">
+                        <div class="col-md-4" data-aos="fade-up" data-aos-delay="100">
+                            <div class="card p-3 border-0 shadow-sm">
+                                <h5 class="fw-semibold mb-2">
+                                    <i class="fas fa-calendar-check text-primary me-2"></i>Jumlah Booking Bulan Ini
+                                </h5>
+                                <p class="text-muted mb-0">480 Booking telah dilakukan.</p>
+                            </div>
                         </div>
-                        <div class="col-lg-6 text-center text-lg-end overflow-hidden">
-                            <img class="img-fluid" src="{{URL::asset('/img/upscalemedia-transformed.png')}}" alt="">
+                        <div class="col-md-4" data-aos="fade-up" data-aos-delay="200">
+                            <div class="card p-3 border-0 shadow-sm">
+                                <h5 class="fw-semibold mb-2">
+                                    <i class="fas fa-users text-success me-2"></i>Pengguna Aktif
+                                </h5>
+                                <p class="text-muted mb-0">35 Member aktif berpartisipasi.</p>
+                            </div>
+                        </div>
+                        <div class="col-md-4" data-aos="fade-up" data-aos-delay="300">
+                            <div class="card p-3 border-0 shadow-sm">
+                                <h5 class="fw-semibold mb-2">
+                                    <i class="fas fa-trophy text-warning me-2"></i>Turnamen Terdekat
+                                </h5>
+                                <p class="text-muted mb-0">Ramos Cup - 18 Mei 2025</p>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
+            </main>
+
+            @include('admin.layouts.footer')
         </div>
-        <!-- Navbar & Hero End -->
-
-
-        <!-- Footer Start -->
-       @include('layouts.footer')
-        <!-- Footer End -->
-
-
-        <!-- Back to Top -->
-        <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
+    </div>
 
     <!-- JavaScript Libraries -->
-    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="{{URL::asset('lib/wow/wow.min.js')}}"></script>
-    <script src="{{URL::asset('lib/easing/easing.min.js')}}"></script>
-    <script src="{{URL::asset('lib/waypoints/waypoints.min.js')}}"></script>
-    <script src="{{URL::asset('lib/counterup/counterup.min.js')}}"></script>
-    <script src="{{URL::asset('lib/owlcarousel/owl.carousel.min.js')}}"></script>
-    <script src="{{URL::asset('lib/tempusdominus/js/moment.min.js')}}"></script>
-    <script src="{{URL::asset('lib/tempusdominus/js/moment-timezone.min.js')}}"></script>
-    <script src="{{URL::asset('lib/tempusdominus/js/tempusdominus-bootstrap-4.min.js')}}"></script>
+    <script src="{{ URL::asset('js/app.js') }}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
 
-    <!-- Template Javascript -->
-    <script src="{{URL::asset('js/main.js')}}"></script>
+    <script>
+        // Initialize AOS animation
+        AOS.init({
+            duration: 800,
+            easing: 'ease-in-out',
+            once: true
+        });
+
+        // Auto update year
+        document.getElementById('current-year').textContent = new Date().getFullYear();
+
+        // Time of day greeting
+        function updateGreeting() {
+            const hour = new Date().getHours();
+            let greeting;
+
+            if (hour < 12) greeting = "Pagi";
+            else if (hour < 14) greeting = "Siang";
+            else if (hour < 18) greeting = "Sore";
+            else greeting = "malam";
+
+            document.getElementById('time-of-day').textContent = greeting;
+        }
+
+        // Current date
+        function updateCurrentDate() {
+            const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+            const today = new Date();
+            document.getElementById('current-date').textContent = today.toLocaleDateString('en-US', options);
+        }
+
+        // Initialize greeting and date
+        updateGreeting();
+        updateCurrentDate();
+    </script>
 </body>
 
 </html>

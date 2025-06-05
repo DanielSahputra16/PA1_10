@@ -83,12 +83,12 @@
                         <div class="row img-twice position-relative h-100">
                             <div class="col-6 pe-0">
                                 <img class="img-fluid rounded shadow-sm w-80 h-80"
-                                    src="<?php echo e(URL::asset('img/download.jpeg')); ?>" style="object-fit: cover;"
+                                    src="<?php echo e(URL::asset('img/IMG-20250512-WA0008.jpg')); ?>" style="object-fit: cover;"
                                     alt="Gambar Lapangan">
                             </div>
                             <div class="col-6 ps-0">
                                 <img class="img-fluid rounded shadow-sm w-100 h-95"
-                                    src="<?php echo e(URL::asset('img/Lapangan2.jpg')); ?>" style="object-fit: cover;"
+                                    src="<?php echo e(URL::asset('img/IMG-20250512-WA0008.jpg')); ?>" style="object-fit: cover;"
                                     alt="Gambar Lapangan">
                             </div>
                         </div>

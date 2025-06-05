@@ -3,7 +3,6 @@
     --primary: #FEA116;
     --light: #F1F8FF;
     --dark: #0F172B;
-    --blue:
 }
 
 .ff-secondary {
@@ -467,3 +466,23 @@ h1 {
     border-right: none;
 }
 
+/* Untuk Opsi 2 */
+.hover-effect {
+    transition: all 0.3s ease;
+    position: relative;
+}
+.hover-effect:hover {
+    color: #4e73df !important;
+    transform: translateY(-2px);
+}
+
+.sidebar {
+  background-color: #0F172B; /* Ganti dengan warna baru */
+}
+
+.about-image {
+    max-width: 800px; /* Sesuaikan sesuai kebutuhan */
+    max-height: 400px; /* Sesuaikan sesuai kebutuhan */
+    width: auto;
+    height: auto;
+}

@@ -32,6 +32,121 @@
     <link href="{{URL::asset('/css/style.css')}}" rel="stylesheet">
 </head>
 
+<style>
+    /* Enhanced Testimonial Cards */
+.testimonial-card {
+    border: none;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+    transition: all 0.3s ease;
+    background: white;
+    height: 100%;
+    position: relative;
+    overflow: hidden;
+    margin-bottom: 30px;
+}
+
+.testimonial-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.12);
+}
+
+.testimonial-card::before {
+    content: """;
+    font-family: "Font Awesome 5 Free";
+    font-weight: 900;
+    position: absolute;
+    top: 20px;
+    left: 25px;
+    font-size: 70px;
+    color: rgba(254, 161, 22, 0.08);
+    z-index: 0;
+    line-height: 1;
+}
+
+.testimonial-content {
+    position: relative;
+    z-index: 1;
+    padding: 30px;
+}
+
+.testimonial-text {
+    font-size: 16px;
+    line-height: 1.7;
+    color: #555;
+    margin-bottom: 25px;
+    font-style: italic;
+    position: relative;
+}
+
+.testimonial-author {
+    display: flex;
+    align-items: center;
+    margin-top: 20px;
+}
+
+.author-img {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid #FEA116;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.author-info {
+    margin-left: 15px;
+}
+
+.author-name {
+    font-weight: 600;
+    margin-bottom: 0;
+    color: #333;
+    font-size: 18px;
+}
+
+.author-title {
+    color: #6c757d;
+    font-size: 14px;
+}
+
+.testimonial-rating {
+    color: #FEA116;
+    margin-bottom: 15px;
+    font-size: 16px;
+}
+
+/* Section Header */
+.section-header {
+    position: relative;
+    margin-bottom: 50px;
+}
+
+.section-header h5 {
+    color: #FEA116;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 15px;
+}
+
+.section-header h1 {
+    font-weight: 700;
+    position: relative;
+    display: inline-block;
+}
+
+.section-header h1::after {
+    content: "";
+    position: absolute;
+    width: 80px;
+    height: 3px;
+    background: #FEA116;
+    bottom: -15px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+</style>
 <body>
     <div class="container-xxl bg-white p-0">
         <!-- Spinner Start -->
@@ -227,36 +342,41 @@
         <!-- Team End -->
 
                 <!-- Testimonial Start -->
-                <div class="container-xxl py-5 wow fadeInUp" data-wow-delay="0.1s">
-                    <div class="container">
-                        <div class="text-center">
-                            <h5 class="section-title ff-secondary text-center text-primary fw-normal">Testimonial</h5>
-                            <h1 class="mb-5">Our Clients Say!!!</h1>
-                        </div>
-                        <div class="owl-carousel testimonial-carousel">
-                            @if(count($testimonials) > 0)
-                                @foreach($testimonials as $testimonial)
-                                    <div class="testimonial-item bg-transparent border rounded p-4">
-                                        <i class="fa fa-quote-left fa-2x text-primary mb-3"></i>
-                                        <p>{{ $testimonial->message }}</p>
-                                        <div class="d-flex align-items-center">
-                                            <img class="img-fluid flex-shrink-0 rounded-circle" src="{{ asset('img/biodata.PNG') }}" style="width: 50px; height: 50px;">
-                                            <div class="ps-3">
-                                                <h5 class="mb-1">{{ $testimonial->name }}</h5>
-                                                <small>{{ $testimonial->subject }}</small>
-                                            </div>
-                                        </div>
+<div class="container-xxl pt-5 pb-3">
+    <div class="container">
+        <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
+            <h5 class="section-title ff-secondary text-center text-primary fw-normal">Testimonial</h5>
+            <h1 class="mb-5">Apa Kata Klien Kami!</h1>
+        </div>
+        <div class="row g-4">
+            @if(count($testimonials) > 0)
+                @foreach($testimonials as $testimonial)
+                    <div class="col-lg-6 col-md-6 wow fadeInUp" data-wow-delay="0.3s">
+                        <div class="testimonial-card">
+                            <div class="testimonial-content">
+                                <p class="testimonial-text">{{ $testimonial->message }}</p>
+                                <div class="testimonial-author">
+                                    <img class="author-img" src="{{ asset('img/biodata.PNG') }}" alt="{{ $testimonial->name }}">
+                                    <div class="author-info">
+                                        <h5 class="author-name">{{ $testimonial->name }}</h5>
+                                        <span class="author-title">{{ $testimonial->subject }}</span>
                                     </div>
-                                @endforeach
-                            @else
-                                <div class="col-12 text-center">
-                                    <p>No testimonials yet.</p>
                                 </div>
-                            @endif
+                            </div>
                         </div>
                     </div>
+                @endforeach
+            @else
+                <div class="col-12 text-center">
+                    <div class="alert alert-info">
+                        <i class="fas fa-info-circle me-2"></i> Belum ada testimonial yang disetujui.
+                    </div>
                 </div>
-                <!-- Testimonial End -->
+            @endif
+        </div>
+    </div>
+</div>
+<!-- Testimonial End -->
 
         <!-- Footer Start -->
        @include('layouts.footer')

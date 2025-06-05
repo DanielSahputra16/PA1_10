@@ -101,4 +101,10 @@ Route::group(['middleware' => ['auth', 'admin'], 'prefix' => 'admin'], function 
     Route::get('/reservasi/{reservasi}', [ReservasiController::class, 'showAdmin'])->name('admin.reservasi.show');
     Route::patch('/reservasi/{reservasi}/status', [ReservasiController::class, 'updateStatus'])->name('admin.reservasi.updateStatus');
     Route::delete('/reservasi/{reservasi}', [ReservasiController::class, 'destroyAdmin'])->name('admin.reservasi.destroy');
+
+    Route::group(['middleware' => ['auth', 'admin'], 'prefix' => 'admin'], function () {
+    Route::get('/testimonials', [TestimonialController::class, 'indexAdmin'])->name('admin.testimonials.index');
+    Route::get('/testimonials/{testimonial}', [TestimonialController::class, 'show'])->name('admin.testimonials.show');
+    Route::delete('/testimonials/{testimonial}', [TestimonialController::class, 'destroyAdmin'])->name('admin.testimonials.destroy');
+});
 });

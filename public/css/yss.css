@@ -1,0 +1,205 @@
+   :root {
+            --primary-color: #1d3352;
+            --accent-color: #e53e3e;
+            --light-color: #0b0c0d;
+            --dark-color: #0e2f71;
+            --success-color: #48bb78;
+            --info-color: #4299e1;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f5f7fa;
+            color: var(--dark-color);
+        }
+
+        .wrapper {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        .main {
+            flex: 1;
+            background-color: #f5f7fa;
+            overflow-x: hidden;
+        }
+
+        .navbar-bg {
+            background: linear-gradient(135deg, var(--primary-color) 0%, #0F172B 100%);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .navbar-light .navbar-nav .nav-link {
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        .sidebar-toggle {
+            color: white;
+            font-size: 1.3rem;
+        }
+
+
+        .badminton-card {
+            border-radius: 12px;
+            border: none;
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+            overflow: hidden;
+            background: white;
+        }
+
+        .badminton-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .card-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.75rem;
+            color: white;
+        }
+
+        .card-icon.primary {
+            background: linear-gradient(45deg, var(--primary-color), #4c7cb3);
+        }
+
+        .card-icon.success {
+            background: linear-gradient(45deg, var(--success-color), #68d391);
+        }
+
+        .card-icon.danger {
+            background: linear-gradient(45deg, var(--accent-color), #fc8181);
+        }
+
+        .stat-number {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--dark-color);
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            color: #718096;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 600;
+        }
+
+        .chart-container {
+            position: relative;
+            height: 300px;
+        }
+
+        .recent-bookings {
+            border-radius: 12px;
+        }
+
+        .booking-badge {
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .badge-confirmed {
+            background-color: #c6f6d5;
+            color: #22543d;
+        }
+
+        .badge-pending {
+            background-color: #feebc8;
+            color: #7b341e;
+        }
+
+        .badge-cancelled {
+            background-color: #fed7d7;
+            color: #742a2a;
+        }
+
+        .player-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .court-status {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            display: inline-block;
+            margin-right: 5px;
+        }
+
+        .status-available {
+            background-color: var(--success-color);
+        }
+
+        .status-booked {
+            background-color: var(--accent-color);
+        }
+
+        .status-maintenance {
+            background-color: var(--warning-color);
+        }
+
+        .action-btn {
+            width: 30px;
+            height: 30px;
+            border-radius: 8px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .action-btn:hover {
+            transform: scale(1.1);
+        }
+
+        .btn-edit {
+            background-color: var(--info-color);
+        }
+
+        .btn-delete {
+            background-color: var(--accent-color);
+        }
+
+        .greeting-text {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--dark-color);
+        }
+
+        .date-text {
+            color: #718096;
+            font-size: 0.9rem;
+        }
+
+        .weather-widget {
+            background: linear-gradient(135deg, #4a7bff 0%, #2a4365 100%);
+            border-radius: 12px;
+            color: white;
+            padding: 15px;
+        }
+
+        .weather-icon {
+            font-size: 2.5rem;
+        }
+
+        .temperature {
+            font-size: 2rem;
+            font-weight: 600;
+        }
+
+        .location {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
