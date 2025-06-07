@@ -133,7 +133,7 @@
                                 <label for="jam_mulai" class="form-label">Jam Mulai:</label>
                                 <select name="jam_mulai" id="jam_mulai" class="form-select" required>
                                     <option value="" selected disabled>-- Pilih Jam Mulai --</option>
-                                    @for ($i = 8; $i <= 22; $i++)
+                                    @for ($i = 8; $i <= 23; $i++)
                                         <option value="{{ str_pad($i, 2, '0', STR_PAD_LEFT) }}:00"
                                             {{ old('jam_mulai') == str_pad($i, 2, '0', STR_PAD_LEFT) . ':00' ? 'selected' : '' }}>
                                             {{ str_pad($i, 2, '0', STR_PAD_LEFT) }}:00
@@ -154,7 +154,7 @@
                                 <label for="jam_selesai" class="form-label">Jam Selesai:</label>
                                 <select name="jam_selesai" id="jam_selesai" class="form-select" required>
                                     <option value="" selected disabled>-- Pilih Jam Selesai --</option>
-                                    @for ($i = 8; $i <= 22; $i++)
+                                    @for ($i = 8; $i <= 23; $i++)
                                         <option value="{{ str_pad($i, 2, '0', STR_PAD_LEFT) }}:00"
                                             {{ old('jam_selesai') == str_pad($i, 2, '0', STR_PAD_LEFT) . ':00' ? 'selected' : '' }}>
                                             {{ str_pad($i, 2, '0', STR_PAD_LEFT) }}:00

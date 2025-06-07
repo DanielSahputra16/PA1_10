@@ -36,6 +36,25 @@
         <div class="row g-4">
             <div class="col-sm-12 col-xl-12">
                 <div class="bg-white rounded-3 shadow-sm p-4">
+
+                    
+                    <?php if(Session::has('success')): ?>
+                        <div class="alert alert-success alert-dismissible fade show" role="alert">
+                            <strong>Sukses!</strong> <?php echo e(Session::get('success')); ?>
+
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    <?php endif; ?>
+
+                    <?php if(Session::has('error')): ?>
+                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                            <strong>Error!</strong> <?php echo e(Session::get('error')); ?>
+
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    <?php endif; ?>
+                    
+
                     <div class="d-flex justify-content-between align-items-center mb-4">
                         <h4 class="mb-0 fw-bold text-primary">About Us</h4>
                         <a href="<?php echo e(route('admin.About.create')); ?>" class="btn btn-primary rounded-pill">

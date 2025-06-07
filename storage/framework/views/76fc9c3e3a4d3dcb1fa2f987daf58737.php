@@ -134,7 +134,7 @@
                                 <label for="jam_mulai" class="form-label">Jam Mulai:</label>
                                 <select name="jam_mulai" id="jam_mulai" class="form-select" required>
                                     <option value="" selected disabled>-- Pilih Jam Mulai --</option>
-                                    <?php for($i = 8; $i <= 22; $i++): ?>
+                                    <?php for($i = 8; $i <= 23; $i++): ?>
                                         <option value="<?php echo e(str_pad($i, 2, '0', STR_PAD_LEFT)); ?>:00"
                                             <?php echo e(old('jam_mulai') == str_pad($i, 2, '0', STR_PAD_LEFT) . ':00' ? 'selected' : ''); ?>>
                                             <?php echo e(str_pad($i, 2, '0', STR_PAD_LEFT)); ?>:00
@@ -155,7 +155,7 @@
                                 <label for="jam_selesai" class="form-label">Jam Selesai:</label>
                                 <select name="jam_selesai" id="jam_selesai" class="form-select" required>
                                     <option value="" selected disabled>-- Pilih Jam Selesai --</option>
-                                    <?php for($i = 8; $i <= 22; $i++): ?>
+                                    <?php for($i = 8; $i <= 23; $i++): ?>
                                         <option value="<?php echo e(str_pad($i, 2, '0', STR_PAD_LEFT)); ?>:00"
                                             <?php echo e(old('jam_selesai') == str_pad($i, 2, '0', STR_PAD_LEFT) . ':00' ? 'selected' : ''); ?>>
                                             <?php echo e(str_pad($i, 2, '0', STR_PAD_LEFT)); ?>:00

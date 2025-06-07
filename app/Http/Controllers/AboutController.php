@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session; // Tambahkan ini
 
 class AboutController extends Controller
 {
@@ -61,8 +62,9 @@ class AboutController extends Controller
 
         About::create($input);
 
-        return redirect()->route('admin.About.index')
-            ->with('success', 'Tentang kami berhasil dibuat.');
+        Session::flash('success', 'Tentang kami berhasil dibuat.'); // Gunakan Session::flash()
+
+        return redirect()->route('admin.About.index');
     }
 
     /**
@@ -115,8 +117,9 @@ class AboutController extends Controller
 
         $about->update($input);
 
-        return redirect()->route('admin.About.index')
-            ->with('success', 'Tentang kami berhasil diperbarui');
+        Session::flash('success', 'Tentang kami berhasil diperbarui.'); // Gunakan Session::flash()
+
+        return redirect()->route('admin.About.index');
     }
 
     /**
@@ -141,8 +144,10 @@ class AboutController extends Controller
             \DB::commit();
             \Log::info('Transaction committed.');
 
-            return redirect()->route('admin.About.index')
-                ->with('success', 'Tentang kami berhasil dihapus.');
+            Session::flash('success', 'Tentang kami berhasil dihapus.'); // Gunakan Session::flash()
+
+            return redirect()->route('admin.About.index');
+
         } catch (\Exception $e) {
             \DB::rollback();
             \Log::error('Error deleting About: ' . $e->getMessage());

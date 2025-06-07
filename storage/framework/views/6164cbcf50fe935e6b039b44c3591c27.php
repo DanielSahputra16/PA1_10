@@ -40,8 +40,8 @@
                     &copy; <a class="border-bottom" href="#">Badminton Ramos Center</a>, All Right Reserved.
 
                     <!--/*** This template is free as long as you keep the footer author’s credit link/attribution link/backlink. If you'd like to use the template without the footer author’s credit link/attribution link/backlink, you can purchase the Credit Removal License from "https://htmlcodex.com/credit-removal". Thank you for your support. ***/-->
-                    Designed By <a class="border-bottom" href="https://htmlcodex.com">PA_10</a><br><br>
-                    Distributed By <a class="border-bottom" href="https://themewagon.com" target="_blank">PA1_10</a>
+                    Designed By <a class="border-bottom" href="#">PA_10</a><br><br>
+                    Distributed By <a class="border-bottom" href="#" target="_blank">PA1_10</a>
                 </div>
                 <div class="col-md-6 text-center text-md-end">
                     <div class="footer-menu">

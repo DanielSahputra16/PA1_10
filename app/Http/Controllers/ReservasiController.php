@@ -16,7 +16,15 @@ class ReservasiController extends Controller
 {
     public function indexPublic()
     {
-        $reservasis = Reservasi::with(['lapangan', 'user'])->get();
+        // Jika bukan admin, tampilkan hanya reservasi milik user yang login
+        if (!auth()->user()->isAdmin()) {
+            $reservasis = Reservasi::with(['lapangan', 'user'])
+                ->where('user_id', auth()->id())
+                ->get();
+        } else {
+            $reservasis = Reservasi::with(['lapangan', 'user'])->get();
+        }
+
         return view('reservasi.index', compact('reservasis'));
     }
 
@@ -51,7 +59,7 @@ class ReservasiController extends Controller
         }
     }
 
-        public function show($id)
+    public function show($id)
     {
         $reservasi = Reservasi::with(['lapangan', 'user'])->findOrFail($id);
         return view('reservasi.show', compact('reservasi'));
@@ -92,10 +100,10 @@ class ReservasiController extends Controller
                 },
             ],
             'jam_mulai' => 'required',
-            'tanggal_selesai' => 'required|date',
+            'tanggal_selesai' => 'required|date|same:tanggal_mulai',  // Tambahkan validasi 'same'
             'jam_selesai' => 'required',
             'nama' => 'required|string|max:255',
-            'no_hp' => 'required|string|max:20',
+            'no_hp' => 'required|string|max:13',
         ]);
 
         if ($validator->fails()) {
@@ -127,7 +135,7 @@ class ReservasiController extends Controller
        $overlappingReservationsCount = $overlappingReservations->count();
 
         if ($overlappingReservationsCount > 0) {
-            return back()->withErrors(['message' => 'Jadwal tidak tersedia.']);
+            return back()->withErrors(['message' => 'Jadwal telah dipesan pada jam berikut.']);
         }
 
         // Jika reservasi null, buat instance baru, jika tidak, gunakan yang sudah ada
@@ -259,7 +267,7 @@ class ReservasiController extends Controller
 
         foreach ($reservations as $reservation) {
             if ($reservation->user) {
-                \Log::info("Pengingat dikirim ke: " . $reservation->user->email . " untuk reservasi #" . $reservasi->id);
+                \Log::info("Pengingat dikirim ke: " . $reservasi->user->email . " untuk reservasi #" . $reservasi->id);
                  //Kode Email Asli
                  // Mail::to($reservasi->user->email)->send(new ReminderEmail($reservation));
             } else {

@@ -21,11 +21,11 @@ class JadwalLapangan extends Model
     ];
 
     protected $casts = [
-        'waktu_mulai' => 'datetime:H:i',
-        'waktu_selesai' => 'datetime:H:i',
-        'lapangan_1' => 'boolean',
-        'lapangan_2' => 'boolean',
-    ];
+    'waktu_mulai' => 'datetime', // Ubah ini
+    'waktu_selesai' => 'datetime', // Ubah ini
+    'lapangan_1' => 'boolean',
+    'lapangan_2' => 'boolean',
+];
 
     public function user()
     {
