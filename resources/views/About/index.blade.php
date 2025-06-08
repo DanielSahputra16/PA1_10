@@ -175,7 +175,7 @@
                         </div>
                     </div>
                     <!-- Tombol -->
-                    <a class="btn btn-primary py-3 px-5 mt-2" href="">SEE MORE</a>
+                    <a class="btn btn-primary py-3 px-5 mt-2" href="{{ route('menu.indexPublic') }}">SEE MORE</a>
                 </div>
             </div>
         </div>

@@ -62,7 +62,7 @@
                                         <table class="table table-hover align-middle">
                                             <thead class="table-light">
                                                 <tr>
-                                                    <th scope="col" class="py-3 px-4">#</th>
+                                                    <th scope="col" class="py-3 px-4">No</th>
                                                     <th scope="col" class="py-3 px-4">Judul</th>
                                                     <th scope="col" class="py-3 px-4">Deskripsi</th>
                                                     <th scope="col" class="py-3 px-4 text-center">Gambar</th>

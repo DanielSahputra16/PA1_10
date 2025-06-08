@@ -86,7 +86,7 @@
                                     </div>
                                     <div class="col-12"> <!-- WhatsApp -->
                                         <h6 class="text-primary">WhatsApp</h6>
-                                        <p class="mb-2"><i class="fab fa-whatsapp text-primary me-2"></i><a href="{{ $contacts->first()->whatsapp_link }}" target="_blank">Reservasi via WhatsApp</a></p>
+                                        <p class="mb-2"><i class="fab fa-whatsapp text-primary me-2"></i><a href="{{ $contacts->first()->whatsapp_link }}" target="_blank">WhatsApp</a></p>
                                     </div>
                                     <div class="col-12"> <!-- Instagram -->
                                         <h6 class="text-primary">Instagram</h6>

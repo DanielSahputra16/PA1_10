@@ -69,7 +69,7 @@
                                         <strong>Jam Mulai:</strong>
                                         <select name="jam_mulai" id="jam_mulai" class="form-control" required>
                                             <option value="" selected disabled>-- Pilih Jam Mulai --</option>
-                                            <?php for($i = 8; $i <= 22; $i++): ?>
+                                            <?php for($i = 8; $i <= 23; $i++): ?>
                                                 <option value="<?php echo e(str_pad($i, 2, '0', STR_PAD_LEFT)); ?>:00"
                                                     <?php echo e(old('jam_mulai') == str_pad($i, 2, '0', STR_PAD_LEFT) . ':00' ? 'selected' : ''); ?>>
                                                     <?php echo e(str_pad($i, 2, '0', STR_PAD_LEFT)); ?>:00
@@ -85,7 +85,7 @@
                                         <strong>Jam Selesai:</strong>
                                         <select name="jam_selesai" id="jam_selesai" class="form-control" required>
                                             <option value="" selected disabled>-- Pilih Jam Selesai --</option>
-                                            <?php for($i = 8; $i <= 22; $i++): ?>
+                                            <?php for($i = 8; $i <= 23; $i++): ?>
                                                 <option value="<?php echo e(str_pad($i, 2, '0', STR_PAD_LEFT)); ?>:00"
                                                     <?php echo e(old('jam_selesai') == str_pad($i, 2, '0', STR_PAD_LEFT) . ':00' ? 'selected' : ''); ?>>
                                                     <?php echo e(str_pad($i, 2, '0', STR_PAD_LEFT)); ?>:00
