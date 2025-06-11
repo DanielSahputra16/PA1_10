@@ -7,7 +7,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="Responsive Admin & Dashboard Template based on Bootstrap 5">
     <meta name="author" content="AdminKit">
-    <meta name="keywords" content="adminkit, bootstrap, bootstrap 5, admin, dashboard, template, responsive, css, sass, html, theme, front-end, ui kit, web">
+    <meta name="keywords"
+        content="adminkit, bootstrap, bootstrap 5, admin, dashboard, template, responsive, css, sass, html, theme, front-end, ui kit, web">
 
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link rel="shortcut icon" href="img/icons/icon-48x48.png" />
@@ -26,95 +27,91 @@
         <?php echo $__env->make('admin.layouts.sidebar', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
 
         <div class="main">
-         <?php echo $__env->make('admin.layouts.navbar', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
+            <?php echo $__env->make('admin.layouts.navbar', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
             <main class="content">
                 <div class="container-fluid p-0">
                     <div class="container">
                         <h1>Edit Jadwal Lapangan</h1>
+
+                        <?php if($errors->any()): ?>
+                            <div class="alert alert-danger">
+                                <strong>Whoops!</strong> Ada kesalahan input.<br><br>
+                                <ul>
+                                    <?php $__currentLoopData = $errors->all(); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $error): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                        <li><?php echo e($error); ?></li>
+                                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                </ul>
+                            </div>
+                        <?php endif; ?>
+
                         <form action="<?php echo e(route('admin.jadwal_lapangan.update', $jadwalLapangan->id)); ?>" method="POST">
                             <?php echo csrf_field(); ?>
                             <?php echo method_field('PUT'); ?>
 
-                            <div class="row">
-                                <!-- Field Nama -->
-                                <div class="col-xs-12 col-sm-12 col-md-12">
-                                    <div class="form-group">
-                                        <strong>Nama:</strong>
-                                        <input type="text" name="nama" value="<?php echo e(old('nama', $jadwalLapangan->nama)); ?>"
-                                               class="form-control" placeholder="Nama">
-                                    </div>
-                                </div>
-
-                                <!-- Field Tanggal -->
-                                <div class="col-xs-12 col-sm-12 col-md-12">
-                                    <div class="form-group">
-                                        <strong>Tanggal:</strong>
-                                        <input type="date" name="tanggal" id="tanggal" class="form-control"
-                                               value="<?php echo e(old('tanggal', \Carbon\Carbon::parse($jadwalLapangan->waktu_mulai)->format('Y-m-d'))); ?>" required>
-                                    </div>
-                                </div>
-
-                                <!-- Field Jam Mulai -->
-                                <div class="col-xs-12 col-sm-12 col-md-12">
-                                    <div class="form-group">
-                                        <strong>Jam Mulai:</strong>
-                                        <select name="jam_mulai" id="jam_mulai" class="form-control" required>
-                                            <option value="" selected disabled>-- Pilih Jam Mulai --</option>
-                                            <?php for($i = 8; $i <= 22; $i++): ?>
-                                                <option value="<?php echo e(str_pad($i, 2, '0', STR_PAD_LEFT)); ?>:00"
-                                                    <?php echo e(old('jam_mulai', \Carbon\Carbon::parse($jadwalLapangan->waktu_mulai)->format('H:i')) == str_pad($i, 2, '0', STR_PAD_LEFT) . ':00' ? 'selected' : ''); ?>>
-                                                    <?php echo e(str_pad($i, 2, '0', STR_PAD_LEFT)); ?>:00
-                                                </option>
-                                            <?php endfor; ?>
-                                        </select>
-                                    </div>
-                                </div>
-
-                                <!-- Field Jam Selesai -->
-                                <div class="col-xs-12 col-sm-12 col-md-12">
-                                    <div class="form-group">
-                                        <strong>Jam Selesai:</strong>
-                                        <select name="jam_selesai" id="jam_selesai" class="form-control" required>
-                                            <option value="" selected disabled>-- Pilih Jam Selesai --</option>
-                                            <?php for($i = 8; $i <= 22; $i++): ?>
-                                                <option value="<?php echo e(str_pad($i, 2, '0', STR_PAD_LEFT)); ?>:00"
-                                                    <?php echo e(old('jam_selesai', \Carbon\Carbon::parse($jadwalLapangan->waktu_selesai)->format('H:i')) == str_pad($i, 2, '0', STR_PAD_LEFT) . ':00' ? 'selected' : ''); ?>>
-                                                    <?php echo e(str_pad($i, 2, '0', STR_PAD_LEFT)); ?>:00
-                                                </option>
-                                            <?php endfor; ?>
-                                        </select>
-                                    </div>
-                                </div>
-
-                                <!-- Field Lapangan 1 -->
-                                <div class="col-xs-12 col-sm-12 col-md-12">
-                                    <div class="form-group">
-                                        <strong>Lapangan 1:</strong>
-                                        <select class="form-control" name="lapangan_1">
-                                            <option value="0" <?php echo e(old('lapangan_1', $jadwalLapangan->lapangan_1) == 0 ? 'selected' : ''); ?>>Kosong</option>
-                                            <option value="1" <?php echo e(old('lapangan_1', $jadwalLapangan->lapangan_1) == 1 ? 'selected' : ''); ?>>Dipakai</option>
-                                        </select>
-                                    </div>
-                                </div>
-
-                                <!-- Field Lapangan 2 -->
-                                <div class="col-xs-12 col-sm-12 col-md-12">
-                                    <div class="form-group">
-                                        <strong>Lapangan 2:</strong>
-                                        <select class="form-control" name="lapangan_2">
-                                            <option value="0" <?php echo e(old('lapangan_2', $jadwalLapangan->lapangan_2) == 0 ? 'selected' : ''); ?>>Kosong</option>
-                                            <option value="1" <?php echo e(old('lapangan_2', $jadwalLapangan->lapangan_2) == 1 ? 'selected' : ''); ?>>Dipakai</option>
-                                        </select>
-                                    </div>
-                                </div>
-
-                                <!-- Tombol Submit dan Batal -->
-                                <div class="col-xs-12 col-sm-12 col-md-12 text-center">
-                                    <button type="submit" class="btn btn-primary">Update</button>
-                                    <a class="btn btn-secondary" href="<?php echo e(route('admin.jadwal_lapangan.index')); ?>">Batal</a>
-                                </div>
+                            <!-- Field Nama -->
+                            <div class="mb-3">
+                                <label for="nama" class="form-label">Nama:</label>
+                                <input type="text" name="nama" id="nama"
+                                    value="<?php echo e(old('nama', $jadwalLapangan->nama)); ?>" class="form-control" required>
                             </div>
 
+                            <!-- Field Lapangan -->
+                            <div class="mb-3">
+                                <label for="lapangan_id" class="form-label">Lapangan:</label>
+                                <select name="lapangan_id" id="lapangan_id" class="form-select" required>
+                                    <option value="" selected disabled>-- Pilih Lapangan --</option>
+                                    <?php $__currentLoopData = $lapangans; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $lapangan): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                        <option value="<?php echo e($lapangan->id); ?>"
+                                            <?php echo e(old('lapangan_id', $jadwalLapangan->lapangan_id) == $lapangan->id ? 'selected' : ''); ?>>
+                                            <?php echo e($lapangan->nama); ?>
+
+                                        </option>
+                                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                </select>
+                            </div>
+
+                            <!-- Field Tanggal -->
+                            <div class="mb-3">
+                                <label for="tanggal" class="form-label">Tanggal:</label>
+                                <input type="date" name="tanggal" id="tanggal" class="form-control"
+                                    value="<?php echo e(old('tanggal', \Carbon\Carbon::parse($jadwalLapangan->waktu_mulai)->format('Y-m-d'))); ?>"
+                                    required>
+                            </div>
+
+                            <!-- Field Jam Mulai -->
+                            <div class="mb-3">
+                                <label for="jam_mulai" class="form-label">Jam Mulai:</label>
+                                <select name="jam_mulai" id="jam_mulai" class="form-select" required>
+                                    <option value="" selected disabled>-- Pilih Jam Mulai --</option>
+                                    <?php for($i = 8; $i <= 23; $i++): ?>
+                                        <option value="<?php echo e(str_pad($i, 2, '0', STR_PAD_LEFT)); ?>:00"
+                                            <?php echo e(old('jam_mulai', \Carbon\Carbon::parse($jadwalLapangan->waktu_mulai)->format('H:i')) == str_pad($i, 2, '0', STR_PAD_LEFT) . ':00' ? 'selected' : ''); ?>>
+                                            <?php echo e(str_pad($i, 2, '0', STR_PAD_LEFT)); ?>:00
+                                        </option>
+                                    <?php endfor; ?>
+                                </select>
+                            </div>
+
+                            <!-- Field Jam Selesai -->
+                            <div class="mb-3">
+                                <label for="jam_selesai" class="form-label">Jam Selesai:</label>
+                                <select name="jam_selesai" id="jam_selesai" class="form-select" required>
+                                    <option value="" selected disabled>-- Pilih Jam Selesai --</option>
+                                    <?php for($i = 8; $i <= 23; $i++): ?>
+                                        <option value="<?php echo e(str_pad($i, 2, '0', STR_PAD_LEFT)); ?>:00"
+                                            <?php echo e(old('jam_selesai', \Carbon\Carbon::parse($jadwalLapangan->waktu_selesai)->format('H:i')) == str_pad($i, 2, '0', STR_PAD_LEFT) . ':00' ? 'selected' : ''); ?>>
+                                            <?php echo e(str_pad($i, 2, '0', STR_PAD_LEFT)); ?>:00
+                                        </option>
+                                    <?php endfor; ?>
+                                </select>
+                            </div>
+
+                            <!-- Tombol Submit dan Batal -->
+                            <div class="col-xs-12 col-sm-12 col-md-12 text-center">
+                                <button type="submit" class="btn btn-primary">Update</button>
+                                <a class="btn btn-secondary"
+                                    href="<?php echo e(route('admin.jadwal_lapangan.index')); ?>">Batal</a>
+                            </div>
                         </form>
                     </div>
                 </div>
@@ -145,7 +142,7 @@
     </script>
     <script src="https://unpkg.com/feather-icons"></script>
     <script>
-      feather.replace()
+        feather.replace()
     </script>
 </body>
 

@@ -106,6 +106,16 @@ endif;
 unset($__errorArgs, $__bag); ?>
                                         </div>
 
+                                        <div class="mb-3">
+                                            <label for="stok" class="form-label">Stok:</label>
+                                            <input type="number" class="form-control" id="stok" name="stok" value="<?php echo e(old('stok', 0)); ?>">
+                                        </div>
+
+                                        <div class="mb-3">
+                                            <label for="detail" class="form-label">Detail Barang:</label>
+                                            <textarea class="form-control" id="detail" name="detail"><?php echo e(old('detail')); ?></textarea>
+                                        </div>
+
                                         <button type="submit" class="btn btn-primary">Simpan</button>
                                         <a href="<?php echo e(route('admin.Menu.index')); ?>" class="btn btn-secondary">Batal</a>
                                     </form>

@@ -112,6 +112,7 @@
                                                     <span><?php echo e($lapangan->judul); ?></span>
                                                     <span class="text-primary"><?php echo e($lapangan->deskripsi); ?></span>
                                                 </h5>
+                                                <small class="fst-italic"><?php echo e($lapangan->detail); ?></small>
                                             </div>
                                         </div>
                                     </div>
@@ -131,6 +132,12 @@
                                                     <span><?php echo e($alat->judul); ?></span>
                                                     <span class="text-primary"><?php echo e($alat->deskripsi); ?></span>
                                                 </h5>
+                                                <?php if($alat->stok > 0): ?>
+                                                    <small class="mt-1"><i class="fa fa-check-circle text-success me-1"></i>Stok: <?php echo e($alat->stok); ?></small>
+                                                <?php else: ?>
+                                                    <small class="mt-1"><i class="fa fa-times-circle text-danger me-1"></i>Stok Habis</small>
+                                                <?php endif; ?>
+                                                <small class="fst-italic"><?php echo e($alat->detail); ?></small>
                                             </div>
                                         </div>
                                     </div>
@@ -150,6 +157,7 @@
                                                     <span><?php echo e($fasilitas->judul); ?></span>
                                                     <span class="text-primary"><?php echo e($fasilitas->deskripsi); ?></span>
                                                 </h5>
+                                                <small class="fst-italic"><?php echo e($fasilitas->detail); ?></small>
                                             </div>
                                         </div>
                                     </div>

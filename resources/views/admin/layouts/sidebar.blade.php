@@ -38,18 +38,18 @@
                 </a>
             </li>
 
-            <li class="sidebar-item {{ request()->routeIs('admin.jadwal_lapangan.index') ? 'active' : '' }}" style="margin: 0.3rem 0; border-radius: 8px; overflow: hidden;">
-                <a class="sidebar-link" href="{{ route('admin.jadwal_lapangan.index') }}" style="position: relative; padding-left: 1.5rem;">
-                    <i class="align-middle" data-feather="layout" style="color: #ffffff;"></i>
-                    <span class="align-middle">Ketersediaan Lapangan</span>
-                    <div class="hover-indicator" style="position: absolute; left: 0; top: 0; bottom: 0; width: 4px; background: opacity: 0; transition: all 0.3s ease;"></div>
-                </a>
-            </li>
-
             <li class="sidebar-item {{ request()->routeIs('admin.reservasi.index') ? 'active' : '' }}" style="margin: 0.3rem 0; border-radius: 8px; overflow: hidden;">
                 <a class="sidebar-link" href="{{ route('admin.reservasi.index') }}" style="position: relative; padding-left: 1.5rem;">
                     <i class="align-middle" data-feather="calendar" style="color: #ffffff"></i>
                     <span class="align-middle">Reservasi</span>
+                    <div class="hover-indicator" style="position: absolute; left: 0; top: 0; bottom: 0; width: 4px; background: opacity: 0; transition: all 0.3s ease;"></div>
+                </a>
+            </li>
+            
+            <li class="sidebar-item {{ request()->routeIs('admin.jadwal_lapangan.index') ? 'active' : '' }}" style="margin: 0.3rem 0; border-radius: 8px; overflow: hidden;">
+                <a class="sidebar-link" href="{{ route('admin.jadwal_lapangan.index') }}" style="position: relative; padding-left: 1.5rem;">
+                    <i class="align-middle" data-feather="layout" style="color: #ffffff;"></i>
+                    <span class="align-middle">Ketersediaan Lapangan</span>
                     <div class="hover-indicator" style="position: absolute; left: 0; top: 0; bottom: 0; width: 4px; background: opacity: 0; transition: all 0.3s ease;"></div>
                 </a>
             </li>

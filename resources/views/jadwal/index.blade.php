@@ -73,28 +73,32 @@
 
                             <!-- Tabel Jadwal -->
                             <div class="table-responsive wow fadeInUp" data-wow-delay="0.4s">
-                                <table class="table table-striped table-bordered table-hover align-middle">
-                                    <thead class="table-dark">
+                               <table class="table table-striped table-bordered table-hover align-middle">
+                                <thead class="table-dark">
+                                    <tr>
+                                        <th scope="col">No</th>
+                                        <th scope="col">Nama</th>
+                                        <th scope="col">Lapangan</th>
+                                        <th scope="col">Waktu Mulai</th>
+                                        <th scope="col">Waktu Selesai</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @forelse ($jadwalLapangans as $jadwalLapangan)
                                         <tr>
-                                            <th scope="col">Nama</th>
-                                            <th scope="col">Waktu Mulai</th>
-                                            <th scope="col">Waktu Selesai</th>
-                                            <th scope="col">Lapangan 1 Tersedia</th>
-                                            <th scope="col">Lapangan 2 Tersedia</th>
+                                            <td>{{ $loop->iteration }}</td>
+                                            <td>{{ $jadwalLapangan->nama }}</td>
+                                            <td>{{ $jadwalLapangan->lapangan->nama }}</td>
+                                            <td>{{ \Carbon\Carbon::parse($jadwalLapangan->waktu_mulai)->isoFormat('D MMM YYYY, HH:mm') }}</td>
+                                            <td>{{ \Carbon\Carbon::parse($jadwalLapangan->waktu_selesai)->isoFormat('D MMM YYYY, HH:mm') }}</td>
                                         </tr>
-                                    </thead>
-                                    <tbody>
-                                        @foreach ($jadwalLapangans as $jadwalLapangan)
-                                            <tr>
-                                                <td>{{ $jadwalLapangan->nama }}</td>
-                                                <td>{{ $jadwalLapangan->waktu_mulai }}</td>
-                                                <td>{{ $jadwalLapangan->waktu_selesai }}</td>
-                                                <td>{{ $jadwalLapangan->lapangan_1 ? 'Ya' : 'Tidak' }}</td>
-                                                <td>{{ $jadwalLapangan->lapangan_2 ? 'Ya' : 'Tidak' }}</td>
-                                            </tr>
-                                        @endforeach
-                                    </tbody>
-                                </table>
+                                    @empty
+                                        <tr>
+                                            <td colspan="5" class="text-center">Tidak ada jadwal tersedia.</td>
+                                        </tr>
+                                    @endforelse
+                                </tbody>
+                            </table>
                             </div>
 
                         </div>

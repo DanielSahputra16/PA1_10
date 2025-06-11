@@ -112,6 +112,7 @@
                                                     <span>{{ $lapangan->judul }}</span>
                                                     <span class="text-primary">{{ $lapangan->deskripsi }}</span>
                                                 </h5>
+                                                <small class="fst-italic">{{ $lapangan->detail }}</small>
                                             </div>
                                         </div>
                                     </div>
@@ -131,6 +132,12 @@
                                                     <span>{{ $alat->judul }}</span>
                                                     <span class="text-primary">{{ $alat->deskripsi }}</span>
                                                 </h5>
+                                                @if($alat->stok > 0)
+                                                    <small class="mt-1"><i class="fa fa-check-circle text-success me-1"></i>Stok: {{ $alat->stok }}</small>
+                                                @else
+                                                    <small class="mt-1"><i class="fa fa-times-circle text-danger me-1"></i>Stok Habis</small>
+                                                @endif
+                                                <small class="fst-italic">{{ $alat->detail }}</small>
                                             </div>
                                         </div>
                                     </div>
@@ -150,6 +157,7 @@
                                                     <span>{{ $fasilitas->judul }}</span>
                                                     <span class="text-primary">{{ $fasilitas->deskripsi }}</span>
                                                 </h5>
+                                                <small class="fst-italic">{{ $fasilitas->detail }}</small>
                                             </div>
                                         </div>
                                     </div>

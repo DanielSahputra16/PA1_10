@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB; // Untuk transaksi database
+use Illuminate\Support\Facades\Storage; // Tambahkan ini
 
 class ReservasiController extends Controller
 {
@@ -42,7 +43,10 @@ class ReservasiController extends Controller
     {
         // Tampilkan form buat reservasi baru
         $lapangans = Lapangan::all(); // Ambil semua data lapangan
-        return view('reservasi.create', compact('lapangans'));
+        $user = Auth::user(); // Ambil data user yang sedang login
+
+        // Kirim data user ke view untuk mengisi form
+        return view('reservasi.create', compact('lapangans', 'user'));
     }
 
     public function edit($id)
@@ -92,7 +96,7 @@ class ReservasiController extends Controller
         // Validasi input
         $validator = Validator::make($request->all(), [
             'lapangan_id' => 'required|exists:lapangans,id',
-            'tanggal_mulai' => [
+            'tanggal' => [
                 'required',
                 'date',
                 'after_or_equal:today', // Tidak boleh tanggal lampau
@@ -104,11 +108,11 @@ class ReservasiController extends Controller
                     }
                 },
             ],
-            'jam_mulai' => 'required',
-            'tanggal_selesai' => 'required|date|same:tanggal_mulai',
-            'jam_selesai' => 'required',
             'nama' => 'required|string|max:255',
             'no_hp' => 'required|string|max:13',
+            'jam_mulai' => 'required', // Tambahkan validasi jam mulai
+            'jam_selesai' => 'required', // Tambahkan validasi jam selesai
+            'gambar' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048', // Validasi gambar
         ]);
 
         if ($validator->fails()) {
@@ -116,18 +120,25 @@ class ReservasiController extends Controller
         }
 
         // Gabungkan tanggal dan jam ke bentuk datetime
-        $tanggal_mulai = Carbon::parse($request->tanggal_mulai . ' ' . $request->jam_mulai);
-        $tanggal_selesai = Carbon::parse($request->tanggal_selesai . ' ' . $request->jam_selesai);
+        $waktu_mulai = Carbon::parse($request->tanggal . ' ' . $request->jam_mulai);
+        $waktu_selesai = Carbon::parse($request->tanggal . ' ' . $request->jam_selesai);
 
-        // Cek apakah lapangan sudah dipesan pada jam tersebut
+        // Validasi bahwa waktu mulai < waktu selesai
+        if($waktu_mulai->greaterThanOrEqualTo($waktu_selesai)) {
+            return redirect()->back()
+                ->withErrors(['jam_mulai' => 'Jam mulai harus lebih kecil dari jam selesai.'])
+                ->withInput();
+        }
+
+        // Cek apakah ada jadwal lain yang bentrok waktunya
         $overlappingReservations = Reservasi::where('lapangan_id', $request->lapangan_id)
-            ->where(function ($query) use ($tanggal_mulai, $tanggal_selesai) {
-                $query->whereBetween('tanggal_mulai', [$tanggal_mulai, $tanggal_selesai])
-                      ->orWhereBetween('tanggal_selesai', [$tanggal_mulai, $tanggal_selesai])
-                      ->orWhere(function ($q) use ($tanggal_mulai, $tanggal_selesai) {
-                          $q->where('tanggal_mulai', '<=', $tanggal_mulai)
-                            ->where('tanggal_selesai', '>=', $tanggal_selesai);
-                      });
+            ->where(function($q) use($waktu_mulai, $waktu_selesai){
+                $q->whereBetween('waktu_mulai', [$waktu_mulai, $waktu_selesai])
+                  ->orWhereBetween('waktu_selesai', [$waktu_mulai, $waktu_selesai])
+                  ->orWhere(function($q) use ($waktu_mulai, $waktu_selesai){
+                    $q->where('waktu_mulai', '<=', $waktu_mulai)
+                      ->where('waktu_selesai', '>=', $waktu_selesai);
+                  });
             });
 
         // Jika update, abaikan dirinya sendiri
@@ -137,7 +148,7 @@ class ReservasiController extends Controller
 
         // Jika ada bentrok jadwal
         if ($overlappingReservations->count() > 0) {
-            return back()->withErrors(['message' => 'Jadwal telah dipesan pada jam berikut.']);
+            return back()->withErrors(['message' => 'Jadwal telah dipesan pada jam tersebut.']);
         }
 
         // Jika belum ada, buat baru. Kalau ada, pakai data lama
@@ -146,10 +157,22 @@ class ReservasiController extends Controller
             $reservasi->user_id = auth()->user()->id;
         }
 
+        // Upload gambar jika ada
+        if ($request->hasFile('gambar')) {
+            //Hapus gambar lama jika ada pada saat update
+            if($reservasi && $reservasi->gambar){
+                Storage::delete('public/gambar/' . $reservasi->gambar);
+            }
+            $gambar = $request->file('gambar');
+            $namaGambar = time() . '.' . $gambar->getClientOriginalExtension();
+            $path = $gambar->storeAs('public/gambar', $namaGambar); // Simpan di storage/app/public/gambar
+            $reservasi->gambar = $namaGambar; // Simpan nama file ke database
+        }
+
         // Set data reservasi
         $reservasi->lapangan_id = $request->lapangan_id;
-        $reservasi->tanggal_mulai = $tanggal_mulai;
-        $reservasi->tanggal_selesai = $tanggal_selesai;
+        $reservasi->waktu_mulai = $waktu_mulai;
+        $reservasi->waktu_selesai = $waktu_selesai;
         $reservasi->nama = $request->nama;
         $reservasi->no_hp = $request->no_hp;
         $reservasi->save();
@@ -251,16 +274,16 @@ class ReservasiController extends Controller
         $now = Carbon::now();
 
         $reservations = Reservasi::with('user')
-            ->where('tanggal_mulai', '>', $now)
-            ->where('tanggal_mulai', '<=', $now->copy()->addHours(24))
+            ->where('tanggal', '>', $now)
+            ->where('tanggal', '<=', $now->copy()->addHours(24))
             ->get();
 
         foreach ($reservations as $reservation) {
             if ($reservation->user) {
-                \Log::info("Pengingat dikirim ke: " . $reservation->user->email . " untuk reservasi #" . $reservation->id);
+                \Log::info("Pengingat dikirim ke: " . $reservation->user->email . " untuk reservasi #" . $reservasi->id);
                 // Mail::to($reservation->user->email)->send(new ReminderEmail($reservation));
             } else {
-                \Log::warning("Tidak dapat mengirim pengingat untuk reservasi #" . $reservation->id);
+                \Log::warning("Tidak dapat mengirim pengingat untuk reservasi #" . $reservasi->id);
             }
         }
     }

@@ -66,6 +66,8 @@
                                                     <th scope="col" class="py-3 px-4 text-center">No</th>
                                                     <th scope="col" class="py-3 px-4">Judul</th>
                                                     <th scope="col" class="py-3 px-4">Deskripsi</th>
+                                                    <th scope="col" class="py-3 px-4">Stok</th>
+                                                    <th scope="col" class="py-3 px-4">Detail</th>
                                                     <th scope="col" class="py-3 px-4 text-center">Gambar</th>
                                                     <th scope="col" class="py-3 px-4 text-end">Aksi</th>
                                                 </tr>
@@ -76,6 +78,8 @@
                                                         <td class="px-4 py-3 text-center fw-semibold">{{ $loop->iteration }}</td>
                                                         <td class="px-4 py-3 fw-semibold">{{ $item->judul }}</td>
                                                         <td class="px-4 py-3">{{ $item->deskripsi }}</td>
+                                                        <td class="px-4 py-3">{{ $item->stok }}</td>
+                                                        <td class="px-4 py-3">{{ $item->detail }}</td>
                                                         <td class="px-4 py-3 text-center">
                                                             @if($item->gambar)
                                                                 <img src="{{ asset('storage/menus/' . $item->gambar) }}" alt="{{ $item->judul }}" width="100" class="rounded">

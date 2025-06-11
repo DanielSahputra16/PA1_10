@@ -81,23 +81,23 @@
                     <div class="col-lg-8 wow fadeInUp" data-wow-delay="0.2s">
 
                         <?php if($errors->any()): ?>
-                            <div class="alert alert-danger">
-                                <ul>
-                                    <?php $__currentLoopData = $errors->all(); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $error): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                        <li><?php echo e($error); ?></li>
-                                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-                                </ul>
-                            </div>
+                        <div class="alert alert-danger">
+                            <ul>
+                                <?php $__currentLoopData = $errors->all(); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $error): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                <li><?php echo e($error); ?></li>
+                                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                            </ul>
+                        </div>
                         <?php endif; ?>
 
-                        <form action="<?php echo e(route('reservasi.store')); ?>" method="POST">
+                        <form action="<?php echo e(route('reservasi.store')); ?>" method="POST" enctype="multipart/form-data">
                             <?php echo csrf_field(); ?>
 
                             <!-- Field Nama -->
-                            <div class="mb-3">
-                                <label for="nama" class="form-label">Nama:</label>
-                                <input type="text" name="nama" id="nama" class="form-control"
-                                    value="<?php echo e(old('nama')); ?>" required>
+                            <div class="form-group">
+                                <label for="nama">Nama:</label>
+                                <input type="text" class="form-control" id="nama" name="nama" value="<?php echo e($user->name); ?>"
+                                    required>
                             </div>
 
                             <!-- Field No. HP -->
@@ -113,20 +113,20 @@
                                 <select name="lapangan_id" id="lapangan_id" class="form-select" required>
                                     <option value="" selected disabled>-- Pilih Lapangan --</option>
                                     <?php $__currentLoopData = $lapangans; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $lapangan): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                        <option value="<?php echo e($lapangan->id); ?>"
-                                            <?php echo e(old('lapangan_id') == $lapangan->id ? 'selected' : ''); ?>>
-                                            <?php echo e($lapangan->nama); ?>
+                                    <option value="<?php echo e($lapangan->id); ?>"
+                                        <?php echo e(old('lapangan_id') == $lapangan->id ? 'selected' : ''); ?>>
+                                        <?php echo e($lapangan->nama); ?>
 
-                                        </option>
+                                    </option>
                                     <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                 </select>
                             </div>
 
-                            <!-- Field Tanggal Mulai -->
+                            <!-- Field Tanggal (tidak perlu tanggal_selesai) -->
                             <div class="mb-3">
-                                <label for="tanggal_mulai" class="form-label">Tanggal Mulai:</label>
-                                <input type="date" name="tanggal_mulai" id="tanggal_mulai" class="form-control"
-                                    value="<?php echo e(old('tanggal_mulai')); ?>" required>
+                                <label for="tanggal" class="form-label">Tanggal:</label>
+                                <input type="date" name="tanggal" id="tanggal" class="form-control"
+                                    value="<?php echo e(old('tanggal')); ?>" required>
                             </div>
 
                             <!-- Field Jam Mulai -->
@@ -135,19 +135,12 @@
                                 <select name="jam_mulai" id="jam_mulai" class="form-select" required>
                                     <option value="" selected disabled>-- Pilih Jam Mulai --</option>
                                     <?php for($i = 8; $i <= 23; $i++): ?>
-                                        <option value="<?php echo e(str_pad($i, 2, '0', STR_PAD_LEFT)); ?>:00"
-                                            <?php echo e(old('jam_mulai') == str_pad($i, 2, '0', STR_PAD_LEFT) . ':00' ? 'selected' : ''); ?>>
-                                            <?php echo e(str_pad($i, 2, '0', STR_PAD_LEFT)); ?>:00
-                                        </option>
+                                    <option value="<?php echo e(str_pad($i, 2, '0', STR_PAD_LEFT)); ?>:00"
+                                        <?php echo e(old('jam_mulai') == str_pad($i, 2, '0', STR_PAD_LEFT) . ':00' ? 'selected' : ''); ?>>
+                                        <?php echo e(str_pad($i, 2, '0', STR_PAD_LEFT)); ?>:00
+                                    </option>
                                     <?php endfor; ?>
                                 </select>
-                            </div>
-
-                            <!-- Field Tanggal Selesai -->
-                            <div class="mb-3">
-                                <label for="tanggal_selesai" class="form-label">Tanggal Selesai:</label>
-                                <input type="date" name="tanggal_selesai" id="tanggal_selesai" class="form-control"
-                                    value="<?php echo e(old('tanggal_selesai')); ?>" required>
                             </div>
 
                             <!-- Field Jam Selesai -->
@@ -156,12 +149,25 @@
                                 <select name="jam_selesai" id="jam_selesai" class="form-select" required>
                                     <option value="" selected disabled>-- Pilih Jam Selesai --</option>
                                     <?php for($i = 8; $i <= 23; $i++): ?>
-                                        <option value="<?php echo e(str_pad($i, 2, '0', STR_PAD_LEFT)); ?>:00"
-                                            <?php echo e(old('jam_selesai') == str_pad($i, 2, '0', STR_PAD_LEFT) . ':00' ? 'selected' : ''); ?>>
-                                            <?php echo e(str_pad($i, 2, '0', STR_PAD_LEFT)); ?>:00
-                                        </option>
+                                    <option value="<?php echo e(str_pad($i, 2, '0', STR_PAD_LEFT)); ?>:00"
+                                        <?php echo e(old('jam_selesai') == str_pad($i, 2, '0', STR_PAD_LEFT) . ':00' ? 'selected' : ''); ?>>
+                                        <?php echo e(str_pad($i, 2, '0', STR_PAD_LEFT)); ?>:00
+                                    </option>
                                     <?php endfor; ?>
                                 </select>
+                            </div>
+
+                            <!-- Field Upload Gambar -->
+                            <div class="mb-3">
+                                <label for="gambar" class="form-label">Gambar (Opsional):</label>
+                                <input type="file" name="gambar" id="gambar" class="form-control">
+                            </div>
+
+                             <!-- Tampilkan Instruksi Barcode -->
+                            <div class="mb-3">
+                                <label class="form-label"><b>Tunjukkan Barcode ini Saat Checkin:</b></label><br>
+                                <img src="<?php echo e(URL::asset('img/barcode.jpg')); ?>" alt="Contoh Barcode" width="200">
+                                <p>Simpan atau screenshot barcode ini untuk ditunjukkan saat checkin.</p>
                             </div>
 
                             <!-- Tombol Submit (dengan styling dari halaman tabel) -->
@@ -206,51 +212,37 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            const tanggalMulaiInput = document.getElementById('tanggal_mulai');
-            const tanggalSelesaiInput = document.getElementById('tanggal_selesai');
+            const tanggalInput = document.getElementById('tanggal');
+            const jamMulai = document.getElementById('jam_mulai');
+            const jamSelesai = document.getElementById('jam_selesai');
 
-            // Set tanggal minimum (hari ini)
+            // Set tanggal minimum dan maksimum
             const today = new Date();
-            const todayFormatted = today.toISOString().split('T')[0]; // Format: YYYY-MM-DD
-            tanggalMulaiInput.min = todayFormatted;
-            tanggalSelesaiInput.min = todayFormatted;
+            const todayFormatted = today.toISOString().split('T')[0];
+            tanggalInput.min = todayFormatted;
 
-            // Set tanggal maksimum (2 bulan ke depan)
             const maxDate = new Date();
-            maxDate.setMonth(maxDate.getMonth() + 2); // Tambah 2 bulan
-            const maxDateFormatted = maxDate.toISOString().split('T')[0];
-            tanggalMulaiInput.max = maxDateFormatted;
-            tanggalSelesaiInput.max = maxDateFormatted;
+            maxDate.setMonth(maxDate.getMonth() + 2);
+            const maxFormatted = maxDate.toISOString().split('T')[0];
+            tanggalInput.max = maxFormatted;
 
-            // Fungsi untuk memvalidasi
-            function validateWaktu() {
-                const jamMulaiSelect = document.getElementById('jam_mulai');
-                const jamSelesaiSelect = document.getElementById('jam_selesai');
-                const tanggalMulai = tanggalMulaiInput.value;
-                const jamMulai = jamMulaiSelect.value;
-                const tanggalSelesai = tanggalSelesaiInput.value;
-                const jamSelesai = jamSelesaiSelect.value;
+            function validateJam() {
+                const mulai = jamMulai.value;
+                const selesai = jamSelesai.value;
 
-                if (tanggalMulai && jamMulai && tanggalSelesai && jamSelesai) {
-                    const mulai = new Date(`${tanggalMulai} ${jamMulai}`);
-                    const selesai = new Date(`${tanggalSelesai} ${jamSelesai}`);
+                if (mulai && selesai) {
+                    const mulaiDate = new Date(`1970-01-01T${mulai}`);
+                    const selesaiDate = new Date(`1970-01-01T${selesai}`);
 
-                    if (mulai >= selesai) {
-                        alert('Waktu selesai harus setelah waktu mulai.');
-                        tanggalSelesaiInput.value = tanggalMulai;
-                        jamSelesaiSelect.value = jamMulai;
+                    if (selesaiDate <= mulaiDate) {
+                        alert("Jam selesai harus setelah jam mulai.");
+                        jamSelesai.value = "";
                     }
                 }
             }
 
-            const jamMulaiSelect = document.getElementById('jam_mulai');
-            const jamSelesaiSelect = document.getElementById('jam_selesai');
-
-            // Tambahkan event listener ke setiap elemen
-            tanggalMulaiInput.addEventListener('change', validateWaktu);
-            jamMulaiSelect.addEventListener('change', validateWaktu);
-            tanggalSelesaiInput.addEventListener('change', validateWaktu);
-            jamSelesaiSelect.addEventListener('change', validateWaktu);
+            jamMulai.addEventListener('change', validateJam);
+            jamSelesai.addEventListener('change', validateJam);
         });
     </script>
 </body>

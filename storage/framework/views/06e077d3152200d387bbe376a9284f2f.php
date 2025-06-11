@@ -68,67 +68,32 @@
                 <div class="col-md-8 offset-md-2">
                     <h1>Edit Detail Reservasi</h1>
                     <?php if($errors->any()): ?>
-                        <div class="alert alert-danger">
-                            <ul>
-                                <?php $__currentLoopData = $errors->all(); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $error): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                    <li><?php echo e($error); ?></li>
-                                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-                            </ul>
-                        </div>
+                    <div class="alert alert-danger">
+                        <ul>
+                            <?php $__currentLoopData = $errors->all(); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $error): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                            <li><?php echo e($error); ?></li>
+                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                        </ul>
+                    </div>
                     <?php endif; ?>
 
-                    <form action="<?php echo e(route('reservasi.update', $reservasi->id)); ?>" method="POST">
+                    <form action="<?php echo e(route('reservasi.update', $reservasi->id)); ?>" method="POST"
+                        enctype="multipart/form-data">
                         <?php echo csrf_field(); ?>
                         <?php echo method_field('PUT'); ?>
 
                         <!-- Field Nama -->
                         <div class="mb-3">
                             <label for="nama" class="form-label">Nama:</label>
-                            <input type="text" name="nama" id="nama"
-                                class="form-control <?php $__errorArgs = ['nama'];
-$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
-if ($__bag->has($__errorArgs[0])) :
-if (isset($message)) { $__messageOriginal = $message; }
-$message = $__bag->first($__errorArgs[0]); ?> is-invalid <?php unset($message);
-if (isset($__messageOriginal)) { $message = $__messageOriginal; }
-endif;
-unset($__errorArgs, $__bag); ?>" required
-                                value="<?php echo e(old('nama', $reservasi->nama)); ?>">
-                            <?php $__errorArgs = ['nama'];
-$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
-if ($__bag->has($__errorArgs[0])) :
-if (isset($message)) { $__messageOriginal = $message; }
-$message = $__bag->first($__errorArgs[0]); ?>
-                                <div class="invalid-feedback"><?php echo e($message); ?></div>
-                            <?php unset($message);
-if (isset($__messageOriginal)) { $message = $__messageOriginal; }
-endif;
-unset($__errorArgs, $__bag); ?>
+                            <input type="text" name="nama" id="nama" class="form-control"
+                                value="<?php echo e($reservasi->nama); ?>" required>
                         </div>
 
                         <!-- Field No. HP -->
                         <div class="mb-3">
                             <label for="no_hp" class="form-label">Nomor HP:</label>
-                            <input type="text" name="no_hp" id="no_hp"
-                                class="form-control <?php $__errorArgs = ['no_hp'];
-$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
-if ($__bag->has($__errorArgs[0])) :
-if (isset($message)) { $__messageOriginal = $message; }
-$message = $__bag->first($__errorArgs[0]); ?> is-invalid <?php unset($message);
-if (isset($__messageOriginal)) { $message = $__messageOriginal; }
-endif;
-unset($__errorArgs, $__bag); ?>" required
-                                value="<?php echo e(old('no_hp', $reservasi->no_hp)); ?>">
-                            <?php $__errorArgs = ['no_hp'];
-$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
-if ($__bag->has($__errorArgs[0])) :
-if (isset($message)) { $__messageOriginal = $message; }
-$message = $__bag->first($__errorArgs[0]); ?>
-                                <div class="invalid-feedback"><?php echo e($message); ?></div>
-                            <?php unset($message);
-if (isset($__messageOriginal)) { $message = $__messageOriginal; }
-endif;
-unset($__errorArgs, $__bag); ?>
+                            <input type="text" name="no_hp" id="no_hp" class="form-control"
+                                value="<?php echo e($reservasi->no_hp); ?>" required>
                         </div>
 
                         <!-- Field Lapangan -->
@@ -137,31 +102,20 @@ unset($__errorArgs, $__bag); ?>
                             <select name="lapangan_id" id="lapangan_id" class="form-select" required>
                                 <option value="" selected disabled>-- Pilih Lapangan --</option>
                                 <?php $__currentLoopData = $lapangans; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $lapangan): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                    <option value="<?php echo e($lapangan->id); ?>"
-                                        <?php echo e(old('lapangan_id', $reservasi->lapangan_id) == $lapangan->id ? 'selected' : ''); ?>>
-                                        <?php echo e($lapangan->nama); ?>
+                                <option value="<?php echo e($lapangan->id); ?>" <?php if($lapangan->id==$reservasi->lapangan_id): ?>
+                                    selected <?php endif; ?>>
+                                    <?php echo e($lapangan->nama); ?>
 
-                                    </option>
+                                </option>
                                 <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                             </select>
-                            <?php $__errorArgs = ['lapangan_id'];
-$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
-if ($__bag->has($__errorArgs[0])) :
-if (isset($message)) { $__messageOriginal = $message; }
-$message = $__bag->first($__errorArgs[0]); ?>
-                                <div class="invalid-feedback"><?php echo e($message); ?></div>
-                            <?php unset($message);
-if (isset($__messageOriginal)) { $message = $__messageOriginal; }
-endif;
-unset($__errorArgs, $__bag); ?>
                         </div>
 
-                        <!-- Field Tanggal Mulai -->
+                        <!-- Field Tanggal (tidak perlu tanggal_selesai) -->
                         <div class="mb-3">
-                            <label for="tanggal_mulai" class="form-label">Tanggal Mulai:</label>
-                            <input type="date" name="tanggal_mulai" id="tanggal_mulai" class="form-control"
-                                value="<?php echo e(old('tanggal_mulai', \Carbon\Carbon::parse($reservasi->tanggal_mulai)->format('Y-m-d'))); ?>"
-                                required>
+                            <label for="tanggal" class="form-label">Tanggal:</label>
+                            <input type="date" name="tanggal" id="tanggal" class="form-control"
+                                value="<?php echo e(old('tanggal')); ?>" required>
                         </div>
 
                         <!-- Field Jam Mulai -->
@@ -169,21 +123,13 @@ unset($__errorArgs, $__bag); ?>
                             <label for="jam_mulai" class="form-label">Jam Mulai:</label>
                             <select name="jam_mulai" id="jam_mulai" class="form-select" required>
                                 <option value="" selected disabled>-- Pilih Jam Mulai --</option>
-                                <?php for($i = 8; $i <= 22; $i++): ?>
-                                    <option value="<?php echo e(str_pad($i, 2, '0', STR_PAD_LEFT)); ?>:00"
-                                        <?php echo e(old('jam_mulai', \Carbon\Carbon::parse($reservasi->tanggal_mulai)->format('H:i')) == str_pad($i, 2, '0', STR_PAD_LEFT) . ':00' ? 'selected' : ''); ?>>
-                                        <?php echo e(str_pad($i, 2, '0', STR_PAD_LEFT)); ?>:00
-                                    </option>
+                                <?php for($i = 8; $i <= 23; $i++): ?>
+                                <option value="<?php echo e(str_pad($i, 2, '0', STR_PAD_LEFT)); ?>:00"
+                                    <?php echo e(old('jam_mulai') == str_pad($i, 2, '0', STR_PAD_LEFT) . ':00' ? 'selected' : ''); ?>>
+                                    <?php echo e(str_pad($i, 2, '0', STR_PAD_LEFT)); ?>:00
+                                </option>
                                 <?php endfor; ?>
                             </select>
-                        </div>
-
-                        <!-- Field Tanggal Selesai -->
-                        <div class="mb-3">
-                            <label for="tanggal_selesai" class="form-label">Tanggal Selesai:</label>
-                            <input type="date" name="tanggal_selesai" id="tanggal_selesai" class="form-control"
-                                value="<?php echo e(old('tanggal_selesai', \Carbon\Carbon::parse($reservasi->tanggal_selesai)->format('Y-m-d'))); ?>"
-                                required>
                         </div>
 
                         <!-- Field Jam Selesai -->
@@ -191,13 +137,23 @@ unset($__errorArgs, $__bag); ?>
                             <label for="jam_selesai" class="form-label">Jam Selesai:</label>
                             <select name="jam_selesai" id="jam_selesai" class="form-select" required>
                                 <option value="" selected disabled>-- Pilih Jam Selesai --</option>
-                                <?php for($i = 8; $i <= 22; $i++): ?>
-                                    <option value="<?php echo e(str_pad($i, 2, '0', STR_PAD_LEFT)); ?>:00"
-                                        <?php echo e(old('jam_selesai', \Carbon\Carbon::parse($reservasi->tanggal_selesai)->format('H:i')) == str_pad($i, 2, '0', STR_PAD_LEFT) . ':00' ? 'selected' : ''); ?>>
-                                        <?php echo e(str_pad($i, 2, '0', STR_PAD_LEFT)); ?>:00
-                                    </option>
+                                <?php for($i = 8; $i <= 23; $i++): ?>
+                                <option value="<?php echo e(str_pad($i, 2, '0', STR_PAD_LEFT)); ?>:00"
+                                    <?php echo e(old('jam_selesai') == str_pad($i, 2, '0', STR_PAD_LEFT) . ':00' ? 'selected' : ''); ?>>
+                                    <?php echo e(str_pad($i, 2, '0', STR_PAD_LEFT)); ?>:00
+                                </option>
                                 <?php endfor; ?>
                             </select>
+                        </div>
+
+                         <!-- Field Upload Gambar -->
+                        <div class="mb-3">
+                            <label for="gambar" class="form-label">Gambar (Opsional):</label>
+                            <input type="file" name="gambar" id="gambar" class="form-control">
+                            <!-- Tampilkan gambar yang sudah ada -->
+                            <?php if($reservasi->gambar): ?>
+                                <img src="<?php echo e(asset('storage/gambar/' . $reservasi->gambar)); ?>" alt="Gambar Reservasi" width="100">
+                            <?php endif; ?>
                         </div>
 
                         <button class="btn btn-primary" type="submit">Edit Reservasi</button>
@@ -232,66 +188,43 @@ unset($__errorArgs, $__bag); ?>
     <!-- Template Javascript -->
     <script src="<?php echo e(URL::asset('js/main.js')); ?>"></script>
 
-    <!-- Script validasi tanggal sisi klien) -->
+    <!-- Script validasi tanggal sisi klien -->
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            const tanggalMulaiInput = document.getElementById('tanggal_mulai');
-            const tanggalSelesaiInput = document.getElementById('tanggal_selesai');
+            const tanggalInput = document.getElementById('tanggal');
+            const jamMulai = document.getElementById('jam_mulai');
+            const jamSelesai = document.getElementById('jam_selesai');
 
-            // Mendapatkan tahun saat ini
-            const currentYear = new Date().getFullYear();
-
-            // Set tanggal minimum (hari ini)
+            // Set tanggal minimum dan maksimum
             const today = new Date();
-            const todayFormatted = today.toISOString().split('T')[0]; // Format: YYYY-MM-DD
-            tanggalMulaiInput.min = todayFormatted;
-            tanggalSelesaiInput.min = todayFormatted;
+            const todayFormatted = today.toISOString().split('T')[0];
+            tanggalInput.min = todayFormatted;
 
-            // Set tanggal maksimum (2 bulan ke depan, tetapi batasi tahun)
             const maxDate = new Date();
-            maxDate.setMonth(maxDate.getMonth() + 2); // Tambah 2 bulan
+            maxDate.setMonth(maxDate.getMonth() + 2);
+            const maxFormatted = maxDate.toISOString().split('T')[0];
+            tanggalInput.max = maxFormatted;
 
-            // Batasi tahun
-            if (maxDate.getFullYear() > currentYear) {
-                maxDate.setFullYear(currentYear, 11, 31); // Set ke 31 Desember tahun ini
-            }
+            function validateJam() {
+                const mulai = jamMulai.value;
+                const selesai = jamSelesai.value;
 
-            const maxDateFormatted = maxDate.toISOString().split('T')[0];
-            tanggalMulaiInput.max = maxDateFormatted;
-            tanggalSelesaiInput.max = maxDateFormatted;
+                if (mulai && selesai) {
+                    const mulaiDate = new Date(`1970-01-01T${mulai}`);
+                    const selesaiDate = new Date(`1970-01-01T${selesai}`);
 
-             // Fungsi untuk memvalidasi
-            function validateWaktu() {
-                const jamMulaiSelect = document.getElementById('jam_mulai');
-                const jamSelesaiSelect = document.getElementById('jam_selesai');
-                const tanggalMulai = tanggalMulaiInput.value;
-                const jamMulai = jamMulaiSelect.value;
-                const tanggalSelesai = tanggalSelesaiInput.value;
-                const jamSelesai = jamSelesaiSelect.value;
-
-                if (tanggalMulai && jamMulai && tanggalSelesai && jamSelesai) {
-                    const mulai = new Date(`${tanggalMulai} ${jamMulai}`);
-                    const selesai = new Date(`${tanggalSelesai} ${jamSelesai}`);
-
-                    if (mulai >= selesai) {
-                        alert('Waktu selesai harus setelah waktu mulai.');
-                        tanggalSelesaiInput.value = tanggalMulai;
-                        jamSelesaiSelect.value = jamMulai;
+                    if (selesaiDate <= mulaiDate) {
+                        alert("Jam selesai harus setelah jam mulai.");
+                        jamSelesai.value = "";
                     }
                 }
             }
 
-            const jamMulaiSelect = document.getElementById('jam_mulai');
-            const jamSelesaiSelect = document.getElementById('jam_selesai');
-
-            // Tambahkan event listener ke setiap elemen
-            tanggalMulaiInput.addEventListener('change', validateWaktu);
-            jamMulaiSelect.addEventListener('change', validateWaktu);
-            tanggalSelesaiInput.addEventListener('change', validateWaktu);
-            jamSelesaiSelect.addEventListener('change', validateWaktu);
-
+            jamMulai.addEventListener('change', validateJam);
+            jamSelesai.addEventListener('change', validateJam);
         });
     </script>
+
 </body>
 
 </html>

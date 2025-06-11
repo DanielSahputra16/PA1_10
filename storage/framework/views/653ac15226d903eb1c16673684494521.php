@@ -7,7 +7,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="Responsive Admin & Dashboard Template based on Bootstrap 5">
     <meta name="author" content="AdminKit">
-    <meta name="keywords" content="adminkit, bootstrap, bootstrap 5, admin, dashboard, template, responsive, css, sass, html, theme, front-end, ui kit, web">
+    <meta name="keywords"
+        content="adminkit, bootstrap, bootstrap 5, admin, dashboard, template, responsive, css, sass, html, theme, front-end, ui kit, web">
 
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link rel="shortcut icon" href="img/icons/icon-48x48.png" />
@@ -29,7 +30,7 @@
         <?php echo $__env->make('admin.layouts.sidebar', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
 
         <div class="main">
-         <?php echo $__env->make('admin.layouts.navbar', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
+            <?php echo $__env->make('admin.layouts.navbar', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
             <main class="content">
                 <div class="container-fluid p-0">
                     <div class="container-fluid pt-4 px-4">
@@ -38,7 +39,8 @@
                                 <div class="bg-white rounded-3 shadow-sm p-4">
                                     <div class="d-flex justify-content-between align-items-center mb-4">
                                         <h4 class="mb-0 fw-bold text-primary">Jadwal Ketersediaan Lapangan</h4>
-                                        <a href="<?php echo e(route('admin.jadwal_lapangan.create')); ?>" class="btn btn-primary rounded-pill">
+                                        <a href="<?php echo e(route('admin.jadwal_lapangan.create')); ?>"
+                                            class="btn btn-primary rounded-pill">
                                             <i class="fas fa-plus me-2"></i>Tambah Jadwal
                                         </a>
                                     </div>
@@ -48,7 +50,18 @@
                                             <i class="fas fa-check-circle me-2"></i>
                                             <?php echo e($message); ?>
 
-                                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                            <button type="button" class="btn-close" data-bs-dismiss="alert"
+                                                aria-label="Close"></button>
+                                        </div>
+                                    <?php endif; ?>
+
+                                    <?php if($message = Session::get('error')): ?>
+                                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                            <i class="fas fa-exclamation-triangle me-2"></i>
+                                            <?php echo e($message); ?>
+
+                                            <button type="button" class="btn-close" data-bs-dismiss="alert"
+                                                aria-label="Close"></button>
                                         </div>
                                     <?php endif; ?>
 
@@ -58,54 +71,46 @@
                                                 <tr>
                                                     <th scope="col" class="py-3 px-4 text-center">No</th>
                                                     <th scope="col" class="py-3 px-4">Nama</th>
+                                                    <th scope="col" class="py-3 px-4">Lapangan</th>
                                                     <th scope="col" class="py-3 px-4">Waktu Mulai</th>
                                                     <th scope="col" class="py-3 px-4">Waktu Selesai</th>
-                                                    <th scope="col" class="py-3 px-4 text-center">Lapangan 1</th>
-                                                    <th scope="col" class="py-3 px-4 text-center">Lapangan 2</th>
                                                     <th scope="col" class="py-3 px-4 text-end">Aksi</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
                                                 <?php $__empty_1 = true; $__currentLoopData = $jadwalLapangans; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $jadwalLapangan): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
                                                     <tr class="border-bottom">
-                                                        <td class="px-4 py-3 text-center fw-semibold"><?php echo e($loop->iteration); ?></td>
+                                                        <td class="px-4 py-3 text-center fw-semibold">
+                                                            <?php echo e($loop->iteration); ?></td>
                                                         <td class="px-4 py-3 fw-semibold"><?php echo e($jadwalLapangan->nama); ?></td>
+                                                        <td class="px-4 py-3 fw-semibold">
+                                                            <?php echo e($jadwalLapangan->lapangan->nama); ?></td>
                                                         <td class="px-4 py-3">
-                                                            <i class="far fa-clock me-2 text-primary"></i><?php echo e($jadwalLapangan->waktu_mulai); ?>
+                                                            <i class="far fa-clock me-2 text-primary"></i>
+                                                            <?php echo e(\Carbon\Carbon::parse($jadwalLapangan->waktu_mulai)->isoFormat('D MMM YYYY, HH:mm')); ?>
 
                                                         </td>
                                                         <td class="px-4 py-3">
-                                                            <i class="far fa-clock me-2 text-primary"></i><?php echo e($jadwalLapangan->waktu_selesai); ?>
+                                                            <i class="far fa-clock me-2 text-primary"></i>
+                                                            <?php echo e(\Carbon\Carbon::parse($jadwalLapangan->waktu_selesai)->isoFormat('D MMM YYYY, HH:mm')); ?>
 
-                                                        </td>
-                                                        <td class="px-4 py-3 text-center">
-                                                            <?php if($jadwalLapangan->lapangan_1): ?>
-                                                                <span class="badge bg-danger bg-opacity-10 text-danger">Dipakai</span>
-                                                            <?php else: ?>
-                                                                <span class="badge bg-success bg-opacity-10 text-success">Kosong</span>
-                                                            <?php endif; ?>
-                                                        </td>
-                                                        <td class="px-4 py-3 text-center">
-                                                            <?php if($jadwalLapangan->lapangan_2): ?>
-                                                                <span class="badge bg-danger bg-opacity-10 text-danger">Dipakai</span>
-                                                            <?php else: ?>
-                                                                <span class="badge bg-success bg-opacity-10 text-success">Kosong</span>
-                                                            <?php endif; ?>
                                                         </td>
                                                         <td class="px-4 py-3 text-end">
                                                             <div class="d-flex justify-content-end gap-2">
                                                                 <a href="<?php echo e(route('admin.jadwal_lapangan.edit', $jadwalLapangan->id)); ?>"
-                                                                   class="btn btn-sm btn-outline-primary rounded-circle p-2"
-                                                                   title="Edit" data-bs-toggle="tooltip">
+                                                                    class="btn btn-sm btn-outline-primary rounded-circle p-2"
+                                                                    title="Edit" data-bs-toggle="tooltip">
                                                                     <i class="fas fa-pencil-alt fa-sm"></i>
                                                                 </a>
-                                                                <form action="<?php echo e(route('admin.jadwal_lapangan.destroy', $jadwalLapangan->id)); ?>" method="POST"
-                                                                      onsubmit="return confirm('Apakah Anda yakin ingin menghapus jadwal ini?')">
+                                                                <form
+                                                                    action="<?php echo e(route('admin.jadwal_lapangan.destroy', $jadwalLapangan->id)); ?>"
+                                                                    method="POST"
+                                                                    onsubmit="return confirm('Apakah Anda yakin ingin menghapus jadwal ini?')">
                                                                     <?php echo csrf_field(); ?>
                                                                     <?php echo method_field('DELETE'); ?>
                                                                     <button type="submit"
-                                                                            class="btn btn-sm btn-outline-danger rounded-circle p-2"
-                                                                            title="Hapus" data-bs-toggle="tooltip">
+                                                                        class="btn btn-sm btn-outline-danger rounded-circle p-2"
+                                                                        title="Hapus" data-bs-toggle="tooltip">
                                                                         <i class="fas fa-trash-alt fa-sm"></i>
                                                                     </button>
                                                                 </form>
@@ -115,7 +120,8 @@
                                                 <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?>
                                                     <tr>
                                                         <td colspan="7" class="text-center py-4 text-muted">
-                                                            <i class="fas fa-calendar-times me-2"></i>Tidak ada data jadwal tersedia
+                                                            <i class="fas fa-calendar-times me-2"></i>Tidak ada data jadwal
+                                                            tersedia
                                                         </td>
                                                     </tr>
                                                 <?php endif; ?>
@@ -139,7 +145,7 @@
 
         // Enable tooltips
         var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
-        var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+        var tooltipList = tooltipTriggerList.map(function(tooltipTriggerEl) {
             return new bootstrap.Tooltip(tooltipTriggerEl)
         })
     </script>
@@ -148,5 +154,6 @@
         feather.replace()
     </script>
 </body>
+
 </html>
 <?php /**PATH C:\xampp\htdocs\PA_10\resources\views/admin/jadwal_lapangan/index.blade.php ENDPATH**/ ?>

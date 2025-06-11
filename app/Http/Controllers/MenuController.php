@@ -46,6 +46,8 @@ class MenuController extends Controller
             'judul' => 'required|string|max:255',
             'deskripsi' => 'required|string',
             'gambar' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'stok' => 'nullable|integer|min:0', // Validasi stok
+            'detail' => 'nullable|string', // Validasi detail
         ]);
 
         $data = $request->all();
@@ -95,6 +97,8 @@ class MenuController extends Controller
             'judul' => 'required|string|max:255',
             'deskripsi' => 'required|string',
             'gambar' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'stok' => 'nullable|integer|min:0', // Validasi stok
+            'detail' => 'nullable|string', // Validasi detail
         ]);
 
         $data = $request->all();

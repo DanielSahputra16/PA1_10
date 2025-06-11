@@ -74,22 +74,21 @@
                         <p class="mb-2"><i class="fa fa-check text-primary me-3"></i><strong>Nama:</strong> <?php echo e($reservasi->nama); ?></p>
                         <p class="mb-2"><i class="fa fa-check text-primary me-3"></i><strong>No. HP:</strong> <?php echo e($reservasi->no_hp); ?></p>
                         <p class="mb-2"><i class="fa fa-check text-primary me-3"></i><strong>Lapangan:</strong> <?php echo e($reservasi->lapangan->nama); ?></p>
-                        <p class="mb-2"><i class="fa fa-check text-primary me-3"></i><strong>Tanggal Mulai:</strong> <?php echo e(\Carbon\Carbon::parse($reservasi->tanggal_mulai)->isoFormat('D MMM YYYY, HH:mm')); ?></p>
-                        <p class="mb-2"><i class="fa fa-check text-primary me-3"></i><strong>Tanggal Selesai:</strong> <?php echo e(\Carbon\Carbon::parse($reservasi->tanggal_selesai)->isoFormat('D MMM YYYY, HH:mm')); ?></p>
+                        <p class="mb-2"><i class="fa fa-check text-primary me-3"></i><strong>Waktu Mulai:</strong> <?php echo e(\Carbon\Carbon::parse($reservasi->waktu_mulai)->isoFormat('D MMM YYYY, HH:mm')); ?></p>
+                        <p class="mb-2"><i class="fa fa-check text-primary me-3"></i><strong>Waktu Selesai:</strong> <?php echo e(\Carbon\Carbon::parse($reservasi->waktu_selesai)->isoFormat('D MMM YYYY, HH:mm')); ?></p>
                         <p class="mb-2"><i class="fa fa-check text-primary me-3"></i><strong>Status:</strong> <?php echo e($reservasi->status); ?></p>
                         <a class="btn btn-primary py-3 px-5 mt-3" href="<?php echo e(route('reservasi.index')); ?>">Kembali ke Daftar</a>
                     </div>
                     <div class="col-lg-6 wow fadeInUp" data-wow-delay="0.5s">
                         <div class="row img-twice position-relative h-100">
                             <div class="col-6 pe-0">
-                                <img class="img-fluid rounded shadow-sm w-80 h-80"
-                                    src="<?php echo e(URL::asset('img/IMG-20250512-WA0008.jpg')); ?>" style="object-fit: cover;"
-                                    alt="Gambar Lapangan">
-                            </div>
-                            <div class="col-6 ps-0">
-                                <img class="img-fluid rounded shadow-sm w-100 h-95"
-                                    src="<?php echo e(URL::asset('img/IMG-20250512-WA0008.jpg')); ?>" style="object-fit: cover;"
-                                    alt="Gambar Lapangan">
+                                <?php if($reservasi->gambar): ?>
+                                <img class="img-fluid rounded shadow-sm w-100 h-100"
+                                    src="<?php echo e(asset('storage/gambar/' . $reservasi->gambar)); ?>" style="object-fit: cover;"
+                                    alt="Gambar Reservasi">
+                                <?php else: ?>
+                                <p>Tidak ada gambar</p>
+                                <?php endif; ?>
                             </div>
                         </div>
                     </div>

@@ -13,22 +13,24 @@ class JadwalLapangan extends Model
 
     protected $fillable = [
         'user_id',      // ID user yang membuat jadwal
+        'lapangan_id',  // ID lapangan
         'nama',         // Nama pemesan atau jadwal
         'waktu_mulai',  // Waktu mulai (datetime)
         'waktu_selesai',// Waktu selesai (datetime)
-        'lapangan_1',   // Status lapangan 1 (boolean)
-        'lapangan_2',   // Status lapangan 2 (boolean)
     ];
 
     protected $casts = [
         'waktu_mulai' => 'datetime',  // otomatis casting ke objek DateTime
         'waktu_selesai' => 'datetime',// otomatis casting ke objek DateTime
-        'lapangan_1' => 'boolean',    // casting ke boolean
-        'lapangan_2' => 'boolean',    // casting ke boolean
     ];
 
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function lapangan()
+    {
+        return $this->belongsTo(Lapangan::class);
     }
 }

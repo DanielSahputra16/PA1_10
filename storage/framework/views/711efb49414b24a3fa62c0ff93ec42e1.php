@@ -7,7 +7,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="Responsive Admin & Dashboard Template based on Bootstrap 5">
     <meta name="author" content="AdminKit">
-    <meta name="keywords" content="adminkit, bootstrap, bootstrap 5, admin, dashboard, template, responsive, css, sass, html, theme, front-end, ui kit, web">
+    <meta name="keywords"
+        content="adminkit, bootstrap, bootstrap 5, admin, dashboard, template, responsive, css, sass, html, theme, front-end, ui kit, web">
 
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link rel="shortcut icon" href="img/icons/icon-48x48.png" />
@@ -29,7 +30,7 @@
         <?php echo $__env->make('admin.layouts.sidebar', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
 
         <div class="main">
-         <?php echo $__env->make('admin.layouts.navbar', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
+            <?php echo $__env->make('admin.layouts.navbar', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
             <main class="content">
                 <div class="container-fluid p-0">
                     <div class="container-fluid pt-4 px-4">
@@ -46,18 +47,28 @@
                                         <?php echo e($reservasi->no_hp); ?></p>
                                     <p class="mb-2"><i class="fa fa-check text-primary me-3"></i><strong>Lapangan:</strong>
                                         <?php echo e($reservasi->lapangan->nama); ?></p>
-                                    <p class="mb-2"><i class="fa fa-check text-primary me-3"></i><strong>Tanggal
+                                    <p class="mb-2"><i class="fa fa-check text-primary me-3"></i><strong>Waktu
                                             Mulai:</strong>
-                                        <?php echo e(\Carbon\Carbon::parse($reservasi->tanggal_mulai)->isoFormat('D MMM YYYY, HH:mm')); ?>
+                                        <?php echo e(\Carbon\Carbon::parse($reservasi->waktu_mulai)->isoFormat('D MMM YYYY, HH:mm')); ?>
 
                                     </p>
-                                    <p class="mb-2"><i class="fa fa-check text-primary me-3"></i><strong>Tanggal
+                                    <p class="mb-2"><i class="fa fa-check text-primary me-3"></i><strong>Waktu
                                             Selesai:</strong>
-                                        <?php echo e(\Carbon\Carbon::parse($reservasi->tanggal_selesai)->isoFormat('D MMM YYYY, HH:mm')); ?>
+                                        <?php echo e(\Carbon\Carbon::parse($reservasi->waktu_selesai)->isoFormat('D MMM YYYY, HH:mm')); ?>
 
                                     </p>
                                     <p class="mb-2"><i class="fa fa-check text-primary me-3"></i><strong>Status:</strong>
                                         <?php echo e($reservasi->status); ?></p>
+
+                                    <!-- Tampilkan Gambar -->
+                                    <div class="mt-3">
+                                        <strong>Gambar:</strong>
+                                        <?php if($reservasi->gambar): ?>
+                                            <img src="<?php echo e(asset('storage/gambar/' . $reservasi->gambar)); ?>" alt="Gambar Reservasi" width="150">
+                                        <?php else: ?>
+                                            <p>Tidak ada gambar</p>
+                                        <?php endif; ?>
+                                    </div>
                                     <a class="btn btn-primary py-3 px-5 mt-3"
                                         href="<?php echo e(route('admin.reservasi.index')); ?>">Kembali ke Daftar</a>
                                 </div>
@@ -68,17 +79,17 @@
             </main>
 
             <?php echo $__env->make('admin.layouts.footer', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
-                    </div>
-                    </div>
+        </div>
+    </div>
 
-<script src="<?php echo e(URL::asset('js/app.js')); ?>"></script>
-<script>
-    document.getElementById('current-year').textContent = new Date().getFullYear();
-</script>
-<script src="https://unpkg.com/feather-icons"></script>
-<script>
-    feather.replace()
-</script>
+    <script src="<?php echo e(URL::asset('js/app.js')); ?>"></script>
+    <script>
+        document.getElementById('current-year').textContent = new Date().getFullYear();
+    </script>
+    <script src="https://unpkg.com/feather-icons"></script>
+    <script>
+        feather.replace()
+    </script>
 </body>
 
 </html>

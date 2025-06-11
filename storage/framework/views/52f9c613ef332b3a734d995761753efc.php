@@ -68,6 +68,8 @@
                                                     <th scope="col" class="py-3 px-4 text-center">No</th>
                                                     <th scope="col" class="py-3 px-4">Judul</th>
                                                     <th scope="col" class="py-3 px-4">Deskripsi</th>
+                                                    <th scope="col" class="py-3 px-4">Stok</th>
+                                                    <th scope="col" class="py-3 px-4">Detail</th>
                                                     <th scope="col" class="py-3 px-4 text-center">Gambar</th>
                                                     <th scope="col" class="py-3 px-4 text-end">Aksi</th>
                                                 </tr>
@@ -78,6 +80,8 @@
                                                         <td class="px-4 py-3 text-center fw-semibold"><?php echo e($loop->iteration); ?></td>
                                                         <td class="px-4 py-3 fw-semibold"><?php echo e($item->judul); ?></td>
                                                         <td class="px-4 py-3"><?php echo e($item->deskripsi); ?></td>
+                                                        <td class="px-4 py-3"><?php echo e($item->stok); ?></td>
+                                                        <td class="px-4 py-3"><?php echo e($item->detail); ?></td>
                                                         <td class="px-4 py-3 text-center">
                                                             <?php if($item->gambar): ?>
                                                                 <img src="<?php echo e(asset('storage/menus/' . $item->gambar)); ?>" alt="<?php echo e($item->judul); ?>" width="100" class="rounded">

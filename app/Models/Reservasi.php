@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Validator; // Import Validator (tidak digunakan di sini, tapi bisa dipakai untuk validasi manual)
+use Carbon\Carbon;
 
 class Reservasi extends Model
 {
@@ -15,7 +16,6 @@ class Reservasi extends Model
     const STATUS_PENDING = 'pending';           // Status reservasi baru, belum dikonfirmasi
     const STATUS_DIKONFIRMASI = 'dikonfirmasi'; // Status reservasi sudah dikonfirmasi
     const STATUS_DIBATALKAN = 'dibatalkan';     // Status reservasi dibatalkan
-    const STATUS_SELESAI = 'selesai';           // Status reservasi selesai (opsional)
 
     // Kolom yang dapat diisi secara massal (mass assignment)
     protected $fillable = [
@@ -23,15 +23,16 @@ class Reservasi extends Model
         'no_hp',         // Nomor HP pemesan
         'lapangan_id',   // ID lapangan yang dipesan (relasi)
         'user_id',       // ID user pemesan (relasi)
-        'tanggal_mulai', // Waktu mulai reservasi
-        'tanggal_selesai', // Waktu selesai reservasi
+        'waktu_mulai',  // Waktu mulai (datetime)
+        'waktu_selesai',// Waktu selesai (datetime)
         'status',        // Status reservasi (pending, dikonfirmasi, dll)
+        'gambar',
     ];
 
     // Casting atribut tertentu agar otomatis diubah ke tipe data tertentu saat diakses
     protected $casts = [
-        'tanggal_mulai' => 'datetime',   // Otomatis jadi objek Carbon untuk manipulasi tanggal
-        'tanggal_selesai' => 'datetime', // Otomatis jadi objek Carbon
+        'waktu_mulai' => 'datetime',  // Waktu mulai (datetime)
+        'waktu_selesai' => 'datetime',// Waktu selesai (datetime)  // Otomatis jadi objek Carbon untuk manipulasi tanggal
     ];
 
     // Relasi reservasi ke lapangan (Many to One)
@@ -52,8 +53,12 @@ class Reservasi extends Model
      */
     public function scopeIsBookedBetween($query, $start, $end)
     {
-        return $query->where('tanggal_mulai', '<', $end)  // Mulai sebelum waktu akhir interval
-                     ->where('tanggal_selesai', '>', $start); // Selesai setelah waktu mulai interval
+        // Kita HANYA bisa mengecek apakah tanggal mulai berada di antara $start dan $end
+        // Modifikasi: Kita SEKARANG mengecek apakah ada irisan, bukan hanya tanggal mulai
+        return $query->where(function ($query) use ($start, $end) {
+            $query->where('waktu_mulai', '<', $end)
+                  ->where('waktu_selesai', '>', $start);
+        });
     }
 
     // Helper method untuk cek apakah status reservasi sedang pending
@@ -80,5 +85,31 @@ class Reservasi extends Model
     {
         $this->status = self::STATUS_DIKONFIRMASI;
         $this->save();
+    }
+
+    // Setter untuk waktu mulai (waktu_mulai)
+    public function setWaktuMulaiAttribute($value)
+    {
+        $this->attributes['waktu_mulai'] = Carbon::parse($value)->format('Y-m-d H:i:s');
+    }
+
+    // Setter untuk waktu selesai (waktu_selesai)
+    public function setWaktuSelesaiAttribute($value)
+    {
+         $waktuMulai = $this->attributes['waktu_mulai'] ?? $this->waktu_mulai; // Ambil waktu mulai yang sudah ada atau yang tersimpan
+         $waktuSelesai = Carbon::parse($value);
+
+        if ($waktuMulai instanceof Carbon) {
+             if ($waktuSelesai->lte($waktuMulai)) {
+                 throw new \InvalidArgumentException('Waktu selesai harus setelah waktu mulai.');
+             }
+         } else {
+             $waktuMulaiCarbon = Carbon::parse($waktuMulai);
+              if ($waktuSelesai->lte($waktuMulaiCarbon)) {
+                  throw new \InvalidArgumentException('Waktu selesai harus setelah waktu mulai.');
+              }
+         }
+
+         $this->attributes['waktu_selesai'] = $waktuSelesai->format('Y-m-d H:i:s'); // Format tanggalnya
     }
 }

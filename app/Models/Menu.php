@@ -20,6 +20,8 @@ class Menu extends Model
         'deskripsi', // Deskripsi singkat menu
         'gambar',    // Path atau nama file gambar menu
         'jenis',     // Jenis menu (misalnya makanan, minuman, dll)
+        'stok',
+        'detail',
     ];
 
     /**

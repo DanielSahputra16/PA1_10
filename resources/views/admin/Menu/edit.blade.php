@@ -90,6 +90,16 @@
                                             @endif
                                         </div>
 
+                                        <div class="mb-3">
+                                            <label for="stok" class="form-label">Stok:</label>
+                                            <input type="number" class="form-control" id="stok" name="stok" value="{{ $menu->stok }}">
+                                        </div>
+
+                                        <div class="mb-3">
+                                            <label for="detail" class="form-label">Detail Barang:</label>
+                                            <textarea class="form-control" id="detail" name="detail">{{ $menu->detail }}</textarea>
+                                        </div>
+
                                         <button type="submit" class="btn btn-primary">Update</button>
                                         <a href="{{ route('admin.Menu.index') }}" class="btn btn-secondary">Batal</a>
                                     </form>
