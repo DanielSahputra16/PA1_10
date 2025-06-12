@@ -95,9 +95,8 @@
 
                             <!-- Field Nama -->
                             <div class="form-group">
-                                <label for="nama">Nama:</label>
-                                <input type="text" class="form-control" id="nama" name="nama" value="{{ $user->name }}"
-                                    required>
+                                <label for="nama">Nama</label>
+                                <input type="text" class="form-control" id="nama" name="nama" value="{{ $user->name }}" disabled>
                             </div>
 
                             <!-- Field No. HP -->

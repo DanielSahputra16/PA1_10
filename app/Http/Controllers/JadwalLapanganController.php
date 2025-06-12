@@ -22,10 +22,12 @@ class JadwalLapanganController extends Controller
     }
 
     /**
+     * Tampilkan jadwal lapangan ke halaman publik (khusus user)
      */
     public function indexPublic()
     {
         // Ambil semua jadwal
+        $jadwalLapangans = JadwalLapangan::with('user')->get();
 
         $jadwalLapangans = $jadwalLapangans->map(function ($jadwal) {
             $jadwal->waktu_mulai_formatted = \Carbon\Carbon::parse($jadwal->waktu_mulai)->format('H:i');

@@ -26,6 +26,11 @@ class ReservasiController extends Controller
         } else {
             // Jika admin, tampilkan semua reservasi
             $reservasis = Reservasi::with(['lapangan', 'user'])->get();
+           $reservasis = $reservasis->map(function ($reservasis) {
+    $reservasis->waktu_mulai_formatted = \Carbon\Carbon::parse($reservasis->waktu_mulai)->translatedFormat('d F Y H:i');
+    $reservasis->waktu_selesai_formatted = \Carbon\Carbon::parse($reservasis->waktu_selesai)->translatedFormat('d F Y H:i');
+    return $reservasis;
+});
         }
 
         // Tampilkan halaman reservasi user
@@ -90,105 +95,112 @@ class ReservasiController extends Controller
 
     // Fungsi utama untuk menyimpan atau memperbarui reservasi
     private function saveReservasi(Request $request, Reservasi $reservasi = null)
-    {
-        $currentYear = now()->year; // Ambil tahun saat ini
+{
+    $currentYear = now()->year; // Ambil tahun saat ini
 
-        // Validasi input
-        $validator = Validator::make($request->all(), [
-            'lapangan_id' => 'required|exists:lapangans,id',
-            'tanggal' => [
-                'required',
-                'date',
-                'after_or_equal:today', // Tidak boleh tanggal lampau
-                'before_or_equal:' . now()->addMonths(2)->format('Y-m-d'), // Max 2 bulan ke depan
-                function ($attribute, $value, $fail) use ($currentYear) {
-                    // Validasi tambahan agar tahun tidak lebih dari tahun saat ini
-                    if (Carbon::parse($value)->year > $currentYear) {
-                        $fail('Tahun pada tanggal mulai tidak boleh melebihi tahun ini.');
-                    }
-                },
-            ],
-            'nama' => 'required|string|max:255',
-            'no_hp' => 'required|string|max:13',
-            'jam_mulai' => 'required', // Tambahkan validasi jam mulai
-            'jam_selesai' => 'required', // Tambahkan validasi jam selesai
-            'gambar' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048', // Validasi gambar
-        ]);
+    // Validasi input (tanpa nama)
+    $rules = [
+        'lapangan_id' => 'required|exists:lapangans,id',
+        'tanggal' => [
+            'required',
+            'date',
+            'after_or_equal:today',
+            'before_or_equal:' . now()->addMonths(2)->format('Y-m-d'),
+            function ($attribute, $value, $fail) use ($currentYear) {
+                if (Carbon::parse($value)->year > $currentYear) {
+                    $fail('Tahun pada tanggal mulai tidak boleh melebihi tahun ini.');
+                }
+            },
+        ],
+        'no_hp' => 'required|string|max:13',
+        'jam_mulai' => 'required',
+        'jam_selesai' => 'required',
+        'gambar' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+    ];
 
-        if ($validator->fails()) {
-            return back()->withErrors($validator)->withInput();
-        }
+    \Log::info($request->all()); // TAMBAHKAN BARIS INI UNTUK MELIHAT DATA YANG DIKIRIM
 
-        // Gabungkan tanggal dan jam ke bentuk datetime
-        $waktu_mulai = Carbon::parse($request->tanggal . ' ' . $request->jam_mulai);
-        $waktu_selesai = Carbon::parse($request->tanggal . ' ' . $request->jam_selesai);
+    $validator = Validator::make($request->all(), $rules);
 
-        // Validasi bahwa waktu mulai < waktu selesai
-        if($waktu_mulai->greaterThanOrEqualTo($waktu_selesai)) {
-            return redirect()->back()
-                ->withErrors(['jam_mulai' => 'Jam mulai harus lebih kecil dari jam selesai.'])
-                ->withInput();
-        }
-
-        // Cek apakah ada jadwal lain yang bentrok waktunya
-        $overlappingReservations = Reservasi::where('lapangan_id', $request->lapangan_id)
-            ->where(function($q) use($waktu_mulai, $waktu_selesai){
-                $q->whereBetween('waktu_mulai', [$waktu_mulai, $waktu_selesai])
-                  ->orWhereBetween('waktu_selesai', [$waktu_mulai, $waktu_selesai])
-                  ->orWhere(function($q) use ($waktu_mulai, $waktu_selesai){
-                    $q->where('waktu_mulai', '<=', $waktu_mulai)
-                      ->where('waktu_selesai', '>=', $waktu_selesai);
-                  });
-            });
-
-        // Jika update, abaikan dirinya sendiri
-        if ($reservasi) {
-            $overlappingReservations->where('id', '!=', $reservasi->id);
-        }
-
-        // Jika ada bentrok jadwal
-        if ($overlappingReservations->count() > 0) {
-            return back()->withErrors(['message' => 'Jadwal telah dipesan pada jam tersebut.']);
-        }
-
-        // Jika belum ada, buat baru. Kalau ada, pakai data lama
-        if (!$reservasi) {
-            $reservasi = new Reservasi();
-            $reservasi->user_id = auth()->user()->id;
-        }
-
-        // Upload gambar jika ada
-        if ($request->hasFile('gambar')) {
-            //Hapus gambar lama jika ada pada saat update
-            if($reservasi && $reservasi->gambar){
-                Storage::delete('public/gambar/' . $reservasi->gambar);
-            }
-            $gambar = $request->file('gambar');
-            $namaGambar = time() . '.' . $gambar->getClientOriginalExtension();
-            $path = $gambar->storeAs('public/gambar', $namaGambar); // Simpan di storage/app/public/gambar
-            $reservasi->gambar = $namaGambar; // Simpan nama file ke database
-        }
-
-        // Set data reservasi
-        $reservasi->lapangan_id = $request->lapangan_id;
-        $reservasi->waktu_mulai = $waktu_mulai;
-        $reservasi->waktu_selesai = $waktu_selesai;
-        $reservasi->nama = $request->nama;
-        $reservasi->no_hp = $request->no_hp;
-        $reservasi->save();
-
-        // Ambil ulang data lengkap dengan user untuk email
-        $reservasi = Reservasi::with('user')->find($reservasi->id);
-
-        // Kirim email jika reservasi baru, atau jika diperbarui
-        if (!$reservasi) {
-            $this->sendConfirmationEmail($reservasi);
-        } else {
-            $this->sendUpdateConfirmationEmail($reservasi);
-        }
-
-        return redirect()->route('reservasi.index')->with('success', 'Reservasi berhasil ' . ($reservasi ? 'diperbarui' : 'dibuat') . '!');
+    if ($validator->fails()) {
+        return back()->withErrors($validator)->withInput();
     }
+
+    // Gabungkan tanggal dan jam ke bentuk datetime
+    $tanggal = $request->tanggal; // Ambil tanggal dari request
+    $waktu_mulai = Carbon::parse($tanggal . ' ' . $request->jam_mulai);
+    $waktu_selesai = Carbon::parse($tanggal . ' ' . $request->jam_selesai);
+
+    // Validasi bahwa waktu mulai < waktu selesai
+    if($waktu_mulai->greaterThanOrEqualTo($waktu_selesai)) {
+        return redirect()->back()
+            ->withErrors(['jam_mulai' => 'Jam mulai harus lebih kecil dari jam selesai.'])
+            ->withInput();
+    }
+
+    // Cek apakah ada jadwal lain yang bentrok waktunya pada tanggal yang sama
+    $overlappingReservations = Reservasi::where('lapangan_id', $request->lapangan_id)
+        ->whereDate('waktu_mulai', $tanggal) // Hanya cek pada tanggal yang sama
+        ->where(function($q) use($waktu_mulai, $waktu_selesai){
+            $q->whereBetween('waktu_mulai', [$waktu_mulai, $waktu_selesai])
+              ->orWhereBetween('waktu_selesai', [$waktu_mulai, $waktu_selesai])
+              ->orWhere(function($q) use ($waktu_mulai, $waktu_selesai){
+                $q->where('waktu_mulai', '<=', $waktu_mulai)
+                  ->where('waktu_selesai', '>=', $waktu_selesai);
+              });
+        });
+
+    // Jika update, abaikan dirinya sendiri
+    if ($reservasi) {
+        $overlappingReservations->where('id', '!=', $reservasi->id);
+    }
+
+    // Jika ada bentrok jadwal
+    if ($overlappingReservations->count() > 0) {
+        return back()->withErrors(['message' => 'Jadwal telah dipesan pada jam tersebut di tanggal yang sama.']);
+    }
+
+    // Jika belum ada, buat baru. Kalau ada, pakai data lama
+    if (!$reservasi) {
+        $reservasi = new Reservasi();
+        $reservasi->user_id = auth()->user()->id;
+        $reservasi->nama = auth()->user()->name; // Set nama dari user yang login
+    }
+
+    // Upload gambar jika ada
+    if ($request->hasFile('gambar')) {
+        //Hapus gambar lama jika ada pada saat update
+        if($reservasi && $reservasi->gambar){
+            Storage::delete('public/gambar/' . $reservasi->gambar);
+        }
+        $gambar = $request->file('gambar');
+        $namaGambar = time() . '.' . $gambar->getClientOriginalExtension();
+        $path = $gambar->storeAs('public/gambar', $namaGambar); // Simpan di storage/app/public/gambar
+        $reservasi->gambar = $namaGambar; // Simpan nama file ke database
+    }
+
+    // Set data reservasi
+    $reservasi->lapangan_id = $request->lapangan_id;
+    $reservasi->waktu_mulai = $waktu_mulai;
+    $reservasi->waktu_selesai = $waktu_selesai;
+    if (!$reservasi){
+        $reservasi->nama = $request->nama;
+    }
+    $reservasi->no_hp = $request->no_hp;
+    $reservasi->save();
+
+    // Ambil ulang data lengkap dengan user untuk email
+    $reservasi = Reservasi::with('user')->find($reservasi->id);
+
+    // Kirim email jika reservasi baru, atau jika diperbarui
+    if (!$reservasi) {
+        $this->sendConfirmationEmail($reservasi);
+    } else {
+        $this->sendUpdateConfirmationEmail($reservasi);
+    }
+
+    return redirect()->route('reservasi.index')->with('success', 'Reservasi berhasil ' . ($reservasi ? 'diperbarui' : 'dibuat') . '!');
+}
 
     public function updateStatus(Request $request, Reservasi $reservasi)
     {
