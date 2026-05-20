@@ -15,7 +15,7 @@ class MenuController extends Controller
     public function indexPublic()
     {
         $menu = Menu::all();
-        return view('Menu.index', compact('menu'));
+        return view('menu.index', compact('menu'));
     }
 
     /**

@@ -95,7 +95,7 @@ class GaleriController extends Controller
             Storage::disk('public')->delete('images/galeri/' . $galeri->image_path);
 
             // Upload gambar baru
-            $imagePath = $request->file('image')->store('images/Galeri', 'public');
+            $imagePath = $request->file('image')->store('images/galeri', 'public');
             $data['image_path'] = basename($imagePath);
         }
 
