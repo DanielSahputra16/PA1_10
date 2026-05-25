@@ -16,7 +16,7 @@ class GaleriController extends Controller
     public function indexPublic()
     {
         $galleries = Galeri::all(); // Ambil semua data galeri
-        return view('galeri.index', compact('galleries')); // Tampilkan ke view frontend
+        return view('Galeri.index', compact('galleries')); // Tampilkan ke view frontend
     }
 
     /**
